@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/main.css}" rel="stylesheet">
+	<title>Evenementen Overzicht</title>
+</head>
+
+<body class="page">
+	<h1>Evenementenoverzicht</h1>
+
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th>Naam</th>
+					<th>Spreker(s)</th>
+					<th>Lokaal</th>
+					<th>Datum</th>
+					<th>starttijdstip</th>
+					<th>eindtijdstip</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="evenement : ${events}" th:data-id="${evenement.id}">
+					<td><a th:href="@{/events/{id}(id=${evenement.id})}" th:text="${evenement.naam}"></a></td>
+					<td>
+						<ul>
+							<li th:each="spreker : ${evenement.sprekers}" th:text="${spreker.naam}"></li>
+						</ul>
+					</td>
+					<td th:text="${evenement.lokaal}"></td>
+					<td th:text="${evenement.datum}"></td>
+					<td th:text="${evenement.beginTijdstip}"></td>
+					<td th:text="${evenement.eindTijdstip}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<form th:action="@{/events}" method="post" class="maak-event-form">
+		<button id="maak-event-btn">Maak evenement aan</button>
+	</form>
+</body>
+</html>

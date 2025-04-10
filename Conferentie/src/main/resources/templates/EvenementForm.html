@@ -3,51 +3,69 @@
 
 <head>
 	<meta charset="UTF-8"> 
-	<link th:href="@{/main.css}"   rel="stylesheet">
+	<link th:href="@{/css/main.css}"   rel="stylesheet">
 	<title>Evenement Form</title>
 </head>
 
-<body class="evenement-form">
+<body class="page">
 	<h1>Evenement aanmaken</h1>
-	<form class="form">
+	<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
 
 		<label for="naam">Naam*</label>
-		<input type="text" id="naam" name="naam" required>
+		<input type="text" id="naam" name="naam" th:field="*{naam}">
+		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
+
 
 		<label for="beschrijving">Beschrijving</label>
-		<textarea id="beschrijving" name="beschrijving"></textarea>
+		<textarea id="beschrijving" name="beschrijving" th:field="*{beschrijving}"></textarea>
+		<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error" th:errors="*{beschrijving}"></span>
+
 
 		<label for="sprekers">Spreker(s)* (max 3, gescheiden door komma’s)</label>
-		<input type="text" id="sprekers" name="sprekers" pattern="^([^,]+, ){0,2}[^,]+$" required
-			placeholder="bv. Jan Jansen, Piet Pieters">
-
+		<input type="text" id="sprekers" name="sprekers" th:field="*{sprekers}" 
+		pattern="^([^,]+, ){0,2}[^,]+$" required placeholder="bv. Jan Jansen, Piet Pieters">
+		<!--Hier wil ik de optie om een eigen spreker toe te voegen, een spreker heeft als velden voornaam, naam en email, 
+		na toeveoging moet je die dan ook kunnen verwijderen en als je een 3 toegevoegt kun je niet meer toevoegen
+		want max 3 sprekers je zou wel bevoorbeelds twee bestaande sprekers uit een selection moeten kunnne selecteren en één aanmaken-->
+		<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
+		
 		<label for="lokaal">Lokaal*</label>
-		<select id="lokaal" name="lokaal" required>
-			<option value="">-- Kies een lokaal --</option>
+		<select id="lokaal" name="lokaal" th:field="*{lokaal}">
+			<option value="">-- Kies een bestaand lokaal --</option>
 			<option value="A101">A101</option>
 			<option value="B202">B202</option>
 			<option value="C303">C303</option>
-			<!-- Voeg hier meer lokalen toe indien nodig -->
 		</select>
+		<!--Hier wil ik de optie om een eigen lokaal toe te voegen, een lokaal heeft als velden naam en capaciteit, 
+		na toeveoging moet je die dan ook kunnen verwijderen en als je een hebt toegevoegt kun je niet meer selecteren
+	   want max 1 lokaal-->
+		<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
 
-		<label for="date">Datum en tijd*</label>
-		<input type="date" id="datetime" name="datetime" required>
+		<label for="date">Datum*</label>
+		<input type="date" id="datetime" name="datum" th:field="*{datum}">
+		<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
+		
+		<label for="begintijdstip">Begintijdstip*</label>
+		<input type="time" id="datetime" name="begintijdstip" th:field="*{begintijdstip}">
+		<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error" th:errors="*{begintijdstip}"></span>
 
-		<label for="starttime">Starttijdstip*</label>
-		<input type="time" id="datetime" name="starttime" required>
-
-		<label for="endtime">Eindtijdstip*</label>
-		<input type="time" id="datetime" name="endtime" required>
+		<label for="eindtijdstip">Eindtijdstip*</label>
+		<input type="time" id="datetime" name="eindtijdstip" th:field="*{eindtijdstip}">
+		<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error" th:errors="*{eindtijdstip}"></span>
 
 		
 		<label for="beamercode">Beamercode (4 cijfers)</label>
-		<input type="text" id="beamercode" name="beamercode" pattern="^\d{4}$" maxlength="4" required>
+		<input type="text" id="beamercode" name="beamercode" th:field="*{beamercode}">
+		<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
 
 		<label for="beamercheck">Beamercheck (rest van deling door 97)</label>
-		<input type="text" id="beamercheck" name="beamercheck" readonly>
+		<input type="text" id="beamercheck" name="beamercheck" th:field="*{beamercheck}">
+		<span th:if="${#fields.hasErrors('beamercheck')}" th:errorclass="error" th:errors="*{beamercheck}"></span>
 
 		<label for="prijs">Prijs (in euro, 2 cijfers na komma)</label>
-		<input type="number" id="prijs" name="prijs" step="0.01" min="0" placeholder="bv. 12.50">
+		<input type="number" id="prijs" name="prijs" step="0.01" 
+		th:field="*{prijs}" placeholder="bv. 12.50">
+		<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>
 
 		<br><br>
 		<button type="submit">Evenement aanmaken</button>

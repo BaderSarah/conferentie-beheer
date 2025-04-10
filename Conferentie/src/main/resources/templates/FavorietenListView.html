@@ -3,15 +3,15 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link th:href="@{/main.css}" rel="stylesheet">
-	<title>Evenementen Overzicht</title>
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<title>Favoriete Evenementen Overzicht</title>
 </head>
 
-<body class="evenement-overzicht">
+<body class="page">
 
-	<h1>Evenementenoverzicht</h1>
+	<h1>Favoriete Evenementen</h1>
 
-	<div class="table-container">
+	<div class="table-container favorieten-table">
 		<table>
 			<thead>
 				<tr>
@@ -50,20 +50,6 @@
 					<td>12:00</td>
 				</tr>
 				<tr>
-					<td>Data Science Meetup</td>
-					<td>
-						<ul>
-							<li>Koen Martens</li>
-							<li>Leila Mertens</li>
-							<li>Ahmed Karim</li>
-						</ul>
-					</td>
-					<td>C303</td>
-					<td>2025-05-10</td>
-					<td>17:00</td>
-					<td>20:00</td>
-				</tr>
-				<tr>
 					<td>Green Tech Talks</td>
 					<td>
 						<ul>
@@ -78,7 +64,7 @@
 			</tbody>
 		</table>
 	</div>
-	<button id="maak-event-btn">Maak evenement aan</button>
+	<button id="verwijder-alle-favorieten-btn">Verwijder alle</button>
 </body>
 
 </html>
