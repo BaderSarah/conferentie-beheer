@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/main.css}" rel="stylesheet">
+	<title>Favoriete Evenementen Overzicht</title>
+</head>
+
+<body class="favoriete-evenementen-overzicht">
+
+	<h1>Favoriete Evenementen</h1>
+
+	<div class="table-container favorieten-table">
+		<table>
+			<thead>
+				<tr>
+					<th>Naam</th>
+					<th>Spreker(s)</th>
+					<th>Lokaal</th>
+					<th>Datum</th>
+					<th>starttijdstip</th>
+					<th>eindtijdstip</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>AI in de Praktijk</td>
+					<td>
+						<ul>
+							<li>Dr. Eva Janssens</li>
+							<li>Tom De Wilde</li>
+						</ul>
+					</td>
+					<td>A101</td>
+					<td>2025-04-20</td>
+					<td>14:00</td>
+					<td>16:00</td>
+				</tr>
+				<tr>
+					<td>Cybersecurity Basics</td>
+					<td>
+						<ul>
+							<li>Ines Peeters</li>
+						</ul>
+					</td>
+					<td>B202</td>
+					<td>2025-05-03</td>
+					<td>8:00</td>
+					<td>12:00</td>
+				</tr>
+				<tr>
+					<td>Green Tech Talks</td>
+					<td>
+						<ul>
+							<li>Sarah Vermeer</li>
+						</ul>
+					</td>
+					<td>A101</td>
+					<td>2025-05-15</td>
+					<td>20:00</td>
+					<td>23:00</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<button id="verwijder-alle-favorieten-btn">Verwijder alle</button>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/main.css}" rel="stylesheet">
+	<title>Registreer</title>
+</head>
+
+<body class="registreer">
+
+	<h1>Registreer</h1>
+	<p style="cursor: pointer;"><u>&lt&lt terug naar inloggen</u></p>
+	<div>
+	    <form class="form">
+		  <label for="voornaam">Voornaam*</label>
+		  <input type="text" id="voornaam" name="voornaam" placeholder="voornaam" required>
+		  
+		  <label for="naam">Naam*</label>
+		  <input type="text" id="naam" name="naam" placeholder="naam">
+		  
+		  <label for="geboortedatum">Geboortedatum*</label>
+		  <input type="date" id="geboortedatum" name="geboortedatum" required>
+		
+		  <label for="email">Email*</label>
+	      <input type="text" id="email" name="email" placeholder="Email" required>
+		  
+		  <label for="wachtwoord">Wachtwoord*</label>
+	      <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required>
+	      <button type="submit">Registreer</button>
+	    </form>
+	  </div>
+</body>
+
+</html>

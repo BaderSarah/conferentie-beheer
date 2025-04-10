@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8"> 
+	<link th:href="@{/main.css}"   rel="stylesheet">
+	<title>Evenement Form</title>
+</head>
+
+<body class="evenement-form">
+	<h1>Evenement aanmaken</h1>
+	<form class="form">
+
+		<label for="naam">Naam*</label>
+		<input type="text" id="naam" name="naam" required>
+
+		<label for="beschrijving">Beschrijving</label>
+		<textarea id="beschrijving" name="beschrijving"></textarea>
+
+		<label for="sprekers">Spreker(s)* (max 3, gescheiden door komma’s)</label>
+		<input type="text" id="sprekers" name="sprekers" pattern="^([^,]+, ){0,2}[^,]+$" required
+			placeholder="bv. Jan Jansen, Piet Pieters">
+
+		<label for="lokaal">Lokaal*</label>
+		<select id="lokaal" name="lokaal" required>
+			<option value="">-- Kies een lokaal --</option>
+			<option value="A101">A101</option>
+			<option value="B202">B202</option>
+			<option value="C303">C303</option>
+			<!-- Voeg hier meer lokalen toe indien nodig -->
+		</select>
+
+		<label for="date">Datum en tijd*</label>
+		<input type="date" id="datetime" name="datetime" required>
+
+		<label for="starttime">Starttijdstip*</label>
+		<input type="time" id="datetime" name="starttime" required>
+
+		<label for="endtime">Eindtijdstip*</label>
+		<input type="time" id="datetime" name="endtime" required>
+
+		
+		<label for="beamercode">Beamercode (4 cijfers)</label>
+		<input type="text" id="beamercode" name="beamercode" pattern="^\d{4}$" maxlength="4" required>
+
+		<label for="beamercheck">Beamercheck (rest van deling door 97)</label>
+		<input type="text" id="beamercheck" name="beamercheck" readonly>
+
+		<label for="prijs">Prijs (in euro, 2 cijfers na komma)</label>
+		<input type="number" id="prijs" name="prijs" step="0.01" min="0" placeholder="bv. 12.50">
+
+		<br><br>
+		<button type="submit">Evenement aanmaken</button>
+	</form>
+</body>
+
+</html>
