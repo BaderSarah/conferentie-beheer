@@ -7,7 +7,11 @@
 	<title>Registreer</title>
 </head>
 
-<body class="page">
+<body>
+	
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+		
+	<divdi class="page">
 
 	<h1>Registreer</h1>
 	<p style="cursor: pointer;"><u>&lt&lt terug naar inloggen</u></p>
@@ -29,6 +33,8 @@
 	      <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required>
 	      <button type="submit">Registreer</button>
 	    </form>
+	  </div>
+	  
 	  </div>
 </body>
 

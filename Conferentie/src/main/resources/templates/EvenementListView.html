@@ -7,8 +7,11 @@
 	<title>Evenementen Overzicht</title>
 </head>
 
-<body class="page">
+<body>
 
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	
+	<div  class="page">
 	<h1>Evenementenoverzicht</h1>
 
 	<div class="table-container">
@@ -81,6 +84,7 @@
 	<form th:action="@{/events/new}" method="get" class="maak-event-form">
 		<button id="maak-event-btn">Maak evenement aan</button>
 	</form>
+	</div>
 </body>
 
 </html>

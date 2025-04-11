@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<title>Navbar</title>
+</head>
+
+<body>
+	<div th:fragment="navbar">
+		<nav class="navbar">
+			<ul>
+				<div>
+				<li><a th:href="@{/}">Home</a></li>
+				<li><a th:href="@{/events}">Evenementen</a></li>
+				<li><a th:href="@{/events/new}">Nieuw Evenement</a></li>
+				</div>	
+				<li><a th:href="@{/logout}">Logout</a></li>
+			</ul>
+		</nav>
+	</div>
+</body>
+
+</html>
