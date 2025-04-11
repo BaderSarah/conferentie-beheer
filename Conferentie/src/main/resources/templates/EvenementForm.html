@@ -26,10 +26,19 @@
 		<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error" th:errors="*{beschrijving}"></span>
 
 
-		<label for="sprekers">Spreker(s)* (max 3, gescheiden door komma’s)</label>
-		<input type="text" id="sprekers" name="sprekers" th:field="*{sprekers}" 
-		pattern="^([^,]+, ){0,2}[^,]+$" required placeholder="bv. Jan Jansen, Piet Pieters">
-		<!--Hier wil ik de optie om een eigen spreker toe te voegen, een spreker heeft als velden voornaam, naam en email, 
+		<label for="sprekersSelect">Spreker(s)*</label>
+		   <select id="sprekersSelect" multiple size="3" class="spreker-multiselect" onchange="updateSprekersHidden()">
+		     <option>Spreker optie1</option>  
+			 <option>Spreker optie2</option>  
+			 <option>Spreker optie3</option>  
+			 <option>Spreker optie4</option>  
+			 <option>Spreker optie5</option>  
+			<!--<option th:each="spreker : ${sprekersLijst}"
+		               th:value="${spreker}"
+		               th:text="${spreker}">
+		       </option>-->
+		 	</select>
+			<!--Hier wil ik de optie om een eigen spreker toe te voegen, een spreker heeft als velden voornaam, naam en email, 
 		na toeveoging moet je die dan ook kunnen verwijderen en als je een 3 toegevoegt kun je niet meer toevoegen
 		want max 3 sprekers je zou wel bevoorbeelds twee bestaande sprekers uit een selection moeten kunnne selecteren en één aanmaken-->
 		<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
@@ -77,6 +86,7 @@
 	</form>
 	
 	</div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 
 </html>

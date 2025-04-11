@@ -43,11 +43,13 @@ button {
 		padding-top: 20px;
 	}
 
+	width: 100%;
+	
 	input,
 	textarea,
 	select {
 		min-height: 40px;
-		min-width: 200px;
+		min-width: 220px;
 
 		max-height: 40px;
 		max-width: 500px;
@@ -72,7 +74,7 @@ button {
 		max-width: 200px;
 		align-self: center;
 		margin-bottom: 40px;
-		margin-top: 20px;
+		margin-top: 5px;
 
 		/* style */
 		border-radius: 5px;
@@ -193,6 +195,8 @@ button {
 	gap: 15px;
 }
 
+/** navagation bar **/
+
 .navbar {
 	position: sticky;
 	background-color: #eaeaea;
@@ -212,7 +216,10 @@ button {
 
 .navbar li {
 	display: inline;
-	padding-right: 20px;
+}
+
+#logout{
+	padding-right: 30px;
 }
 
 .navbar a {
@@ -220,7 +227,7 @@ button {
 	display: block;
 	color: black;
 	text-align: center;
-	padding: 14px;
+	padding: 12px;
 	text-decoration: none;
 	font-weight: 500;
 }
@@ -234,3 +241,24 @@ button {
 	color: rgb(1, 80, 158);
 	font-weight: bold;background-color: #80a2f9;
 }
+
+/** footer **/
+.site-footer {
+	background-color: #01417e;
+	color: #ffffff;
+	text-align: center;
+	padding: 20px 10px;
+	margin-top: 70px;
+	font-size: 0.9rem;
+}
+
+.site-footer a {
+	color: #ffffff;
+	text-decoration: none;
+	margin: 0 5px;
+}
+
+.site-footer a:hover {
+	text-decoration: underline;
+}
+
