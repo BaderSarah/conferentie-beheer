@@ -11,32 +11,40 @@
 	
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 		
-	<divdi class="page">
+	<div class="page">
 
 	<h1>Registreer</h1>
-	<p style="cursor: pointer;"><u>&lt&lt terug naar inloggen</u></p>
+	<a th:href="@{/login}">
+	<p style="cursor: pointer; margin-bottom: -5px;"><u>&lt&lt terug naar inloggen</u></p>
+	</a>
 	<div>
-	    <form class="form">
-		  <label for="voornaam">Voornaam*</label>
-		  <input type="text" id="voornaam" name="voornaam" placeholder="voornaam" required>
+	    <form class="form" th:action="@{/registration}" th:object="${registration}" method="post">
+			
+		  <label for="voornaam">Voornaam <p id="star">*</p></label>
+		  <input type="text" id="voornaam" name="voornaam" placeholder="voornaam" th:field="*{voornaam}">
+		  <span th:if="${#fields.hasErrors('voornaam')}" th:errorclass="error" th:errors="*{voornaam}"></span>
 		  
-		  <label for="naam">Naam*</label>
-		  <input type="text" id="naam" name="naam" placeholder="naam">
+		  <label for="naam">Naam <p id="star">*</p></label>
+		  <input type="text" id="naam" name="naam" placeholder="naam" th:field="*{naam}">
+		  <span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 		  
-		  <label for="geboortedatum">Geboortedatum*</label>
-		  <input type="date" id="geboortedatum" name="geboortedatum" required>
-		
-		  <label for="email">Email*</label>
-	      <input type="text" id="email" name="email" placeholder="Email" required>
+		  <label for="email">Email <p id="star">*</p></label>
+	      <input type="text" id="email" name="email" placeholder="Email" th:field="*{email}">
+		  <span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
 		  
-		  <label for="wachtwoord">Wachtwoord*</label>
-	      <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required>
-	      <button type="submit">Registreer</button>
+		  <label for="wachtwoord">Wachtwoord <p id="star">*</p></label>
+	      <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" >
+		  <!--<span th:if="${#fields.hasErrors('wachtwoord')}" th:errorclass="error" th:errors="*{wachtwoord}"></span>-->
+
+		  <label for="wachtwoord">Bevestig wachtwoord <p id="star">*</p></label>
+		  <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord">
+
+	      <button type="submit" id="registreer-btn">Registreer</button>
 	    </form>
 	  </div>
 	  
-	  </div>
-	  <div th:replace="~{fragments/footer :: footer}"></div>
+	</div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 

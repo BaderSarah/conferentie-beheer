@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class EvenementController {
 	
 	@GetMapping 
 	public String showEventsList(Model model) {
-		log.info("get /events");
+		log.info("GET /events");
 		return "EvenementListView"; 
 	}
 	
@@ -56,19 +57,21 @@ public class EvenementController {
 	        Model model) {
 
 	    log.info("POST /events");
-	    log.info("" + bindingResult.getFieldErrorCount()); 
+	    log.info("" + bindingResult.getFieldErrorCount() + " fouten bij POST /events"); 
 
 	    if (bindingResult.hasErrors()) {
-	        log.warn("Formulier bevat fouten");
-	        return "EvenementForm"; // #TODO behoud de ingevulde waarden niet
+	        log.warn("Evenement formulier bevat fouten");
+	        return "EvenementForm"; // #TODO bug:behoud de ingevulde waarden niet
 	    } 
 
 	    return "EvenementListView";
 	}
 	
-//	@PostMapping("/{id}")
-//  public String showEventById(@PathVariable("id") long id, Model model) {
-//		return "EvenementView"; 
-//	}
+	 @GetMapping("/{id}")
+	 public String showEventById(@PathVariable("id") long id, Model model) {
+		 // modelattr specific evenement
+		 log.info("GET /events/${:id}"); 
+		return "EvenementView"; 
+	}
 	
 }

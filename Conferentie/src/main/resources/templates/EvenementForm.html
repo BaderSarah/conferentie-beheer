@@ -16,7 +16,7 @@
 	<h1>Evenement aanmaken</h1>
 	<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
 
-		<label for="naam">Naam*</label>
+		<label for="naam">Naam <p id="star">*</p></label>
 		<input type="text" id="naam" name="naam" th:field="*{naam}">
 		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 
@@ -26,8 +26,8 @@
 		<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error" th:errors="*{beschrijving}"></span>
 
 
-		<label for="sprekersSelect">Spreker(s)*</label>
-		   <select id="sprekersSelect" multiple size="3" class="spreker-multiselect" onchange="updateSprekersHidden()">
+		<label for="sprekersSelect">Spreker(s) <p id="star">*</p></label>
+		   <select id="sprekersSelect" multiple size="3" class="spreker-multiselect">
 		     <option>Spreker optie1</option>  
 			 <option>Spreker optie2</option>  
 			 <option>Spreker optie3</option>  
@@ -43,7 +43,7 @@
 		want max 3 sprekers je zou wel bevoorbeelds twee bestaande sprekers uit een selection moeten kunnne selecteren en één aanmaken-->
 		<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
 		
-		<label for="lokaal">Lokaal*</label>
+		<label for="lokaal">Lokaal <p id="star">*</p></label>
 		<select id="lokaal" name="lokaal" th:field="*{lokaal}">
 			<option value="">-- Kies een bestaand lokaal --</option>
 			<option value="A101">A101</option>
@@ -55,28 +55,28 @@
 	   want max 1 lokaal-->
 		<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
 
-		<label for="date">Datum*</label>
+		<label for="date">Datum <p id="star">*</p></label>
 		<input type="date" id="datetime" name="datum" th:field="*{datum}">
 		<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
 		
-		<label for="begintijdstip">Begintijdstip*</label>
+		<label for="begintijdstip">Begintijdstip <p id="star">*</p></label>
 		<input type="time" id="datetime" name="begintijdstip" th:field="*{begintijdstip}">
 		<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error" th:errors="*{begintijdstip}"></span>
 
-		<label for="eindtijdstip">Eindtijdstip*</label>
+		<label for="eindtijdstip">Eindtijdstip <p id="star">*</p></label>
 		<input type="time" id="datetime" name="eindtijdstip" th:field="*{eindtijdstip}">
 		<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error" th:errors="*{eindtijdstip}"></span>
 
 		
-		<label for="beamercode">Beamercode (4 cijfers)</label>
+		<label for="beamercode">Beamercode (4 cijfers) <p id="star">*</p></label>
 		<input type="text" id="beamercode" name="beamercode" th:field="*{beamercode}">
 		<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
 
-		<label for="beamercheck">Beamercheck (rest van deling door 97)</label>
+		<label for="beamercheck">Beamercheck (rest van deling door 97) <p id="star">*</p></label>
 		<input type="text" id="beamercheck" name="beamercheck" th:field="*{beamercheck}">
 		<span th:if="${#fields.hasErrors('beamercheck')}" th:errorclass="error" th:errors="*{beamercheck}"></span>
 
-		<label for="prijs">Prijs (in euro, 2 cijfers na komma)</label>
+		<label for="prijs">Prijs (in euro, 2 cijfers na komma) <p id="star">*</p></label>
 		<input type="number" id="prijs" name="prijs" step="0.01" 
 		th:field="*{prijs}" placeholder="bv. 12.50">
 		<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>

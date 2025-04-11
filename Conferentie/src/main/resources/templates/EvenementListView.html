@@ -10,80 +10,102 @@
 <body>
 
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
-	
-	<div  class="page">
-	<h1>Evenementenoverzicht</h1>
 
-	<div class="table-container">
-		<table>
-			<thead>
-				<tr>
-					<th>Naam</th>
-					<th>Spreker(s)</th>
-					<th>Lokaal</th>
-					<th>Datum</th>
-					<th>starttijdstip</th>
-					<th>eindtijdstip</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>AI in de Praktijk</td>
-					<td>
-						<ul>
-							<li>Dr. Eva Janssens</li>
-							<li>Tom De Wilde</li>
-						</ul>
-					</td>
-					<td>A101</td>
-					<td>2025-04-20</td>
-					<td>14:00</td>
-					<td>16:00</td>
-				</tr>
-				<tr>
-					<td>Cybersecurity Basics</td>
-					<td>
-						<ul>
-							<li>Ines Peeters</li>
-						</ul>
-					</td>
-					<td>B202</td>
-					<td>2025-05-03</td>
-					<td>8:00</td>
-					<td>12:00</td>
-				</tr>
-				<tr>
-					<td>Data Science Meetup</td>
-					<td>
-						<ul>
-							<li>Koen Martens</li>
-							<li>Leila Mertens</li>
-							<li>Ahmed Karim</li>
-						</ul>
-					</td>
-					<td>C303</td>
-					<td>2025-05-10</td>
-					<td>17:00</td>
-					<td>20:00</td>
-				</tr>
-				<tr>
-					<td>Green Tech Talks</td>
-					<td>
-						<ul>
-							<li>Sarah Vermeer</li>
-						</ul>
-					</td>
-					<td>A101</td>
-					<td>2025-05-15</td>
-					<td>20:00</td>
-					<td>23:00</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<form th:action="@{/events/new}" method="get" class="maak-event-form">
-		<button id="maak-event-btn">Maak evenement aan</button>
-	</form>
+	<div class="page">
+		<h1>Evenementenoverzicht</h1>
+
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>Naam</th>
+						<th>Spreker(s)</th>
+						<th>Lokaal</th>
+						<th>Datum</th>
+						<th>Begintijdstip</th>
+						<th>Eindtijdstip</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr>
+						<td>AI in de Praktijk</td>
+						<td>
+							<ul>
+								<li>Dr. Eva Janssens</li>
+								<li>Tom De Wilde</li>
+							</ul>
+						</td>
+						<td>A101</td>
+						<td>2025-04-20</td>
+						<td>14:00</td>
+						<td>16:00</td>
+						<td>
+							<form th:action="@{/events/new}" method="get" class="bekijk-col">
+								<button id="bekijk-btn">bekijk</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>Cybersecurity Basics</td>
+						<td>
+							<ul>
+								<li>Ines Peeters</li>
+							</ul>
+						</td>
+						<td>B202</td>
+						<td>2025-05-03</td>
+						<td>8:00</td>
+						<td>12:00</td>
+						<td>
+							<form th:action="@{/events/new}" method="get" class="bekijk-col">
+								<button id="bekijk-btn">bekijk</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>Data Science Meetup</td>
+						<td>
+							<ul>
+								<li>Koen Martens</li>
+								<li>Leila Mertens</li>
+								<li>Ahmed Karim</li>
+							</ul>
+						</td>
+						<td>C303</td>
+						<td>2025-05-10</td>
+						<td>17:00</td>
+						<td>20:00</td>
+						<td>
+							<form th:action="@{/events/new}" method="get" class="bekijk-col">
+								<button id="bekijk-btn">bekijk</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>Green Tech Talks</td>
+						<td>
+							<ul>
+								<li>Sarah Vermeer</li>
+							</ul>
+						</td>
+						<td>A101</td>
+						<td>2025-05-15</td>
+						<td>20:00</td>
+						<td>23:00</td>
+						<td>
+							<form th:action="@{/events/new}" method="get" class="bekijk-col">
+								<button id="bekijk-btn">bekijk</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<form th:action="@{/events/new}" method="get" class="sub-form">
+			<button id="maak-event-btn">Maak evenement aan</button>
+		</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>
 </body>

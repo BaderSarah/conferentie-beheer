@@ -22,7 +22,9 @@
 	      <button type="submit" id="login-btn">Inloggen</button>
 	    </form>
 	  </div>
-	  <button id="registreer-btn-login">Registeren</button>
+	  <form th:action="@{/registration}" method="get" id="registreer-form">
+	  	<button id="registreer-btn-login">Registeren</button>
+	  </form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>
 

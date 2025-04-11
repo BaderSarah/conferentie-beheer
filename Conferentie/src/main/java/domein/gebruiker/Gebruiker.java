@@ -19,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import domein.evenement.Evenement;
 import domein.evenement.IEvenement;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Gebruiker implements Serializable, IGebruiker {
 
 	private static final long serialVersionUID = 1L;
@@ -38,12 +38,7 @@ public class Gebruiker implements Serializable, IGebruiker {
 	private String voornaam;
 
 	@Getter
-	@NotNull(message = "Geboortedatum mag niet null zijn")
-	@PastOrPresent(message = "Geboortedatum mag niet in de toekomst liggen")
-	private LocalDate geboortedatum;
-
-	@Getter
-	@NotNull(message = "Rol mag niet null zijn")
+	// @NotNull(message = "Rol mag niet null zijn")
 	private Rol rol;
 
 	@Getter
@@ -58,11 +53,10 @@ public class Gebruiker implements Serializable, IGebruiker {
 
 	private static final int MAX_FAVORIET = 5;
 
-	public Gebruiker(String naam, String voornaam, LocalDate geboortedatum,
+	public Gebruiker(String naam, String voornaam, 
 	                 Rol rol, String email, String wachtwoord) {
 		this.naam = naam;
 		this.voornaam = voornaam;
-		this.geboortedatum = geboortedatum;
 		this.rol = rol;
 		this.email = email;
 		setWachtwoord(wachtwoord);
