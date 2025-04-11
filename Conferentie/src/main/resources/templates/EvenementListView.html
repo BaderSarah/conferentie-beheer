@@ -12,18 +12,18 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 	<div class="page">
-		<h1>Evenementenoverzicht</h1>
+		<h1 th:text="#{eventslist.title}">Overview of events</h1>
 
 		<div class="table-container">
 			<table>
 				<thead>
 					<tr>
-						<th>Naam</th>
-						<th>Spreker(s)</th>
-						<th>Lokaal</th>
-						<th>Datum</th>
-						<th>Begintijdstip</th>
-						<th>Eindtijdstip</th>
+						<th th:text="#{eventslist.table.colName}">Name</th>
+						<th th:text="#{eventslist.table.colSpeaker}">Speaker(s)</th>
+						<th th:text="#{eventslist.table.colRoom}">Room</th>
+						<th th:text="#{eventslist.table.colDate}">Date</th>
+						<th th:text="#{eventslist.table.colStart}">Start time</th>
+						<th th:text="#{eventslist.table.colEnd}">End time</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -42,8 +42,8 @@
 						<td>14:00</td>
 						<td>16:00</td>
 						<td>
-							<form th:action="@{/events/new}" method="get" class="bekijk-col">
-								<button id="bekijk-btn">bekijk</button>
+							<form th:action="@{/events/id}" method="get" class="bekijk-col">
+								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
 							</form>
 						</td>
 					</tr>
@@ -59,8 +59,8 @@
 						<td>8:00</td>
 						<td>12:00</td>
 						<td>
-							<form th:action="@{/events/new}" method="get" class="bekijk-col">
-								<button id="bekijk-btn">bekijk</button>
+							<form th:action="@{/events/id}" method="get" class="bekijk-col">
+								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
 							</form>
 						</td>
 					</tr>
@@ -78,8 +78,8 @@
 						<td>17:00</td>
 						<td>20:00</td>
 						<td>
-							<form th:action="@{/events/new}" method="get" class="bekijk-col">
-								<button id="bekijk-btn">bekijk</button>
+							<form th:action="@{/events/id}" method="get" class="bekijk-col">
+								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
 							</form>
 						</td>
 					</tr>
@@ -95,8 +95,8 @@
 						<td>20:00</td>
 						<td>23:00</td>
 						<td>
-							<form th:action="@{/events/new}" method="get" class="bekijk-col">
-								<button id="bekijk-btn">bekijk</button>
+							<form th:action="@{/events/id}" method="get" class="bekijk-col">
+								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
 							</form>
 						</td>
 					</tr>
@@ -104,7 +104,7 @@
 			</table>
 		</div>
 		<form th:action="@{/events/new}" method="get" class="sub-form">
-			<button id="maak-event-btn">Maak evenement aan</button>
+			<button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
 		</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>

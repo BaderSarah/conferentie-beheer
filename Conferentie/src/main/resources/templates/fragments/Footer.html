@@ -9,13 +9,23 @@
 
 <body>
 	<footer class="site-footer">
-	    <div class="footer-content">
-	        <p>
-	            <a href="/events">evenementen</a> |
-	            <a href="/">favorieten</a>
-	        </p>
-			<p><i>Conferentie datum: 23/03/2025 - 15/06/2025</i</p>
-	    </div>
+		<div class="footer-content">
+			<p>
+				<a th:text="#{footer.link.events}" href="/events">Events</a> |
+				<a th:text="#{footer.link.favourites}" href="/events/favourites">Favourites</a>
+			</p>
+			<p><i>Conference date: 23/03/2025 - 15/06/2025</i></p>
+			<div style="margin-top: 40px;margin-bottom: 10px;">
+			<a href="?lang=nl">
+				<img src="/images/flags/nl.svg" alt="Nederlands" width="46" height="24">
+				NL
+			</a>
+			<a href="?lang=en">
+				<img src="/images/flags/gb.svg" alt="English" width="46" height="24">
+				GB
+			</a>
+			</div>
+		</div>
 	</footer>
 </body>
 

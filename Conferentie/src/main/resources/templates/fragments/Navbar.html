@@ -12,10 +12,10 @@
 		<nav class="navbar">
 			<ul>
 				<div>
-				<li><a th:href="@{/events}">Evenementen</a></li>
-				<li><a th:href="@{/events/new}">Nieuw Evenement</a></li>
+				<li><a th:text="#{menubar.link.events}" th:href="@{/events}">Events</a></li>
+				<li><a th:text="#{menubar.link.newevent}" th:href="@{/events/new}">New event</a></li>
 				</div>	
-				<li id="logout"><a th:href="@{/login}">Login</a></li>
+				<li id="logout"><a th:text="#{menubar.link.login}" th:href="@{/login}">Login</a></li>
 			</ul>
 		</nav>
 	</div>

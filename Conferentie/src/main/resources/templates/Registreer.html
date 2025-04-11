@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link th:href="@{/css/main.css}" rel="stylesheet">
-	<title>Registreer</title>
+	<title>Registration</title>
 </head>
 
 <body>
@@ -13,33 +13,33 @@
 		
 	<div class="page">
 
-	<h1>Registreer</h1>
+	<h1 th:text="#{registration.title}">Registration</h1>
 	<a th:href="@{/login}">
-	<p style="cursor: pointer; margin-bottom: -5px;"><u>&lt&lt terug naar inloggen</u></p>
+	<p style="cursor: pointer; margin-bottom: -5px;" th:text="#{registration.linkBack}"><u>&lt&lt Back to login</u></p>
 	</a>
 	<div>
 	    <form class="form" th:action="@{/registration}" th:object="${registration}" method="post">
 			
-		  <label for="voornaam">Voornaam <p id="star">*</p></label>
-		  <input type="text" id="voornaam" name="voornaam" placeholder="voornaam" th:field="*{voornaam}">
+		  <label for="voornaam"><p th:text="#{registration.form.firstname}" style="display: inline;">First name </p><p id="star">*</p></label>
+		  <input type="text" id="voornaam" name="voornaam" th:placeholder="#{registration.form.firstname}" th:field="*{voornaam}">
 		  <span th:if="${#fields.hasErrors('voornaam')}" th:errorclass="error" th:errors="*{voornaam}"></span>
 		  
-		  <label for="naam">Naam <p id="star">*</p></label>
-		  <input type="text" id="naam" name="naam" placeholder="naam" th:field="*{naam}">
+		  <label for="naam"><p th:text="#{registration.form.name}" style="display: inline;">Name </p><p id="star">*</p></label>
+		  <input type="text" id="naam" name="naam" th:placeholder="#{registration.form.name}" th:field="*{naam}">
 		  <span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 		  
-		  <label for="email">Email <p id="star">*</p></label>
-	      <input type="text" id="email" name="email" placeholder="Email" th:field="*{email}">
+		  <label for="email"><p  th:text="#{registration.form.email}" style="display: inline;">Email </p><p id="star">*</p></label>
+	      <input type="text" id="email" name="email" th:placeholder="#{registration.form.email}" th:field="*{email}">
 		  <span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
 		  
-		  <label for="wachtwoord">Wachtwoord <p id="star">*</p></label>
-	      <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" >
+		  <label for="wachtwoord"><p th:text="#{registration.form.password}" style="display: inline;">Password </p><p id="star">*</p></label>
+	      <input type="password" id="wachtwoord" name="wachtwoord" th:placeholder="#{registration.form.password}" >
 		  <!--<span th:if="${#fields.hasErrors('wachtwoord')}" th:errorclass="error" th:errors="*{wachtwoord}"></span>-->
 
-		  <label for="wachtwoord">Bevestig wachtwoord <p id="star">*</p></label>
-		  <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord">
+		  <label for="wachtwoord"><p  th:text="#{registration.form.confirmPassword}" style="display: inline;">Confirm password </p><p id="star">*</p></label>
+		  <input type="password" id="wachtwoord" name="wachtwoord" th:placeholder="#{registration.form.password}">
 
-	      <button type="submit" id="registreer-btn">Registreer</button>
+	      <button type="submit" id="registreer-btn" th:text="#{registration.button.register}">Register</button>
 	    </form>
 	  </div>
 	  

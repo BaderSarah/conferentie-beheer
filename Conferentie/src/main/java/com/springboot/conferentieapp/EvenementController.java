@@ -67,11 +67,24 @@ public class EvenementController {
 	    return "EvenementListView";
 	}
 	
-	 @GetMapping("/{id}")
-	 public String showEventById(@PathVariable("id") long id, Model model) {
+	 @GetMapping("/id")
+	 public String showEventById(Model model) {
 		 // modelattr specific evenement
 		 log.info("GET /events/${:id}"); 
 		return "EvenementView"; 
 	}
+	
+//	 @GetMapping("/{id}")
+//	 public String showEventById(@PathVariable("id") long id, Model model) {
+//		 // modelattr specific evenement
+//		 log.info("GET /events/${:id}"); 
+//		return "EvenementView"; 
+//	}
+//	 
+		@GetMapping("/favourites")
+		public String showFavourites(Model model) {
+			log.info("GET /events/favourites");
+			return "FavorietenListView"; 
+		}
 	
 }
