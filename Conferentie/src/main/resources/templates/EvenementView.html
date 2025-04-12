@@ -11,12 +11,12 @@
 	
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 		
-	<div class="page">
+	<div class="page" style="margin: 30px;max-width: 750px;">
 	
 	<input type="checkbox" id="heart-toggle" class="heart-checkbox" />
 	<label for="heart-toggle" class="heart-label"></label>
 
-	<h2 style="margin-top: 0px;">Name of event: <p style="display: inline;font-weight: normal;">AI course</p></h2>
+	<h2 style="margin-right: 60px;">Name of event: <p style="display: inline;font-weight: normal;">AI course</p></h2>
 	
 	<h3>Speaker(s): </h3>
 	<ul>
@@ -27,6 +27,9 @@
 	<h3>Date: <p style="display: inline;font-weight: normal;">12/02/2025</p></h3>
 	<h3>Time slot: <p style="display: inline;font-weight: normal;">12:00 - 14:00</p></h3>
 	
+	<form th:action="@{/events/new}" method="get" class="sub-form">
+		<button id="change-event-btn" th:text="#{eventslist.button.create}">Change event</button>
+	</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>
 

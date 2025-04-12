@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import domein.evenement.Evenement;
+import domein.evenement.Lokaal;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 

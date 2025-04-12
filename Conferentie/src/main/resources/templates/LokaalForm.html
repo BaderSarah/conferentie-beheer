@@ -12,18 +12,19 @@
 		
 	<div class="page">
 	
-	<h1>Lokaal aanmaken</h1>
-	<form class="form">
+	<h1 th:text="#{rooms.title}">Add a room</h1>
+	<form class="form" th:action="@{/rooms}" th:object="${lokaal}" method="post">
 
-		<label for="naam">Naam van het lokaal*</label>
-		<input type="text" id="naam" name="naam" pattern="^[A-Za-z][0-9]{3}$"
-			title="Moet beginnen met een letter, gevolgd door 3 cijfers" required>
+		<label th:text="#{rooms.form.name}" for="naam"><p style="display: inline;">Name of the room </p><p id="star">*</p></label>
+		<input type="text" id="naam" name="naam">
+		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 
-		<label for="capaciteit">Capaciteit*</label>
-		<input type="number" id="capaciteit" name="capaciteit" min="1" max="50" required>
+		<label th:text="#{rooms.form.capacity}" for="capaciteit"><p style="display: inline;">Capacity </p><p id="star">*</p></label>
+		<input type="number" id="capaciteit" name="capaciteit">
+		<span th:if="${#fields.hasErrors('capaciteit')}" th:errorclass="error" th:errors="*{capaciteit}"></span>
 
 		<br><br>
-		<button type="submit">Toevoegen</button>
+		<button th:text="#{rooms.form.btn}" type="submit">Add</button>
 	</form>
 	
 	</div>

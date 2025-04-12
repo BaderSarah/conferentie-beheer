@@ -2,89 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8"> 
-	<link th:href="@{/css/main.css}"   rel="stylesheet">
-	<title>Evenement Form</title>
+	<meta charset="UTF-8">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<title>Event Form</title>
 </head>
 
 <body>
-	
+
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
-	
-	<div class="page">
-	
-	<h1>Evenement aanmaken</h1>
-	<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
 
-		<label for="naam">Naam <p id="star">*</p></label>
-		<input type="text" id="naam" name="naam" th:field="*{naam}">
-		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
+	<div class="sidebar-eventform">
+		<div class="page">
 
+			<h1 th:text="#{eventsform.title}">Create event</h1>
+			<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
 
-		<label for="beschrijving">Beschrijving</label>
-		<textarea id="beschrijving" name="beschrijving" th:field="*{beschrijving}"></textarea>
-		<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error" th:errors="*{beschrijving}"></span>
+				<label for="naam"><p  th:text="#{eventsform.form.name}"  style="display: inline;">Name </p><p id="star">*</p></label>
+				<input type="text" id="naam" name="naam" th:field="*{naam}">
+				<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 
 
-		<label for="sprekersSelect">Spreker(s) <p id="star">*</p></label>
-		   <select id="sprekersSelect" multiple size="3" class="spreker-multiselect">
-		     <option>Spreker optie1</option>  
-			 <option>Spreker optie2</option>  
-			 <option>Spreker optie3</option>  
-			 <option>Spreker optie4</option>  
-			 <option>Spreker optie5</option>  
-			<!--<option th:each="spreker : ${sprekersLijst}"
+				<label for="beschrijving"><p th:text="#{eventsform.form.description}" style="display: inline;">Description </p></label>
+				<textarea id="beschrijving" name="beschrijving" th:field="*{beschrijving}"></textarea>
+				<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error"
+					th:errors="*{beschrijving}"></span>
+
+				<label for="date"><p th:text="#{eventsform.form.date}" style="display: inline;">Date </p><p id="star">*</p></label>
+				<input type="date" id="datetime" name="datum" th:field="*{datum}">
+				<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
+
+				<label for="begintijdstip"><p th:text="#{eventsform.form.startTime}" style="display: inline;">Start time </p><p id="star">*</p></label>
+				<input type="time" id="datetime" name="begintijdstip" th:field="*{begintijdstip}">
+				<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error"
+					th:errors="*{begintijdstip}"></span>
+
+				<label for="eindtijdstip"><p th:text="#{eventsform.form.endTime}" style="display: inline;">End time </p><p id="star">*</p></label>
+				<input type="time" id="datetime" name="eindtijdstip" th:field="*{eindtijdstip}">
+				<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error"
+					th:errors="*{eindtijdstip}"></span>
+
+
+				<label for="beamercode"><p th:text="#{eventsform.form.beamerCode}" style="display: inline;">Projector code (4 digits) </p><p id="star">*</p></label>
+				<input type="text" id="beamercode" name="beamercode" th:field="*{beamercode}">
+				<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
+
+				<label for="beamercheck"><p th:text="#{eventsform.form.beamerCheck}" style="display: inline;">Projector check (remainder of division by 97) </p><p id="star">*</p></label>
+				<input type="text" id="beamercheck" name="beamercheck" th:field="*{beamercheck}">
+				<span th:if="${#fields.hasErrors('beamercheck')}" th:errorclass="error"
+					th:errors="*{beamercheck}"></span>
+
+				<label for="prijs"><p th:text="#{eventsform.form.price}" style="display: inline;">Price (in euro, 2 digits after commma) </p><p id="star">*</p></label>
+				<input type="number" id="prijs" name="prijs" step="0.01" th:field="*{prijs}" placeholder="bv. 12.50">
+				<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>
+
+				<label for="sprekersSelect"><p  th:text="#{eventsform.form.speakers}" style="display: inline;">Speaker(s) </p><p id="star">*</p></label>
+				<select id="sprekersSelect" multiple size="3" class="spreker-multiselect" 
+				style="max-height: 85px;height: auto;min-height: 40px;">
+					<option style="padding-top: 5px;">Spreker optie1</option>
+					<option style="padding-top: 5px;">Spreker optie2</option>
+					<option style="padding-top: 5px;">Spreker optie3</option>
+					<option style="padding-top: 5px;">Spreker optie4</option>
+					<option style="padding-top: 5px;">Spreker optie5</option>
+					<!--<option th:each="spreker : ${sprekersLijst}"
 		               th:value="${spreker}"
 		               th:text="${spreker}">
 		       </option>-->
-		 	</select>
-			<!--Hier wil ik de optie om een eigen spreker toe te voegen, een spreker heeft als velden voornaam, naam en email, 
-		na toeveoging moet je die dan ook kunnen verwijderen en als je een 3 toegevoegt kun je niet meer toevoegen
-		want max 3 sprekers je zou wel bevoorbeelds twee bestaande sprekers uit een selection moeten kunnne selecteren en één aanmaken-->
-		<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
-		
-		<label for="lokaal">Lokaal <p id="star">*</p></label>
-		<select id="lokaal" name="lokaal" th:field="*{lokaal}">
-			<option value="">-- Kies een bestaand lokaal --</option>
-			<option value="A101">A101</option>
-			<option value="B202">B202</option>
-			<option value="C303">C303</option>
-		</select>
-		<!--Hier wil ik de optie om een eigen lokaal toe te voegen, een lokaal heeft als velden naam en capaciteit, 
-		na toeveoging moet je die dan ook kunnen verwijderen en als je een hebt toegevoegt kun je niet meer selecteren
-	   want max 1 lokaal-->
-		<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
+				</select>
+				<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
 
-		<label for="date">Datum <p id="star">*</p></label>
-		<input type="date" id="datetime" name="datum" th:field="*{datum}">
-		<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
-		
-		<label for="begintijdstip">Begintijdstip <p id="star">*</p></label>
-		<input type="time" id="datetime" name="begintijdstip" th:field="*{begintijdstip}">
-		<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error" th:errors="*{begintijdstip}"></span>
+				<label for="lokaal"><p  th:text="#{eventsform.form.room}" style="display: inline;">Room </p><p id="star">*</p></label>
+				<select id="lokaal" name="lokaal" th:field="*{lokaal}">
+					<option value="">-- Kies een bestaand lokaal --</option>
+					<option value="A101">A101</option>
+					<option value="B202">B202</option>
+					<option value="C303">C303</option>
+				</select>
+				<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
 
-		<label for="eindtijdstip">Eindtijdstip <p id="star">*</p></label>
-		<input type="time" id="datetime" name="eindtijdstip" th:field="*{eindtijdstip}">
-		<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error" th:errors="*{eindtijdstip}"></span>
+				<br><br>
+				<button th:text="#{eventsform.form.btn}" type="submit">Create event</button>
+			</form>
+		</div>
 
-		
-		<label for="beamercode">Beamercode (4 cijfers) <p id="star">*</p></label>
-		<input type="text" id="beamercode" name="beamercode" th:field="*{beamercode}">
-		<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
+		<div class="add-buttons">
+			<form th:action="@{/speakers/new}" method="get" class="sub-form">
+				<button type="submit" title="Voeg een spreker toe" style="background:none; border:none;">
+					<img src="/images/plus-icon.svg" alt="voeg toe"
+						style="width: 30px; height: 30px; margin-right: -7px;">
+				</button>
+			</form><!-- th:text="#{menubar.link.newevent}" -->
 
-		<label for="beamercheck">Beamercheck (rest van deling door 97) <p id="star">*</p></label>
-		<input type="text" id="beamercheck" name="beamercheck" th:field="*{beamercheck}">
-		<span th:if="${#fields.hasErrors('beamercheck')}" th:errorclass="error" th:errors="*{beamercheck}"></span>
+			<form th:action="@{/rooms/new}" method="get" class="sub-form">
+				<button type="submit" title="voeg een lokaal toe" style="background:none; border:none;">
+					<img src="/images/plus-icon.svg" alt="voeg toe"
+						style="width: 30px; height: 30px; margin-right: -7px;">
+				</button>
+			</form><!-- th:text="#{menubar.link.newevent}" -->
+		</div>
 
-		<label for="prijs">Prijs (in euro, 2 cijfers na komma) <p id="star">*</p></label>
-		<input type="number" id="prijs" name="prijs" step="0.01" 
-		th:field="*{prijs}" placeholder="bv. 12.50">
-		<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>
-
-		<br><br>
-		<button type="submit">Evenement aanmaken</button>
-	</form>
-	
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>
 </body>

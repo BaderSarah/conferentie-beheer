@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<title>Lokaal Form</title>
+</head>
+
+<body>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+		
+	<div class="page">
+	
+	<h1 th:text="#{speakers.title}">Add a speaker</h1>
+	<form class="form" th:action="@{/speakers}" th:object="${spreker}" method="post">
+
+		<label th:text="#{speakers.form.name}" for="naam"><p style="display: inline;">Name </p><p id="star">*</p></label>
+		<input type="text" id="naam" name="naam">
+		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
+
+		<label th:text="#{speakers.form.firstName}" for="voornaam"><p style="display: inline;">First name </p><p id="star">*</p></label>
+		<input type="text" id="voornaam" name="voornaam">
+		<span th:if="${#fields.hasErrors('voornaam')}" th:errorclass="error" th:errors="*{voornaam}"></span>
+
+		<label th:text="#{speakers.form.email}" for="email"><p style="display: inline;">Email </p><p id="star">*</p></label>
+		<input type="text" id="email" name="email">
+		<span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
+				
+		<br><br>
+		<button th:text="#{speakers.form.btn}" type="submit">Add</button>
+	</form>
+	
+	</div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>
