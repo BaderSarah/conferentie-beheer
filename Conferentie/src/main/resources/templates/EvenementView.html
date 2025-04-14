@@ -4,31 +4,41 @@
 <head>
 	<meta charset="UTF-8">
 	<link th:href="@{/css/main.css}" rel="stylesheet">
-	<title>Evenementen Overzicht</title>
+	<title>Event details</title>
 </head>
 
 <body>
 	
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 		
-	<div class="page" style="margin: 30px;max-width: 750px;">
+	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
 	
 	<input type="checkbox" id="heart-toggle" class="heart-checkbox" />
 	<label for="heart-toggle" class="heart-label"></label>
 
-	<h2 style="margin-right: 60px;">Name of event: <p style="display: inline;font-weight: normal;">AI course</p></h2>
-	
-	<h3>Speaker(s): </h3>
+	<div style="margin-top: 0px;">
+		<h2 th:text="#{eventsdetails.title}" style="display: inline;">Name of event: </h2>
+		<p style="display: inline;margin-left: 10px; margin-right: 60px; font-size: 15pt;">AI course</p>
+	</div>
+	<h3 th:text="#{eventsdetails.speakers}">Speaker(s): </h3>
 	<ul>
-		<li></li>
+		<li>Sarah Bader</li>
 		<li></li>
 	</ul>
-	<h3>Room: <p style="display: inline;font-weight: normal;">A234</p></h3>
-	<h3>Date: <p style="display: inline;font-weight: normal;">12/02/2025</p></h3>
-	<h3>Time slot: <p style="display: inline;font-weight: normal;">12:00 - 14:00</p></h3>
-	
+	<div style="margin-top: 20px;">
+		<h3 th:text="#{eventsdetails.room}" style="display: inline;">Room: </h3>
+		<p style="display: inline;margin-left: 10px;">A234</p>
+	</div>
+	<div style="margin-top: 20px;">
+		<h3 th:text="#{eventsdetails.date}" style="display: inline;">Date: </h3>
+		<p style="display: inline;margin-left: 10px;">12/02/2025</p>
+	</div>
+	<div style="margin-top: 20px;margin-bottom: 15px;">
+		<h3 th:text="#{eventsdetails.timeSlot}" style="display: inline;">Time slot: </h3>
+		<p style="display: inline;margin-left: 10px;">12:00 - 14:00</p>
+	</div>
 	<form th:action="@{/events/new}" method="get" class="sub-form">
-		<button id="change-event-btn" th:text="#{eventslist.button.create}">Change event</button>
+		<button id="change-event-btn" th:text="#{eventsdetails.btn}" style="margin-top: 20px;margin-left: 20px;">Change event</button>
 	</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>

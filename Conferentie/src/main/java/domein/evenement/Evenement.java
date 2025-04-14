@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Range;
+
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor()
 public class Evenement implements Serializable, IEvenement {
@@ -23,42 +25,41 @@ public class Evenement implements Serializable, IEvenement {
     private long id;
 
     @Getter
-    @NotBlank(message = "Naam mag niet leeg zijn.")
-    @Pattern(regexp = "^[A-Za-z].*", message = "Naam moet beginnen met een letter.")
+    @NotBlank(message = "{event.err.name.notblank}")
+    @Pattern(regexp = "^[A-Za-z].*", message = "{event.err.name.pattern}")
     private String naam;
 
     @Getter
     private String beschrijving;
 
     @Getter
-    @Min(value = 1000, message = "Beamercode moet een viercijferige code zijn.")
-    @Max(value = 9999, message = "Beamercode moet een viercijferige code zijn.")
+    @Range(min = 1000, max = 9999, message = "{event.err.projectorCode}")
     private int beamercode;
 
     @Getter
     private int beamercheck; 
 
     @Getter
-    @DecimalMin(value = "9.99", inclusive = true, message = "Prijs moet minstens 9.99 zijn.")
-    @DecimalMax(value = "99.99", inclusive = true, message = "Prijs moet minder dan 100 zijn.")
+    @DecimalMin(value = "9.99", inclusive = true, message = "{event.err.price.min}")
+    @DecimalMax(value = "99.99", inclusive = true, message = "{event.err.price.max}")
     private double prijs;
 
     @Getter
-    @NotNull(message = "Datum mag niet null zijn.")
+    @NotNull(message = "{event.err.date}")
     private LocalDate datum;
 
     @Getter
-    @NotNull(message = "BeginTijdstip mag niet null zijn.")
+    @NotNull(message = "{event.err.starttime}")
     private LocalTime begintijdstip;
 
     @Getter
-    @NotNull(message = "EindTijdstip mag niet null zijn.")
+    @NotNull(message = "{event.err.endtime}")
     private LocalTime eindtijdstip;
 
-    @NotNull(message = "Lokaal mag niet null zijn.")
+    @NotNull(message = "{event.err.room}")
     private Lokaal lokaal;
 
-    @Size(min = 1, max = 3, message = "Er moeten minstens 1 en maximaal 3 sprekers zijn.")
+    @Size(min = 1, max = 3, message = "{event.err.speakers}")
     private Set<@NotNull Spreker> sprekers = new HashSet<>();
 
     private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);

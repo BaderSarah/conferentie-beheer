@@ -28,13 +28,13 @@ public class Gebruiker implements Serializable, IGebruiker {
 	private long id;
 
 	@Getter
-	@NotBlank(message = "Naam mag niet leeg zijn")
-	@Pattern(regexp = "^[A-Za-z].*", message = "Naam moet beginnen met een letter")
+	@NotBlank(message = "{gebruiker.err.name.notblank}")
+	@Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.name.pattern}")
 	private String naam;
 
 	@Getter
-	@NotBlank(message = "Voornaam mag niet leeg zijn")
-	@Pattern(regexp = "^[A-Za-z].*", message = "Voornaam moet beginnen met een letter")
+	@NotBlank(message = "{gebruiker.err.firstname.notblank}")
+	@Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.firstname.pattern}")
 	private String voornaam;
 
 	@Getter
@@ -42,8 +42,8 @@ public class Gebruiker implements Serializable, IGebruiker {
 	private Rol rol;
 
 	@Getter
-	@NotNull(message = "Email is verplicht")
-	@Email(message = "Ongeldig e-mailadres")
+	@NotNull(message = "{gebruiker.err.email.notblank}")
+	@Email(message = "{gebruiker.err.email.pattern}")
 	private String email;
 
 	@Setter(AccessLevel.PROTECTED)

@@ -123,7 +123,7 @@ button {
 	margin: 30px;
 
 	min-height: 200px;
-	max-height: 500px;
+	max-height: 400px;
 
 	min-width: 430px;
 	width: 435px;
@@ -375,4 +375,11 @@ button {
   color: #e60000;
   transition: transform 0.2s ease, color 0.3s ease;
   transform: scale(1.2);
+}
+
+/** Evenement vies **/
+.evenement-view{
+	p, li{
+		font-size: 13.5pt;
+	}
 }

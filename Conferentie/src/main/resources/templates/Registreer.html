@@ -18,7 +18,7 @@
 	<p style="cursor: pointer; margin-bottom: -5px;" th:text="#{registration.linkBack}"><u>&lt&lt Back to login</u></p>
 	</a>
 	<div>
-	    <form class="form" th:action="@{/registration}" th:object="${registration}" method="post">
+	    <form class="form" th:action="@{/registration}" th:object="${gebruiker}" method="post">
 			
 		  <label for="voornaam"><p th:text="#{registration.form.firstname}" style="display: inline;">First name </p><p id="star">*</p></label>
 		  <input type="text" id="voornaam" name="voornaam" th:placeholder="#{registration.form.firstname}" th:field="*{voornaam}">

@@ -2,6 +2,8 @@ package domein.evenement;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Range;
+
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -19,13 +21,12 @@ public class Lokaal implements Serializable, ILokaal {
 	private long id;
 
 	@Getter
-	@NotNull(message = "Naam mag niet null zijn")
-	@Pattern(regexp = "^[A-Za-z]\\d{3}$", message = "Naam moet beginnen met een letter gevolgd door exact 3 cijfers (bijv. A123)")
+	@NotNull(message = "{lokaal.err.name.notblank}")
+	@Pattern(regexp = "^[A-Za-z]\\d{3}$", message = "{lokaal.err.name.pattern}")
 	private String naam;
 
 	@Getter
-	@Min(value = 1, message = "Capaciteit moet minstens 1 zijn")
-	@Max(value = 50, message = "Capaciteit mag maximaal 50 zijn")
+    @Range(min = 1, max = 50, message = "{lokaal.err.capacity}")
 	private int capaciteit;
 
 	public Lokaal(String naam, int capaciteit) {

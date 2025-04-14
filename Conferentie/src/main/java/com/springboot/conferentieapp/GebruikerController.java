@@ -23,7 +23,7 @@ public class GebruikerController {
 	
 	@GetMapping("/registration")
 	public String showCreateUserForm(Model model) {
-        model.addAttribute("registration", new Gebruiker());
+        model.addAttribute("gebruiker", new Gebruiker());
 
 		log.info("GET /registration");
 	    return "Registreer";

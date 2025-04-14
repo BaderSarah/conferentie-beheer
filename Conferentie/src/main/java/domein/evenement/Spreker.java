@@ -19,18 +19,18 @@ public class Spreker implements Serializable, ISpreker {
 	private long id;
 
 	@Getter
-	@NotBlank(message = "Naam is verplicht")
-	@Pattern(regexp = "^[A-Za-z].*", message = "Naam moet beginnen met een letter")
+	@NotBlank(message = "{spreker.err.name.notblank}")
+	@Pattern(regexp = "^[A-Za-z].*", message = "{spreker.err.name.pattern}")
 	private String naam;
 
 	@Getter
-	@NotBlank(message = "Voornaam is verplicht")
-	@Pattern(regexp = "^[A-Za-z].*", message = "Voornaam moet beginnen met een letter")
+	@NotBlank(message = "{spreker.err.firstname.notblank}")
+	@Pattern(regexp = "^[A-Za-z].*", message = "{spreker.err.firstname.pattern}")
 	private String voornaam;
 
 	@Getter
-	@NotNull(message = "Email is verplicht")
-	@Email(message = "Ongeldig e-mailadres")
+	@NotNull(message = "{spreker.err.email.notblank}")
+	@Email(message = "{spreker.err.email.pattern}")
 	private String email;
 
 	public Spreker(String naam, String voornaam, String email) {
