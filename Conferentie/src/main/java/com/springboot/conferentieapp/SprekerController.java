@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import domein.evenement.Spreker;
+import domein.Spreker;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 

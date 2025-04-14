@@ -1,5 +1,7 @@
 package com.springboot.conferentieapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 //import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -11,34 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import domein.evenement.Evenement;
-import domein.evenement.Lokaal;
+import domein.Evenement;
+import domein.Lokaal;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import repository.EvenementRepository;
 
 @Slf4j
 @Controller
 @RequestMapping("/events")
 public class EvenementController {
 	
-//	@Autowired // moet dit autowired want ik heb er maar één van en het is al een implementatie geen bean
-	// mss als je gebruiker een BeheerderBean en dan de juiste geeft maar in mij JPA moet ik voor
-	// mijn gebruikercontroller de twee beheerders hebben
-	//	private EvenementBeheer eb;  || private BeheerBean bb;
-	// als je de tweede neemt dan moet in ConferentieApplication.java:
-	//@Bean // voor de injectie
-	//BeheerBean beheerBean(){
-	//  return new EvenementBeheer();
-	// }
-
-//	@ModelAttribute("eventsList")
-//	public List<Evenement> populateEvents(){
-//		// #TODO
-//		return null; 
-//	}
+	@Autowired
+	private EvenementRepository repository; 
+	
 	
 	@GetMapping 
-	public String showEventsList(Model model) {
+	public String showEventsList(Model model) {	
+		model.addAttribute("evenementenList", repository.findAll()); 
+		
 		log.info("GET /events");
 		return "EvenementListView"; 
 	}

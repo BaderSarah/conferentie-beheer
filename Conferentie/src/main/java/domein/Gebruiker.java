@@ -1,4 +1,4 @@
-package domein.gebruiker;
+package domein;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -16,16 +20,18 @@ import util.Rol;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import domein.evenement.Evenement;
 import domein.evenement.IEvenement;
+import domein.gebruiker.IGebruiker;
 
+@Entity
 @NoArgsConstructor
-public class Gebruiker implements Serializable, IGebruiker {
+public class Gebruiker implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id; 
 
 	@Getter
 	@NotBlank(message = "{gebruiker.err.name.notblank}")
@@ -70,7 +76,7 @@ public class Gebruiker implements Serializable, IGebruiker {
 		this.wachtwoord = encoder.encode(wachtwoord);
 	}
 
-	public Set<IEvenement> getFavorieteEvenementen() {
+	public Set<Evenement> getFavorieteEvenementen() {
 		return Collections.unmodifiableSet(favorieteEvenementen);
 	}
 

@@ -1,9 +1,14 @@
-package domein.evenement;
+package domein;
 
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Range;
 
+import domein.evenement.ILokaal;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -11,14 +16,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class Lokaal implements Serializable, ILokaal {
+public class Lokaal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Getter private long id; 
 
 	@Getter
 	@NotNull(message = "{lokaal.err.name.notblank}")

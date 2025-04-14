@@ -1,5 +1,9 @@
-package domein.evenement;
+package domein;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,14 +19,16 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.Range;
 
+@Entity
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor()
-public class Evenement implements Serializable, IEvenement {
+public class Evenement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Getter
-    private long id;
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Getter private long id; 
 
     @Getter
     @NotBlank(message = "{event.err.name.notblank}")
@@ -56,11 +62,12 @@ public class Evenement implements Serializable, IEvenement {
     @NotNull(message = "{event.err.endtime}")
     private LocalTime eindtijdstip;
 
+    @Getter
     @NotNull(message = "{event.err.room}")
     private Lokaal lokaal;
 
     @Size(min = 1, max = 3, message = "{event.err.speakers}")
-    private Set<@NotNull Spreker> sprekers = new HashSet<>();
+    private Set<domein.Spreker> sprekers = new HashSet<>();
 
     private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
     private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
@@ -129,10 +136,6 @@ public class Evenement implements Serializable, IEvenement {
 
     public Set<Spreker> getSprekers() {
         return Collections.unmodifiableSet(sprekers);
-    }
-
-    public ILokaal getLokaal() {
-        return null;
     }
 
     public void voegSprekerToe(Spreker spreker) {
