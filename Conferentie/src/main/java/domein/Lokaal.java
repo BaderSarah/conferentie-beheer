@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Range;
 
 import domein.evenement.ILokaal;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +31,7 @@ public class Lokaal implements Serializable {
 	@Getter
 	@NotNull(message = "{lokaal.err.name.notblank}")
 	@Pattern(regexp = "^[A-Za-z]\\d{3}$", message = "{lokaal.err.name.pattern}")
+	@Column(unique=true)
 	private String naam;
 
 	@Getter

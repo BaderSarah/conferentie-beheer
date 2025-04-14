@@ -8,39 +8,54 @@
 </head>
 
 <body>
-	
-	<div th:replace="~{fragments/navbar :: navbar}"></div>
-		
-	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
-	
-	<input type="checkbox" id="heart-toggle" class="heart-checkbox" />
-	<label for="heart-toggle" class="heart-label"></label>
 
-	<div style="margin-top: 0px;">
-		<h2 th:text="#{eventsdetails.title}" style="display: inline;">Name of event: </h2>
-		<p style="display: inline;margin-left: 10px; margin-right: 60px; font-size: 15pt;">AI course</p>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
+
+		<input type="checkbox" id="heart-toggle" class="heart-checkbox" />
+		<label for="heart-toggle" class="heart-label"></label>
+
+		<div style="margin-top: 0px;">
+			<h2 th:text="#{eventsdetails.title}" style="display: inline;">Name of event: </h2>
+			<p style="display: inline;margin-left: 10px; margin-right: 60px; font-size: 15pt;" 
+			   th:text="${evenement.naam}">AI course</p>
+		</div>
+
+		<div style="margin-top: 20px;">
+			<h2 th:text="#{eventsdetails.description}" style="display: inline;">Description</h2>
+			<p style="display: inline;margin-left: 10px; margin-right: 60px; font-size: 15pt;" 
+			   th:text="${evenement.beschrijving}">This event explains more about...</p>
+		</div>
+
+		<h3 th:text="#{eventsdetails.speakers}">Speaker(s):</h3>
+		<ul>
+			<li th:each="spreker : ${evenement.sprekers}" th:text="${spreker.naam}">Sarah Bader</li>
+		</ul>
+
+		<div style="margin-top: 20px;">
+			<h3 th:text="#{eventsdetails.room}" style="display: inline;">Room:</h3>
+			<p style="display: inline;margin-left: 10px;" th:text="${evenement.lokaal.naam}">A234</p>
+		</div>
+
+		<div style="margin-top: 20px;">
+			<h3 th:text="#{eventsdetails.date}" style="display: inline;">Date:</h3>
+			<p style="display: inline;margin-left: 10px;" th:text="${#temporals.format(evenement.datum, 'dd/MM/yyyy')}">12/02/2025</p>
+		</div>
+
+		<div style="margin-top: 20px;margin-bottom: 15px;">
+			<h3 th:text="#{eventsdetails.timeSlot}" style="display: inline;">Time slot:</h3>
+			<p style="display: inline;margin-left: 10px;"
+			   th:text="${#temporals.format(evenement.begintijdstip, 'HH:mm')} + ' - ' + ${#temporals.format(evenement.eindtijdstip, 'HH:mm')}">
+				12:00 - 14:00
+			</p>
+		</div>
+
+		<form th:action="@{/events/new}" method="get" class="sub-form">
+			<button id="change-event-btn" th:text="#{eventsdetails.btn}" style="margin-top: 20px;margin-left: 20px;">Change event</button>
+		</form>
 	</div>
-	<h3 th:text="#{eventsdetails.speakers}">Speaker(s): </h3>
-	<ul>
-		<li>Sarah Bader</li>
-		<li></li>
-	</ul>
-	<div style="margin-top: 20px;">
-		<h3 th:text="#{eventsdetails.room}" style="display: inline;">Room: </h3>
-		<p style="display: inline;margin-left: 10px;">A234</p>
-	</div>
-	<div style="margin-top: 20px;">
-		<h3 th:text="#{eventsdetails.date}" style="display: inline;">Date: </h3>
-		<p style="display: inline;margin-left: 10px;">12/02/2025</p>
-	</div>
-	<div style="margin-top: 20px;margin-bottom: 15px;">
-		<h3 th:text="#{eventsdetails.timeSlot}" style="display: inline;">Time slot: </h3>
-		<p style="display: inline;margin-left: 10px;">12:00 - 14:00</p>
-	</div>
-	<form th:action="@{/events/new}" method="get" class="sub-form">
-		<button id="change-event-btn" th:text="#{eventsdetails.btn}" style="margin-top: 20px;margin-left: 20px;">Change event</button>
-	</form>
-	</div>
+
 	<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

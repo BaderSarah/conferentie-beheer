@@ -30,8 +30,8 @@ public class InitDataConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		Lokaal a101 = new Lokaal("A101", 80);
-        Lokaal b202 = new Lokaal("B202", 60);
+		Lokaal a101 = new Lokaal("A101", 20);
+        Lokaal b202 = new Lokaal("B202", 30);
         lokaalRepo.save(a101);
         lokaalRepo.save(b202);
 
@@ -48,8 +48,8 @@ public class InitDataConfig implements CommandLineRunner {
         Evenement event1 = new Evenement(
                 "AI in de Praktijk",
                 "Praktische toepassingen van AI",
-                1234,
-                1,
+                7896,
+                39,
                 29.99,
                 LocalDate.of(2025, 5, 2),
                 LocalTime.of(14, 0),

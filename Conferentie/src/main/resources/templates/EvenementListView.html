@@ -2,146 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link th:href="@{/css/main.css}" rel="stylesheet">
-	<title>Evenementen Overzicht</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <title>Events List</title>
 </head>
 
 <body>
 
-	<div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-	<div class="page">
-		<h1 th:text="#{eventslist.title}">Overview of events</h1>
+    <div class="page">
+        <h1 th:text="#{eventslist.title}">Overview of events</h1>
 
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th th:text="#{eventslist.table.colName}">Name</th>
-						<th th:text="#{eventslist.table.colSpeaker}">Speaker(s)</th>
-						<th th:text="#{eventslist.table.colRoom}">Room</th>
-						<th th:text="#{eventslist.table.colDate}">Date</th>
-						<th th:text="#{eventslist.table.colStart}">Start time</th>
-						<th th:text="#{eventslist.table.colEnd}">End time</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th th:text="#{eventslist.table.colName}">Name</th>
+                        <th th:text="#{eventslist.table.colSpeaker}">Speaker(s)</th>
+                        <th th:text="#{eventslist.table.colRoom}">Room</th>
+                        <th th:text="#{eventslist.table.colDate}">Date</th>
+                        <th th:text="#{eventslist.table.colStart}">Start time</th>
+                        <th th:text="#{eventslist.table.colEnd}">End time</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="evenement : ${evenementen}">
+                        <td th:text="${evenement.naam}">Event Name</td>
+                        <td>
+                            <ul>
+                                <li th:each="spreker : ${evenement.sprekers}"
+                                    th:text="${spreker.voornaam + ' ' + spreker.naam}">Spreker Naam</li>
+                            </ul>
+                        </td>
+                        <td th:text="${evenement.lokaal.naam}">Room</td>
+                        <td th:text="${evenement.datum}">2025-04-20</td>
+                        <td th:text="${evenement.begintijdstip}">14:00</td>
+                        <td th:text="${evenement.eindtijdstip}">16:00</td>
+                        <td>
+                            <form th:action="@{/events/{id}(id=${evenement.id})}" method="get" class="bekijk-col">
+                                <button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-					<tr>
-						<td>AI in de Praktijk</td>
-						<td>
-							<ul>
-								<li>Dr. Eva Janssens</li>
-								<li>Tom De Wilde</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-04-20</td>
-						<td>14:00</td>
-						<td>16:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Cybersecurity Basics</td>
-						<td>
-							<ul>
-								<li>Ines Peeters</li>
-							</ul>
-						</td>
-						<td>B202</td>
-						<td>2025-05-03</td>
-						<td>8:00</td>
-						<td>12:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Data Science Meetup</td>
-						<td>
-							<ul>
-								<li>Koen Martens</li>
-								<li>Leila Mertens</li>
-								<li>Ahmed Karim</li>
-							</ul>
-						</td>
-						<td>C303</td>
-						<td>2025-05-10</td>
-						<td>17:00</td>
-						<td>20:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Green Tech Talks</td>
-						<td>
-							<ul>
-								<li>Sarah Vermeer</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-05-15</td>
-						<td>20:00</td>
-						<td>23:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Green Tech Talks</td>
-						<td>
-							<ul>
-								<li>Sarah Vermeer</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-05-15</td>
-						<td>20:00</td>
-						<td>23:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Green Tech Talks</td>
-						<td>
-							<ul>
-								<li>Sarah Vermeer</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-05-15</td>
-						<td>20:00</td>
-						<td>23:00</td>
-						<td>
-							<form th:action="@{/events/id}" method="get" class="bekijk-col">
-								<button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-							</form>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<form th:action="@{/events/new}" method="get" class="sub-form">
-			<button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
-		</form>
-	</div>
-	<div th:replace="~{fragments/footer :: footer}"></div>
+        <form th:action="@{/events/new}" method="get" class="sub-form">
+            <button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
-
 </html>

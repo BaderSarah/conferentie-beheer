@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -64,14 +67,16 @@ public class Evenement implements Serializable {
 
     @Getter
     @NotNull(message = "{event.err.room}")
+    @ManyToOne
     private Lokaal lokaal;
 
     @Size(min = 1, max = 3, message = "{event.err.speakers}")
-    private Set<domein.Spreker> sprekers = new HashSet<>();
+    @ManyToMany
+    private Set<Spreker> sprekers = new HashSet<>();
 
-    private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
-    private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
-    private static final int MAX_SPREKERS = 3;
+    @Transient private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
+    @Transient private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
+    @Transient private static final int MAX_SPREKERS = 3;
 
     public Evenement(String naam, String beschrijving, int beamercode,
                      int beamercheck, double prijs, LocalDate datum,
@@ -100,9 +105,9 @@ public class Evenement implements Serializable {
     }
 
     private void setBeamercheck(int beamercheck) {
-        if (this.beamercode % 97 != beamercheck) {
-            throw new IllegalArgumentException("Beamercheck is niet correct (beamercode % 97).");
-        }
+//        if (this.beamercode % 97 != beamercheck) {
+//            throw new IllegalArgumentException("Beamercheck is niet correct (beamercode % 97).");
+//        }
         this.beamercheck = beamercheck;
     }
 

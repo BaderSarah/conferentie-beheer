@@ -30,7 +30,7 @@ public class EvenementController {
 	
 	@GetMapping 
 	public String showEventsList(Model model) {	
-		model.addAttribute("evenementenList", repository.findAll()); 
+		model.addAttribute("evenementen", repository.findAll()); 
 		
 		log.info("GET /events");
 		return "EvenementListView"; 
@@ -61,20 +61,18 @@ public class EvenementController {
 	    return "EvenementListView";
 	}
 	
-	 @GetMapping("/id")
-	 public String showEventById(Model model) {
-		 // modelattr specific evenement
-		 log.info("GET /events/${:id}"); 
+	 @GetMapping("/{id}")
+	 public String showEventById(@PathVariable("id") long id, Model model) {
+		 Evenement evenement = repository.findById(id)
+		         .orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
+
+		 
+		 model.addAttribute("evenement", repository.findById(id)); 
+		 
+		log.info("GET /events/${:id}"); 
 		return "EvenementView"; 
 	}
-	
-//	 @GetMapping("/{id}")
-//	 public String showEventById(@PathVariable("id") long id, Model model) {
-//		 // modelattr specific evenement
-//		 log.info("GET /events/${:id}"); 
-//		return "EvenementView"; 
-//	}
-//	 
+	 
 		@GetMapping("/favourites")
 		public String showFavourites(Model model) {
 			log.info("GET /events/favourites");
