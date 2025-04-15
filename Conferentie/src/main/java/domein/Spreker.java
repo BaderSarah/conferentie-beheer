@@ -2,12 +2,12 @@ package domein;
 
 import java.io.Serializable;
 
-import domein.evenement.ISpreker;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "spreker")
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class Spreker implements Serializable {

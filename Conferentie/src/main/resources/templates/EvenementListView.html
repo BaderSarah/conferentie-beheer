@@ -41,18 +41,14 @@
                         <td th:text="${evenement.begintijdstip}">14:00</td>
                         <td th:text="${evenement.eindtijdstip}">16:00</td>
                         <td>
-                            <form th:action="@{/events/{id}(id=${evenement.id})}" method="get" class="bekijk-col">
-                                <button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
-                            </form>
+							<a th:href="@{/events/{id}(id=${evenement.id})}" class="bekijk-col">
+							    <button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>
+							</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <form th:action="@{/events/new}" method="get" class="sub-form">
-            <button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
-        </form>
     </div>
 
     <div th:replace="~{fragments/footer :: footer}"></div>

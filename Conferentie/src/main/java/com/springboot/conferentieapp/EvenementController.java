@@ -1,5 +1,7 @@
 package com.springboot.conferentieapp;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 //import java.util.List;
@@ -61,17 +63,24 @@ public class EvenementController {
 	    return "EvenementListView";
 	}
 	
-	 @GetMapping("/{id}")
-	 public String showEventById(@PathVariable("id") long id, Model model) {
-		 Evenement evenement = repository.findById(id)
-		         .orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
 
-		 
-		 model.addAttribute("evenement", repository.findById(id)); 
-		 
-		log.info("GET /events/${:id}"); 
-		return "EvenementView"; 
-	}
+	 @GetMapping("/{id}")
+	 public String eventDetails(@PathVariable long id, Model model) {
+	     Optional<Evenement> optionalEvenement = repository.findById(id);
+		 log.info("GET /events/${:id}"); 
+	     
+	     if (optionalEvenement.isPresent()) {
+	    	 
+	         model.addAttribute("evenement", optionalEvenement.get());
+	         log.info("events/${:id} -> got event" + optionalEvenement.get()); 
+	         return "EvenementView";
+	     } else {
+	    	 
+	    	 log.error("events/${:id} -> NO EVENT FOUND"); 
+	         return "redirect:/events"; 
+	     }
+	 }
+
 	 
 		@GetMapping("/favourites")
 		public String showFavourites(Model model) {

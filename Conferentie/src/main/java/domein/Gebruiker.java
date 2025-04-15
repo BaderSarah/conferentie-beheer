@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -24,6 +25,7 @@ import domein.evenement.IEvenement;
 import domein.gebruiker.IGebruiker;
 
 @Entity
+@Table(name = "gebruiker")
 @NoArgsConstructor
 public class Gebruiker implements Serializable {
 

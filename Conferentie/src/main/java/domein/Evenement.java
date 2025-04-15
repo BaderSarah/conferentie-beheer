@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
@@ -23,6 +26,7 @@ import java.util.Set;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
+@Table(name = "evenement")
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor()
 public class Evenement implements Serializable {
@@ -72,6 +76,11 @@ public class Evenement implements Serializable {
 
     @Size(min = 1, max = 3, message = "{event.err.speakers}")
     @ManyToMany
+    @JoinTable(
+            name = "evenement_sprekers",
+            joinColumns = @JoinColumn(name = "evenement_id"),
+            inverseJoinColumns = @JoinColumn(name = "spreker_id")
+        )
     private Set<Spreker> sprekers = new HashSet<>();
 
     @Transient private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
