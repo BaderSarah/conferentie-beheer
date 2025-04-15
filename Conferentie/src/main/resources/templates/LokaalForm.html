@@ -16,11 +16,11 @@
 	<form class="form" th:action="@{/rooms}" th:object="${lokaal}" method="post">
 
 		<label th:text="#{rooms.form.name}" for="naam"><p style="display: inline;">Name of the room </p><p id="star">*</p></label>
-		<input type="text" id="naam" name="naam">
+		<input type="text" id="naam" th:field="*{naam}">
 		<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 
 		<label th:text="#{rooms.form.capacity}" for="capaciteit"><p style="display: inline;">Capacity </p><p id="star">*</p></label>
-		<input type="number" id="capaciteit" name="capaciteit">
+		<input type="number" id="capaciteit" th:field="*{capaciteit}">
 		<span th:if="${#fields.hasErrors('capaciteit')}" th:errorclass="error" th:errors="*{capaciteit}"></span>
 
 		<br><br>

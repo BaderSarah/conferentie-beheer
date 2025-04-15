@@ -20,7 +20,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "lokaal")
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @NoArgsConstructor
 public class Lokaal implements Serializable {
 

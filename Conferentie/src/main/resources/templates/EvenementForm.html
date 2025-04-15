@@ -18,41 +18,41 @@
 			<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
 
 				<label for="naam"><p  th:text="#{eventsform.form.name}"  style="display: inline;">Name </p><p id="star">*</p></label>
-				<input type="text" id="naam" name="naam" th:field="*{naam}">
+				<input type="text" id="naam" th:field="*{naam}">
 				<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
 
 
 				<label for="beschrijving"><p th:text="#{eventsform.form.description}" style="display: inline;">Description </p></label>
-				<textarea id="beschrijving" name="beschrijving" th:field="*{beschrijving}"></textarea>
+				<textarea id="beschrijving" th:field="*{beschrijving}"></textarea>
 				<span th:if="${#fields.hasErrors('beschrijving')}" th:errorclass="error"
 					th:errors="*{beschrijving}"></span>
 
 				<label for="date"><p th:text="#{eventsform.form.date}" style="display: inline;">Date </p><p id="star">*</p></label>
-				<input type="date" id="datetime" name="datum" th:field="*{datum}">
+				<input type="date" id="datetime" th:field="*{datum}">
 				<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
 
 				<label for="begintijdstip"><p th:text="#{eventsform.form.startTime}" style="display: inline;">Start time </p><p id="star">*</p></label>
-				<input type="time" id="datetime" name="begintijdstip" th:field="*{begintijdstip}">
+				<input type="time" id="datetime" th:field="*{begintijdstip}">
 				<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error"
 					th:errors="*{begintijdstip}"></span>
 
 				<label for="eindtijdstip"><p th:text="#{eventsform.form.endTime}" style="display: inline;">End time </p><p id="star">*</p></label>
-				<input type="time" id="datetime" name="eindtijdstip" th:field="*{eindtijdstip}">
+				<input type="time" id="datetime" th:field="*{eindtijdstip}">
 				<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error"
 					th:errors="*{eindtijdstip}"></span>
 
 
 				<label for="beamercode"><p th:text="#{eventsform.form.beamerCode}" style="display: inline;">Projector code (4 digits) </p><p id="star">*</p></label>
-				<input type="text" id="beamercode" name="beamercode" th:field="*{beamercode}">
+				<input type="text" id="beamercode" th:field="*{beamercode}">
 				<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
 
 				<label for="beamercheck"><p th:text="#{eventsform.form.beamerCheck}" style="display: inline;">Projector check (remainder of division by 97) </p><p id="star">*</p></label>
-				<input type="text" id="beamercheck" name="beamercheck" th:field="*{beamercheck}">
+				<input type="text" id="beamercheck" th:field="*{beamercheck}">
 				<span th:if="${#fields.hasErrors('beamercheck')}" th:errorclass="error"
 					th:errors="*{beamercheck}"></span>
 
 				<label for="prijs"><p th:text="#{eventsform.form.price}" style="display: inline;">Price (in euro, 2 digits after commma) </p><p id="star">*</p></label>
-				<input type="number" id="prijs" name="prijs" step="0.01" th:field="*{prijs}" placeholder="bv. 12.50">
+				<input type="number" id="prijs" step="0.01" th:field="*{prijs}" placeholder="bv. 12.50">
 				<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>
 
 				<label for="sprekersSelect"><p  th:text="#{eventsform.form.speakers}" style="display: inline;">Speaker(s) </p><p id="star">*</p></label>
@@ -71,7 +71,7 @@
 				<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
 
 				<label for="lokaal"><p  th:text="#{eventsform.form.room}" style="display: inline;">Room </p><p id="star">*</p></label>
-				<select id="lokaal" name="lokaal" th:field="*{lokaal}">
+				<select id="lokaal" th:field="*{lokaal}">
 					<option value="">-- Kies een bestaand lokaal --</option>
 					<option value="A101">A101</option>
 					<option value="B202">B202</option>

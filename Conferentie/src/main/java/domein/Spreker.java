@@ -17,7 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "spreker")
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @NoArgsConstructor
 public class Spreker implements Serializable {
 

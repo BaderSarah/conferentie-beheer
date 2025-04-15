@@ -49,6 +49,11 @@
                 </tbody>
             </table>
         </div>
+		
+		<form th:action="@{/events/new}" method="get" class="sub-form">
+		            <button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
+		        </form>
+				<!--Or view favourites btn for user-->
     </div>
 
     <div th:replace="~{fragments/footer :: footer}"></div>

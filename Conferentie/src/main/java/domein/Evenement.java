@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "evenement")
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @NoArgsConstructor()
 public class Evenement implements Serializable {
 
@@ -81,7 +81,7 @@ public class Evenement implements Serializable {
             joinColumns = @JoinColumn(name = "evenement_id"),
             inverseJoinColumns = @JoinColumn(name = "spreker_id")
         )
-    private Set<Spreker> sprekers = new HashSet<>();
+    @Setter(AccessLevel.PRIVATE) private Set<Spreker> sprekers = new HashSet<>();
 
     @Transient private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
     @Transient private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
@@ -104,7 +104,7 @@ public class Evenement implements Serializable {
         setSprekers(sprekers);
     }
 
-    // ------- Setters met extra logica later naar Validator -------
+    // ------- Setters met extra logica later naar Validator ?? -------
 
     private void setDatum(LocalDate datum) {
         if (datum.isBefore(CONFERENTIE_START) || datum.isAfter(CONFERENTIE_EIND)) {

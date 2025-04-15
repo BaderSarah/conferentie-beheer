@@ -36,9 +36,9 @@ public class InitDataConfig implements CommandLineRunner {
         lokaalRepo.save(b202);
 
         // Sprekers
-        Spreker eva = new Spreker("Eva",  "Janssens", "eva.janssens@mail.com");
-        Spreker tom = new Spreker("Tom",  "De Wilde", "tom.dewilde@mail.com");
-        Spreker ines = new Spreker("Ines", "Peeters", "ines.peeters@mail.com");
+        Spreker eva = new Spreker("Janssens", "Eva",  "eva.janssens@mail.com");
+        Spreker tom = new Spreker("De Wilde", "Tom", "tom.dewilde@mail.com");
+        Spreker ines = new Spreker("Peeters", "Ines","ines.peeters@mail.com");
 
         sprekerRepo.save(eva);
         sprekerRepo.save(tom);

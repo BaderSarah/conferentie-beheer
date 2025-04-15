@@ -81,7 +81,7 @@ public class EvenementController {
 	     }
 	 }
 
-	 
+	 	// favourites of the logged in USER
 		@GetMapping("/favourites")
 		public String showFavourites(Model model) {
 			log.info("GET /events/favourites");
