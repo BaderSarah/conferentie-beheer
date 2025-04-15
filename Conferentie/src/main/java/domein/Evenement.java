@@ -59,6 +59,7 @@ public class Evenement implements Serializable {
 
     @Getter
     @NotNull(message = "{event.err.date}")
+    // @DateInConferenceRange(start = "2025-05-01", end = "2025-05-05", message = "{event.err.date.range}")
     private LocalDate datum;
 
     @Getter
@@ -99,51 +100,9 @@ public class Evenement implements Serializable {
         setPrijs(prijs);
         setDatum(datum);
         setBegintijdstip(beginTijdstip);
-        setEindTijdstip(eindTijdstip);
+        setEindtijdstip(eindTijdstip);
         setLokaal(lokaal);
         setSprekers(sprekers);
-    }
-
-    // ------- Setters met extra logica later naar Validator ?? -------
-
-    private void setDatum(LocalDate datum) {
-        if (datum.isBefore(CONFERENTIE_START) || datum.isAfter(CONFERENTIE_EIND)) {
-            throw new IllegalArgumentException("Datum moet binnen de conferentieperiode vallen.");
-        }
-        this.datum = datum;
-    }
-
-    private void setBeamercheck(int beamercheck) {
-//        if (this.beamercode % 97 != beamercheck) {
-//            throw new IllegalArgumentException("Beamercheck is niet correct (beamercode % 97).");
-//        }
-        this.beamercheck = beamercheck;
-    }
-
-    private void setSprekers(Set<Spreker> sprekers) {
-        if (sprekers == null || sprekers.isEmpty()) {
-            throw new IllegalArgumentException("Er moeten minstens één spreker zijn.");
-        }
-        if (sprekers.size() > 3) {
-            throw new IllegalArgumentException("Maximum 3 sprekers toegestaan.");
-        }
-        Set<String> emails = new HashSet<>();
-        for (Spreker s : sprekers) {
-            if (!emails.add(s.getEmail())) {
-                throw new IllegalArgumentException("Dubbele spreker gevonden (zelfde e-mailadres).");
-            }
-        }
-        this.sprekers = sprekers;
-    }
-
-    private void setEindTijdstip(LocalTime eindTijdstip) {
-        if (eindTijdstip == null) {
-            throw new IllegalArgumentException("Eindtijdstip mag niet null zijn.");
-        }
-        if (this.begintijdstip != null && eindTijdstip.isBefore(this.begintijdstip)) {
-            throw new IllegalArgumentException("Eindtijdstip moet na begintijdstip liggen.");
-        }
-        this.eindtijdstip = eindTijdstip;
     }
 
     // ------- Getters en Methoden -------
