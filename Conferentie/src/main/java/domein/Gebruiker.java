@@ -21,8 +21,6 @@ import util.Rol;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import domein.evenement.IEvenement;
-import domein.gebruiker.IGebruiker;
 
 @Entity
 @Table(name = "gebruiker")

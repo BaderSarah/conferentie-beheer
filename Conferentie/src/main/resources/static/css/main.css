@@ -23,7 +23,9 @@ button {
 	flex-direction: column;
 	justify-items: start;
 	justify-self: center;
-
+	
+	margin-top: 15px; 
+	min-height: 100vh;
 	min-width: 500px;
 	width: auto;
 
@@ -300,8 +302,9 @@ button {
 	display: block;
 	color: black;
 	text-align: center;
-	padding: 12px;
+	padding: 9px;
 	text-decoration: none;
+	font-size: 11pt;
 	font-weight: 500;
 }
 
@@ -323,10 +326,14 @@ button {
 	color: #ffffff;
 	text-align: center;
 	padding: 20px 10px;
-	margin-top: 70px;
-	font-size: 0.9rem;
+	margin-top: 40px;
+	font-size: 10pt;
 	bottom: 0px;
 	font-weight: 500;
+}
+
+.footer-content{
+	margin-top: 30px;
 }
 
 .site-footer a {
