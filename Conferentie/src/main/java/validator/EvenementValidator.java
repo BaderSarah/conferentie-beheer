@@ -1,6 +1,6 @@
 package validator;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,8 +9,8 @@ import domein.Evenement;
 
 public class EvenementValidator implements Validator {
 
-    private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
-    private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
+//    private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
+//    private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -21,10 +21,10 @@ public class EvenementValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Evenement evenement = (Evenement) target;
 
-        LocalDate datum = evenement.getDatum();
-        if (datum != null && (datum.isBefore(CONFERENTIE_START) || datum.isAfter(CONFERENTIE_EIND))) {
-            errors.rejectValue("datum", "event.err.date.range", "Datum moet binnen de conferentieperiode vallen.");
-        }
+//        LocalDate datum = evenement.getDatum();
+//        if (datum != null && (datum.isBefore(CONFERENTIE_START) || datum.isAfter(CONFERENTIE_EIND))) {
+//            errors.rejectValue("datum", "event.err.date.range", "Datum moet binnen de conferentieperiode vallen.");
+//        }
 
         if (evenement.getBegintijdstip() != null && evenement.getEindtijdstip() != null) {
             if (evenement.getEindtijdstip().isBefore(evenement.getBegintijdstip())) {

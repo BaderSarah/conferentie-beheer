@@ -5,10 +5,10 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
-//@Documented
-//@Constraint(validatedBy = DateInConferenceRangeValidator.class)
-//@Target({ ElementType.FIELD })
-//@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Constraint(validatedBy = DateInConferenceRangeValidator.class)
+@Target({ ElementType.FIELD })
+@Retention(RetentionPolicy.RUNTIME)
 public @interface DateInConferenceRange {
 
     String message() default "Datum moet binnen de conferentieperiode vallen.";

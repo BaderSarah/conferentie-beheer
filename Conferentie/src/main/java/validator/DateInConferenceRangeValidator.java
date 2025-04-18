@@ -23,7 +23,7 @@ public class DateInConferenceRangeValidator implements ConstraintValidator<DateI
 
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
-        if (value == null) return true; // Let @NotNull handle null check
+        if (value == null) return true; // @NotNull handles this
         return !(value.isBefore(startDate) || value.isAfter(endDate));
     }
 }

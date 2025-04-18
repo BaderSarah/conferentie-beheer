@@ -58,24 +58,28 @@
 				<label for="sprekersSelect"><p  th:text="#{eventsform.form.speakers}" style="display: inline;">Speaker(s) </p><p id="star">*</p></label>
 				<select id="sprekersSelect" multiple size="3" class="spreker-multiselect" 
 				style="max-height: 85px;height: auto;min-height: 40px;">
-					<option style="padding-top: 5px;">Spreker optie1</option>
+					<!--<option style="padding-top: 5px;">Spreker optie1</option>
 					<option style="padding-top: 5px;">Spreker optie2</option>
 					<option style="padding-top: 5px;">Spreker optie3</option>
 					<option style="padding-top: 5px;">Spreker optie4</option>
-					<option style="padding-top: 5px;">Spreker optie5</option>
-					<!--<option th:each="spreker : ${sprekersLijst}"
+					<option style="padding-top: 5px;">Spreker optie5</option>-->
+					<option th:each="spreker : ${sprekersLijst}"
 		               th:value="${spreker}"
-		               th:text="${spreker}">
-		       </option>-->
+		               th:text="${spreker.naam}">
+		            </option>
 				</select>
 				<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
 
 				<label for="lokaal"><p  th:text="#{eventsform.form.room}" style="display: inline;">Room </p><p id="star">*</p></label>
 				<select id="lokaal" th:field="*{lokaal}">
-					<option value="">-- Kies een bestaand lokaal --</option>
+					<!--<option value="">-- Kies een bestaand lokaal --</option>
 					<option value="A101">A101</option>
 					<option value="B202">B202</option>
-					<option value="C303">C303</option>
+					<option value="C303">C303</option>-->
+					<option th:each="lokaal : ${lokaalLijst}"
+							               th:value="${lokaal}"
+							               th:text="${lokaal.naam}">
+					</option>
 				</select>
 				<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
 

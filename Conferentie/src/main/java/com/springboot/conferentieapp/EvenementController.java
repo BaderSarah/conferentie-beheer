@@ -20,6 +20,8 @@ import domein.Lokaal;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.EvenementRepository;
+import repository.LokaalRepository;
+import repository.SprekerRepository;
 
 @Slf4j
 @Controller
@@ -27,12 +29,17 @@ import repository.EvenementRepository;
 public class EvenementController {
 	
 	@Autowired
-	private EvenementRepository repository; 
+	private EvenementRepository eveRepository; 
 	
+	@Autowired
+	private SprekerRepository   speRepository; 
+	
+	@Autowired
+	private LokaalRepository    lokRepository; 
 	
 	@GetMapping 
 	public String showEventsList(Model model) {	
-		model.addAttribute("evenementen", repository.findAll()); 
+		model.addAttribute("evenementen", eveRepository.findAll()); 
 		
 		log.info("GET /events");
 		return "EvenementListView"; 
@@ -41,6 +48,9 @@ public class EvenementController {
 	@GetMapping("/new")
 	public String showCreateEventForm(Model model) {
         model.addAttribute("evenement", new Evenement());
+        model.addAttribute("sprekersLijst", speRepository.findAll());
+        model.addAttribute("lokaalLijst", lokRepository.findAll());
+
 		
 		log.info("GET /events/new");
 	    return "EvenementForm";
@@ -66,7 +76,7 @@ public class EvenementController {
 
 	 @GetMapping("/{id}")
 	 public String eventDetails(@PathVariable long id, Model model) {
-	     Optional<Evenement> optionalEvenement = repository.findById(id);
+	     Optional<Evenement> optionalEvenement = eveRepository.findById(id);
 		 log.info("GET /events/${:id}"); 
 	     
 	     if (optionalEvenement.isPresent()) {

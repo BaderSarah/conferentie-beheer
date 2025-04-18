@@ -1,5 +1,6 @@
 package com.springboot.conferentieapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,20 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import domein.Spreker;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import repository.LokaalRepository;
+import repository.SprekerRepository;
 
 @Slf4j
 @Controller
 @RequestMapping("/speakers")
 public class SprekerController {
 	
-	@ModelAttribute("spreker")
-	public Spreker createSpreker(){
-		return new Spreker(); 
-	}
+	@Autowired
+	private SprekerRepository repository; 
 
 	@GetMapping("/new")
 	public String showCreateEventForm(Model model) {
-//        model.addAttribute("spreker", new Spreker());
+        model.addAttribute("spreker", new Spreker());
 		log.info("GET /speakers/new");
 	    return "SprekerForm";
 	}
@@ -43,7 +44,8 @@ public class SprekerController {
 	        return "SprekerForm"; // #TODO bug:behoud de ingevulde waarden niet
 	    } 
 
-	    return "EvenementForm";
+	    repository.save(spreker); 
+        return "redirect:/events/new"; 
 	}
 }
 
