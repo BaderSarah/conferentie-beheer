@@ -40,7 +40,7 @@ public class GebruikerController {
         
         if (bindingResult.hasErrors()) {
 	        log.warn("Gebruikers formulier bevat fouten");
-	        return "Registreer"; // #TODO bug:behoud de ingevulde waarden niet
+	        return "Registreer";
 	    } 
 
 	    return "EvenementListView";

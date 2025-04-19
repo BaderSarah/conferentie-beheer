@@ -14,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import service.ConferentieService;
+import service.ConferentieServiceImpl; 
+
 @SpringBootApplication
 @EnableJpaRepositories("repository")
 @EntityScan("domein") 
@@ -41,4 +44,10 @@ public class ConferentieApplication implements WebMvcConfigurer{
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
     }
+    
+	
+	@Bean
+	ConferentieService schoolservice() {
+		return new ConferentieServiceImpl();
+	}
 }

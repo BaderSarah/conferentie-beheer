@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+    <title>Page not found</title>
+</head>
+<body>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	
+	<div class="page" style="margin: 10px; display: flex; justify-content: center;">
+    <h1>403 - Geen toegang</h1>
+    <p>De opgevraagde pagina heeft u geen toegang tot. Controleer de URL of ga terug naar <a th:href="@{/}">de homepagina</a>.</p>
+	</div>	
+	
+	<div th:replace="~{fragments/footer :: footer}"></div>
+	</body>
+</html>

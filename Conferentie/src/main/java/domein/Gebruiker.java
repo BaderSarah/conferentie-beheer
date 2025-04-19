@@ -1,7 +1,6 @@
 package domein;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
@@ -53,7 +55,14 @@ public class Gebruiker implements Serializable {
 	private String email;
 
 	@Setter(AccessLevel.PROTECTED)
+	@ManyToMany
+	@JoinTable(
+	    name = "gebruiker_favoriete_evenementen",
+	    joinColumns = @JoinColumn(name = "gebruiker_id"),
+	    inverseJoinColumns = @JoinColumn(name = "evenement_id")
+	)
 	private Set<Evenement> favorieteEvenementen = new HashSet<>();
+
 
 	private String wachtwoord;
 

@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
+import service.ConferentieService;
 
 @Slf4j
 @Controller
@@ -29,17 +30,20 @@ import repository.SprekerRepository;
 public class EvenementController {
 	
 	@Autowired
-	private EvenementRepository eveRepository; 
+	private ConferentieService confService; 
 	
 	@Autowired
-	private SprekerRepository   speRepository; 
+	private EvenementRepository evenementRepo; 
 	
 	@Autowired
-	private LokaalRepository    lokRepository; 
+	private SprekerRepository sprekerRepo; 
+	
+	@Autowired
+	private LokaalRepository lokaalRepo; 
 	
 	@GetMapping 
 	public String showEventsList(Model model) {	
-		model.addAttribute("evenementen", eveRepository.findAll()); 
+		model.addAttribute("evenementen", evenementRepo.findAll()); 
 		
 		log.info("GET /events");
 		return "EvenementListView"; 
@@ -48,8 +52,8 @@ public class EvenementController {
 	@GetMapping("/new")
 	public String showCreateEventForm(Model model) {
         model.addAttribute("evenement", new Evenement());
-        model.addAttribute("sprekersLijst", speRepository.findAll());
-        model.addAttribute("lokaalLijst", lokRepository.findAll());
+        model.addAttribute("sprekersLijst", sprekerRepo.findAll());
+        model.addAttribute("lokaalLijst", lokaalRepo.findAll());
 
 		
 		log.info("GET /events/new");
@@ -67,8 +71,10 @@ public class EvenementController {
 
 	    if (bindingResult.hasErrors()) {
 	        log.warn("Evenement formulier bevat fouten");
-	        return "EvenementForm"; // #TODO bug:behoud de ingevulde waarden niet
+	        return "EvenementForm"; 
 	    } 
+	    
+	    confService.createEvenement(evenement); 
 
 	    return "EvenementListView";
 	}
@@ -76,26 +82,53 @@ public class EvenementController {
 
 	 @GetMapping("/{id}")
 	 public String eventDetails(@PathVariable long id, Model model) {
-	     Optional<Evenement> optionalEvenement = eveRepository.findById(id);
+	     Optional<Evenement> optionalEvenement = evenementRepo.findById(id);
 		 log.info("GET /events/${:id}"); 
 	     
 	     if (optionalEvenement.isPresent()) {
 	    	 
 	         model.addAttribute("evenement", optionalEvenement.get());
-	         log.info("events/${:id} -> got event" + optionalEvenement.get()); 
+	         log.info("events/${:id} -> event gevonden" + optionalEvenement.get()); 
 	         return "EvenementView";
 	     } else {
 	    	 
-	    	 log.error("events/${:id} -> NO EVENT FOUND"); 
+	    	 log.error("events/${:id} -> geen event gevonden"); 
 	         return "redirect:/events"; 
 	     }
 	 }
 
-	 	// favourites of the logged in USER
 		@GetMapping("/favourites")
 		public String showFavourites(Model model) {
 			log.info("GET /events/favourites");
 			return "FavorietenListView"; 
 		}
 	
+//		@GetMapping("/favourites")
+//		public String showFavourites(Model model, @AuthenticationPrincipal Gebruiker gebruiker) {
+//		    model.addAttribute("favorieten", gebruiker.getFavorieteEvenementen());
+//		    return "FavorietenListView";
+//		}
+//
+//		@PostMapping("/{id}/favourite")
+//		public String addToFavourites(@PathVariable long id, @AuthenticationPrincipal Gebruiker gebruiker, RedirectAttributes redirectAttributes) {
+//		    try {
+//		        confService.addFavouriteEvent(id, gebruiker.getId());
+//		        redirectAttributes.addFlashAttribute("success", "Evenement toegevoegd aan je favorieten.");
+//		    } catch (Exception e) {
+//		        redirectAttributes.addFlashAttribute("error", e.getMessage());
+//		    }
+//		    return "redirect:/events/" + id;
+//		}
+//
+//		@PostMapping("/{id}/unfavourite")
+//		public String removeFromFavourites(@PathVariable long id, @AuthenticationPrincipal Gebruiker gebruiker, RedirectAttributes redirectAttributes) {
+//		    try {
+//		        confService.deleteFavouriteEvent(id, gebruiker.getId());
+//		        redirectAttributes.addFlashAttribute("success", "Evenement verwijderd uit je favorieten.");
+//		    } catch (Exception e) {
+//		        redirectAttributes.addFlashAttribute("error", e.getMessage());
+//		    }
+//		    return "redirect:/events/" + id;
+//		}
+
 }

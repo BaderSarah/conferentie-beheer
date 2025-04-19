@@ -13,11 +13,15 @@ import domein.Lokaal;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.LokaalRepository;
+import service.ConferentieService;
 
 @Slf4j
 @Controller
 @RequestMapping("/rooms")
 public class LokaalController {
+	
+	@Autowired
+	private ConferentieService confService; 
 	
 	@Autowired
 	private LokaalRepository repository; 
@@ -43,7 +47,7 @@ public class LokaalController {
 	        return "LokaalForm";
 	    }
 	    
-	    repository.save(lokaal); 
+	    confService.createLokaal(lokaal); 
         return "redirect:/events/new"; 
 	}
 
