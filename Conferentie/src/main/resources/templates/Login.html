@@ -14,13 +14,16 @@
 	<div class="page">
 
 	<h1 th:text="#{login.title}">Login</h1>
+	<div th:if="${error}" class="error" th:text="${error}"></div>
+	<div th:if="${msg}" class="msg" th:text="${msg}"></div>
 
 	<div>
-	    <form class="form login-form">
-	      <input type="text" name="email" th:placeholder="#{registration.form.email}">
-	      <input type="password" name="wachtwoord" th:placeholder="#{registration.form.password}">
+	    <form class="form login-form" th:action="@{/login}" method="post">
+	      <input type="text" name="username" th:placeholder="#{registration.form.email}">
+	      <input type="password" name="password" th:placeholder="#{registration.form.password}">
 	      <button type="submit" id="login-btn" th:text="#{login.button.login}">Login</button>
-	    </form>
+		  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />  
+	  </form>
 	  </div>
 	  <form th:action="@{/registration}" method="get" id="registreer-form">
 	  	<button id="registreer-btn-login" th:text="#{login.button.register}">Register</button>

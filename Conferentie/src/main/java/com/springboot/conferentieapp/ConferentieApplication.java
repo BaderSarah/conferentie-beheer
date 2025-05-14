@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import service.ConferentieService;
-import service.ConferentieServiceImpl; 
+import service.ConferentieServiceImpl;
+import service.GebruikerDetailsService; 
 
 @SpringBootApplication
 @EnableJpaRepositories("repository")
@@ -29,6 +31,10 @@ public class ConferentieApplication implements WebMvcConfigurer{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/events");
+		registry.addViewController("/403").setViewName("error/403");
+		registry.addViewController("/404").setViewName("error/404");
+		registry.addViewController("/500").setViewName("error/500");
+
 	}
 	
 	@Bean
@@ -37,6 +43,12 @@ public class ConferentieApplication implements WebMvcConfigurer{
 		slr.setDefaultLocale(Locale.ENGLISH);
 		return slr;
 	}
+	
+	@Bean
+	UserDetailsService myUserDetailsService() {
+		return new GebruikerDetailsService();
+	}
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -47,7 +59,7 @@ public class ConferentieApplication implements WebMvcConfigurer{
     
 	
 	@Bean
-	ConferentieService schoolservice() {
+	ConferentieService conferentieService() {
 		return new ConferentieServiceImpl();
 	}
 }

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head>
     <meta charset="UTF-8">
@@ -50,10 +52,12 @@
             </table>
         </div>
 		
-		<form th:action="@{/events/new}" method="get" class="sub-form">
-		            <button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
-		        </form>
-				<!--Or view favourites btn for user-->
+		<div sec:authorize="hasRole('ADMIN')" class="role-btn">
+		    <form th:action="@{/events/new}" method="get" class="sub-form">
+		        <button id="maak-event-btn" th:text="#{eventslist.button.create}">Create event</button>
+		    </form>
+		</div>
+
     </div>
 
     <div th:replace="~{fragments/footer :: footer}"></div>

@@ -15,12 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class GebruikerController {
 	
-	@GetMapping("/login")
-	public String showLoginPage(Model model) {
-		log.info("GET /login");
-		return "Login"; 
-	}
-	
 	@GetMapping("/registration")
 	public String showCreateUserForm(Model model) {
         model.addAttribute("gebruiker", new Gebruiker());

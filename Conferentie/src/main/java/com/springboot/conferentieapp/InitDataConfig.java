@@ -2,22 +2,35 @@ package com.springboot.conferentieapp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import domein.Evenement;
+import domein.Gebruiker;
 import domein.Lokaal;
 import domein.Spreker;
 import repository.EvenementRepository;
+import repository.GebruikerRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
+import util.Rol;
 
 @Component
 public class InitDataConfig implements CommandLineRunner {
 
+	private PasswordEncoder encoder = new BCryptPasswordEncoder();
+	
+	@Autowired
+	private GebruikerRepository gebruikerRepo;
+	
 	@Autowired
 	private EvenementRepository eventRepo;
 	
@@ -74,6 +87,27 @@ public class InitDataConfig implements CommandLineRunner {
         eventRepo.save(event1);
         eventRepo.save(event2);
 
+        // users
+        var user =
+				Gebruiker.builder()
+					.naam("lastname")
+					.voornaam("firstname")
+	                .email("user@mail.com")
+	                .rol(Rol.USER)
+	                .wachtwoord(encoder.encode("user123"))
+	                .build();
+        
+	    var admin =
+	        		Gebruiker.builder()
+	        		.naam("lastname")
+					.voornaam("firstname")
+	                .email("admin@mail.com")
+	                .rol(Rol.ADMIN)
+	                .wachtwoord(encoder.encode("admin123"))
+	                .build();
+	        
+		List<Gebruiker> userList =  Arrays.asList(admin, user);
+		gebruikerRepo.saveAll(userList);
 	}
 
 }

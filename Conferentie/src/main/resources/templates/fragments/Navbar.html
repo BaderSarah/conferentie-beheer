@@ -1,24 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-	<meta charset="UTF-8">
-	<link th:href="@{/css/main.css}" rel="stylesheet">
-	<title>Navbar</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <title>Navbar</title>
 </head>
+
 
 <body>
 	<div th:fragment="navbar">
-		<nav class="navbar">
-			<ul>
-				<div>
-				<li><a th:text="#{menubar.link.events}" th:href="@{/events}">Events</a></li>
-				<li><a th:text="#{menubar.link.newevent}" th:href="@{/events/new}">New event</a></li>
-				</div>	
-				<li id="logout"><a th:text="#{menubar.link.login}" th:href="@{/login}">Login</a></li>
-			</ul>
-		</nav>
+	    <nav class="navbar">
+	        <ul>
+	            <div>
+	                <li>
+	                    <a th:text="#{menubar.link.events}" th:href="@{/events}">Events</a>
+	                </li>
+
+	                <li sec:authorize="hasRole('ADMIN')">
+	                    <a th:text="#{menubar.link.newevent}" th:href="@{/events/new}">New event</a>
+	                </li>
+
+	                <li sec:authorize="hasRole('USER')">
+	                    <a th:text="#{menubar.link.favourites}" th:href="@{/events/favourites}">Favourites</a>
+	                </li>
+	            </div>
+
+	            <li id="logout" sec:authorize="isAuthenticated()">
+	                <form th:action="@{/logout}" method="post" class="nav-logout-form">
+	                    <button type="submit" class="nav-link-button" th:text="#{menubar.link.logout}"></button>
+	                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	                </form>
+	            </li>
+
+	            <li id="login" sec:authorize="isAnonymous()">
+	                <a th:text="#{menubar.link.login}" th:href="@{/login}">Login</a>
+	            </li>
+	        </ul>
+	    </nav>
 	</div>
+
+
 </body>
 
 </html>

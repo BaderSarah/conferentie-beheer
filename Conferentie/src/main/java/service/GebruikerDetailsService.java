@@ -1,0 +1,49 @@
+package service;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import lombok.NoArgsConstructor;
+import repository.GebruikerRepository;
+import util.Rol;
+import domein.Gebruiker;
+
+@Service
+@NoArgsConstructor
+public class GebruikerDetailsService implements UserDetailsService {
+
+		@Autowired
+		private GebruikerRepository gebruikerRepo;
+
+		@Override
+	    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		    Optional<Gebruiker> optionalGebruiker = gebruikerRepo.findByEmail(email);
+
+		    if (optionalGebruiker.isEmpty()) {
+			      throw new UsernameNotFoundException(email);
+		    }
+
+		    Gebruiker gebruiker = optionalGebruiker.get(); 
+
+		    return new User(
+		        gebruiker.getEmail(),
+		        gebruiker.getWachtwoord(),
+		        convertAuthorities(gebruiker.getRol()) 
+		    );
+		}
+		  
+		  private Collection<? extends GrantedAuthority> convertAuthorities(Rol rol) { 
+			    return Collections.singletonList(
+			    		new SimpleGrantedAuthority("ROLE_" + rol.toString()));
+		  }
+
+	}

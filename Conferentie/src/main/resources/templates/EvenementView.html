@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<meta charset="UTF-8">
@@ -13,8 +14,10 @@
 
 	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
 
-		<input type="checkbox" id="heart-toggle" class="heart-checkbox" />
-		<label for="heart-toggle" class="heart-label"></label>
+		<div sec:authorize="hasRole('USER')" class="role-btn">
+		    <input type="checkbox" id="heart-toggle" class="heart-checkbox" />
+		    <label for="heart-toggle" class="heart-label"></label>
+		</div>
 
 		<div style="margin-top: 0px;">
 			<h2 th:text="#{eventsdetails.title}" style="display: inline;">Name of event: </h2>
@@ -52,9 +55,16 @@
 			</p>
 		</div>
 
-		<form th:action="@{/events/new}" method="get" class="sub-form">
-			<button id="change-event-btn" th:text="#{eventsdetails.btn}" style="margin-top: 20px;margin-left: 20px;">Change event</button>
-		</form>
+		<div sec:authorize="hasRole('ADMIN')" class="role-btn">
+		    <form th:action="@{/events/new}" method="get" class="sub-form">
+		        <button id="change-event-btn"
+		                th:text="#{eventsdetails.btn}"
+		                style="margin-top: 20px;margin-left: 20px;">
+		            Change event
+		        </button>
+		    </form>
+		</div>
+
 	</div>
 
 	<div th:replace="~{fragments/footer :: footer}"></div>

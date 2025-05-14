@@ -8,9 +8,9 @@
 <body>
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 	
-	<div class="page" style="margin: 10px; display: flex; justify-content: center;">
+	<div class="page error-page">
     <h1>500 - Interne fout</h1>
-    <p>Er trede een interne fout op, ga terug naar <a th:href="@{/}">de homepagina</a>.</p>
+    <p>Er trede een interne fout op, ga terug naar <a th:href="@{/events}">de homepagina</a>.</p>
 	</div>	
 	
 	<div th:replace="~{fragments/footer :: footer}"></div>
