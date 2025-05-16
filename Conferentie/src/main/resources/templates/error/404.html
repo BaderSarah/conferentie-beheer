@@ -9,8 +9,9 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 	
 	<div class="page error-page">
-    <h1>404 - Pagina niet gevonden</h1>
-    <p>De opgevraagde pagina bestaat niet. Controleer de URL of ga terug naar <a th:href="@{/events}">de homepagina</a>.</p>
+    <h1 th:text="#{error.title.404}">404 - Page not found</h1>
+	<p th:text="#{error.text.all}">You cannot access the requested page. Please check the URL or go back to </p>
+		<a style="text-align: center;" th:href="@{/events}" th:text="#{error.text.home}">the homepage</a>	
 	</div>	
 	
 	<div th:replace="~{fragments/footer :: footer}"></div>

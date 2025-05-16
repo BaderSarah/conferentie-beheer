@@ -41,9 +41,13 @@ public class GebruikerDetailsService implements UserDetailsService {
 		    );
 		}
 		  
-		  private Collection<? extends GrantedAuthority> convertAuthorities(Rol rol) { 
-			    return Collections.singletonList(
-			    		new SimpleGrantedAuthority("ROLE_" + rol.toString()));
-		  }
+	    private Collection<? extends GrantedAuthority> convertAuthorities(Rol rol) { 
+			 return Collections.singletonList(
+			    new SimpleGrantedAuthority("ROLE_" + rol.toString()));
+		}
+		  
+		public boolean bestaatEmail(String email) {
+		     return gebruikerRepo.existsByEmail(email);
+		}
 
-	}
+}

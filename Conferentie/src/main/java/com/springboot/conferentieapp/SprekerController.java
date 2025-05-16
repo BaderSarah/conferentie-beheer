@@ -41,7 +41,7 @@ public class SprekerController {
 
 	    if (bindingResult.hasErrors()) {
 	        log.warn("Spreker formulier bevat fouten");
-	        return "SprekerForm"; // #TODO bug:behoud de ingevulde waarden niet
+	        return "SprekerForm";
 	    } 
 
 	    repository.save(spreker); 

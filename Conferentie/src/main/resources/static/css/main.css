@@ -440,7 +440,7 @@ button {
 }
 
 /** Login notifications**/
-.error {
+.error-login {
 	margin: 20px; 
     padding: 15px;
     border: 1px solid transparent;
@@ -450,7 +450,7 @@ button {
     border-color: #ebccd1;
 }
 
-.msg {
+.msg-login {
     padding: 15px;
 	margin: 20px; 
     border: 1px solid transparent;

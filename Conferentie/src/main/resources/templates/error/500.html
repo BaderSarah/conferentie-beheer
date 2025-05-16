@@ -9,10 +9,10 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 	
 	<div class="page error-page">
-    <h1>500 - Interne fout</h1>
-    <p>Er trede een interne fout op, ga terug naar <a th:href="@{/events}">de homepagina</a>.</p>
+    <h1 th:text="#{error.title.500}">500 - Internal error</h1>
+	<p th:text="#{error.text.all}">You cannot access the requested page. Please check the URL or go back to </p>
+	<a style="text-align: center;" th:href="@{/events}" th:text="#{error.text.home}">the homepage</a>
 	</div>	
-	
 	<div th:replace="~{fragments/footer :: footer}"></div>
 	</body>
 </html>

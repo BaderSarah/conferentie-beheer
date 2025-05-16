@@ -1,5 +1,7 @@
 package com.springboot.conferentieapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,10 +12,15 @@ import domein.Evenement;
 import domein.Gebruiker;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import repository.GebruikerRepository;
+import util.Rol;
 
 @Slf4j
 @Controller
 public class GebruikerController {
+	
+	@Autowired
+	private GebruikerRepository gebruikerRepo;
 	
 	@GetMapping("/registration")
 	public String showCreateUserForm(Model model) {
@@ -31,13 +38,23 @@ public class GebruikerController {
 
 		log.info("POST /registration");
 	    log.info("" + bindingResult.getFieldErrorCount() + " fouten bij POST /registration"); 
-        
+        	    
+	    
         if (bindingResult.hasErrors()) {
-	        log.warn("Gebruikers formulier bevat fouten");
+	        log.warn("Gebruikers formulier bevat fouten" + bindingResult.getAllErrors());
 	        return "Registreer";
 	    } 
+  
+        String encryptedWachtwoord = new BCryptPasswordEncoder().encode(gebruiker.getWachtwoord());
+        gebruiker.setWachtwoord(encryptedWachtwoord);
+        gebruiker.setBevestigWachtwoord(encryptedWachtwoord);
 
-	    return "EvenementListView";
+        gebruiker.setRol(Rol.USER); 
+        
+        gebruikerRepo.save(gebruiker);
+        log.info("Nieuwe gebruiker opgeslagen: {}", gebruiker.getEmail());
+
+        return "redirect:/login";
         
 	}
 

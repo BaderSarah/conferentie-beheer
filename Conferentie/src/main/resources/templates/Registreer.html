@@ -34,10 +34,11 @@
 		  
 		  <label for="wachtwoord"><p th:text="#{registration.form.password}" style="display: inline;">Password </p><p id="star">*</p></label>
 	      <input type="password" id="wachtwoord" name="wachtwoord" th:placeholder="#{registration.form.password}" >
-		  <!--<span th:if="${#fields.hasErrors('wachtwoord')}" th:errorclass="error" th:errors="*{wachtwoord}"></span>-->
+		  <span th:if="${#fields.hasErrors('wachtwoord')}" th:errorclass="error" th:errors="*{wachtwoord}"></span>
 
-		  <label for="wachtwoord"><p  th:text="#{registration.form.confirmPassword}" style="display: inline;">Confirm password </p><p id="star">*</p></label>
-		  <input type="password" id="wachtwoord" name="wachtwoord" th:placeholder="#{registration.form.password}">
+		  <label for="bevestigWachtwoord"><p  th:text="#{registration.form.confirmPassword}" style="display: inline;">Confirm password </p><p id="star">*</p></label>
+		  <input type="password" id="wachtwoord" name="bevestigWachtwoord" th:placeholder="#{registration.form.password}">
+		  <span th:if="${#fields.hasErrors('bevestigWachtwoord')}" th:errorclass="error" th:errors="*{bevestigWachtwoord}"></span>
 
 	      <button type="submit" id="registreer-btn" th:text="#{registration.button.register}">Register</button>
 	    </form>

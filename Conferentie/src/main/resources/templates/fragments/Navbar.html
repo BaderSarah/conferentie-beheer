@@ -26,7 +26,11 @@
 	                    <a th:text="#{menubar.link.favourites}" th:href="@{/events/favourites}">Favourites</a>
 	                </li>
 	            </div>
-
+				
+				<li id="name" sec:authorize="isAuthenticated()">
+					<p th:text="|Hello, ${#authentication.name}(${#strings.toLowerCase(#strings.substringAfter(#authentication.authorities.iterator().next(), 'ROLE_'))})!|"></p>
+				</li>
+  
 	            <li id="logout" sec:authorize="isAuthenticated()">
 	                <form th:action="@{/logout}" method="post" class="nav-logout-form">
 	                    <button type="submit" class="nav-link-button" th:text="#{menubar.link.logout}"></button>

@@ -16,7 +16,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 public class SecurityConfig{
 
     @Autowired
-    private UserDetailsService userDetailsService; // zo ga je in je JPA
+    private UserDetailsService userDetailsService; 
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -24,34 +24,35 @@ public class SecurityConfig{
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     } 
 
-	@Bean
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
-                .authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/login**").permitAll()
-                        		.requestMatchers("/registration**").permitAll()
-                        		.requestMatchers("/events/**").permitAll()
-                                .requestMatchers("/css/**").permitAll()
-                                .requestMatchers("/images/**").permitAll()
-                                .requestMatchers("/i18n/**").permitAll()
-                                .requestMatchers("/403**").permitAll()
-                                .requestMatchers("/404**").permitAll()
-                                .requestMatchers("/500**").permitAll()
-                                
-                                .requestMatchers("/favourites/**").hasAnyRole("USER")
-                                .requestMatchers("/events/favourites/**").hasAnyRole("USER")
-                                
-                                .requestMatchers("/speakers/**").hasAnyRole("ADMIN")
-                                .requestMatchers("/rooms/**").hasAnyRole("ADMIN")
-                				.requestMatchers("/events/new/**").hasAnyRole("ADMIN"))
-                .formLogin(form ->
-                        form.defaultSuccessUrl("/events", true)
-                                .loginPage("/login")
-                                .usernameParameter("username").passwordParameter("password")
-                )
-                .exceptionHandling(handling -> handling.accessDeniedPage("/403"));
+        http
+            .csrf(csrf -> csrf.csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login**", "/registration**", 
+                		"/events**", "/css/**", "/images/**", 
+                		"/i18n/**").permitAll()
+                .requestMatchers("/speakers/**", "/rooms/**", "/events/new**").hasRole("ADMIN")
+                .requestMatchers("/events/**").hasRole("USER")
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/events", true)
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            )
+            .exceptionHandling(exception -> exception
+                .accessDeniedPage("/403")
+            );
 
         return http.build();
     }
+
 
 }

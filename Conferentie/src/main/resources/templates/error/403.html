@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<link th:href="@{/css/main.css}" rel="stylesheet">
-    <title>Page not found</title>
+	<title>Page not found</title>
 </head>
+
 <body>
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
-	
+
 	<div class="page error-page">
-    <h1>403 - Geen toegang</h1>
-    <p>De opgevraagde pagina heeft u geen toegang tot. Controleer de URL of ga terug naar <a th:href="@{/events}">de homepagina</a>.</p>
-	</div>	
-	
+		<h1 th:text="#{error.title.403}">403 - No access</h1>
+		<p th:text="#{error.text.all}">You cannot access the requested page. Please check the URL or go back to </p>
+		<a style="text-align: center;" th:href="@{/events}" th:text="#{error.text.home}">the homepage</a>
+	</div>
+
 	<div th:replace="~{fragments/footer :: footer}"></div>
-	</body>
+</body>
+
 </html>

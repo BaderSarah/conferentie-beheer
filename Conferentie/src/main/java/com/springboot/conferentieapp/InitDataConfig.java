@@ -88,14 +88,20 @@ public class InitDataConfig implements CommandLineRunner {
         eventRepo.save(event2);
 
         // users
+        
+        String userPsw = encoder.encode("user123"); 
+        
         var user =
 				Gebruiker.builder()
 					.naam("lastname")
 					.voornaam("firstname")
 	                .email("user@mail.com")
 	                .rol(Rol.USER)
-	                .wachtwoord(encoder.encode("user123"))
+	                .wachtwoord(userPsw)
+	                .bevestigWachtwoord(userPsw)
 	                .build();
+        
+        String adminPsw = encoder.encode("admin123");
         
 	    var admin =
 	        		Gebruiker.builder()
@@ -103,7 +109,8 @@ public class InitDataConfig implements CommandLineRunner {
 					.voornaam("firstname")
 	                .email("admin@mail.com")
 	                .rol(Rol.ADMIN)
-	                .wachtwoord(encoder.encode("admin123"))
+	                .wachtwoord(adminPsw)
+	                .bevestigWachtwoord(adminPsw)
 	                .build();
 	        
 		List<Gebruiker> userList =  Arrays.asList(admin, user);

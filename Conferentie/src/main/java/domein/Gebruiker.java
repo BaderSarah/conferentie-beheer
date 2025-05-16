@@ -17,6 +17,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 
 import lombok.AccessLevel;
@@ -28,6 +29,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import util.Rol;
+import validator.ValidEmail;
+import validator.ValidPasswords;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -35,6 +38,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Entity
 @Data
 @Builder
+@ValidPasswords
 @AllArgsConstructor
 @NoArgsConstructor // (access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "email")
@@ -61,17 +65,23 @@ public class Gebruiker implements Serializable {
     private String voornaam;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private Rol rol;
 
     @NotNull(message = "{gebruiker.err.email.notblank}")
     @Email(message = "{gebruiker.err.email.pattern}")
     @Column(nullable = false, unique = true)
+    @ValidEmail
     private String email;
 
+//    @Size(min = 4, max = 20)
     @NotBlank(message = "{gebruiker.err.password.notblank}")
     @Column(nullable = false)
     private String wachtwoord;
+    
+    @Transient
+    @NotBlank
+    private String bevestigWachtwoord;
 
     @Setter(AccessLevel.PROTECTED)
     @ManyToMany
