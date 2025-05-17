@@ -13,6 +13,8 @@
 	<div class="page">
 	
 	<h1 th:text="#{rooms.title}">Add a room</h1>
+	<div th:if="${msg}" class="msg-completion" th:text="${msg}"></div>
+
 	<form class="form" th:action="@{/rooms}" th:object="${lokaal}" method="post">
 
 		<label th:text="#{rooms.form.name}" for="naam"><p style="display: inline;">Name of the room </p><p id="star">*</p></label>

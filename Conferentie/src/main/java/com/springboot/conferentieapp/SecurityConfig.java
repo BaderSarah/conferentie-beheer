@@ -29,10 +29,10 @@ public class SecurityConfig{
         http
             .csrf(csrf -> csrf.csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login**", "/registration**", 
-                		"/events**", "/css/**", "/images/**", 
-                		"/i18n/**").permitAll()
-                .requestMatchers("/speakers/**", "/rooms/**", "/events/new**").hasRole("ADMIN")
+                .requestMatchers("/login**","/fragments/**", "/i18n/**", "/registration**", 
+                		"/events**", "/css/**", "/images/**").permitAll()
+                .requestMatchers("/speakers**", "/speakers/**", "/rooms/**", "/events/new**", 
+                		"/events/**").hasRole("ADMIN")
                 .requestMatchers("/events/**").hasRole("USER")
                 .anyRequest().authenticated()
             )

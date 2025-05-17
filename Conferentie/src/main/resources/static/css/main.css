@@ -16,6 +16,8 @@ button {
 #star {
 	color: #dc0000;
 	display: inline;
+	margin-left: 20px; 
+	margin-right: 20px; 
 }
 
 .page {
@@ -55,6 +57,9 @@ button {
 	label {
 		padding-bottom: 10px;
 		padding-top: 20px;
+		
+		margin-left: 20px; 
+		margin-right: 20px; 
 	}
 	
 	width: 100%;
@@ -68,19 +73,25 @@ button {
 		min-width: 220px;
 
 		max-height: 40px;
-		max-width: 500px;
+		max-width: 700px;
 
 		/* style */
 		padding: 2px;
 		padding-left: 10px;
 		border: 1.2px solid #000115;
 		border-radius: 2px;
+		
+		margin-left: 20px; 
+		margin-right: 20px; 
 	}
 
 	textarea {
 		padding: 5px;
 		max-height: 100px;
 		height: 70px;
+		
+		margin-left: 20px; 
+		margin-right: 20px; 
 	}
 
 	button {
@@ -120,13 +131,6 @@ button {
 	gap: 15px;
 	width: 100%;
 	margin: 0px; 
-	
-	input,
-	textarea,
-	select{
-		margin-left: 20px; 
-		margin-right: 20px; 
-	}
 }
 
 #registreer-form {
@@ -450,7 +454,7 @@ button {
     border-color: #ebccd1;
 }
 
-.msg-login {
+.msg-login, .msg-completion  {
     padding: 15px;
 	margin: 20px; 
     border: 1px solid transparent;
@@ -459,3 +463,14 @@ button {
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
+
+.msg-completion{
+	color: #318f50;
+	background-color: #d9f7e4;
+	border-color: #bcf1ce;
+	margin-bottom: 5px;
+	margin-top: 5px;
+
+} 
+
+

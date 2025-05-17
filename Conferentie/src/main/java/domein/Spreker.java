@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import validator.ValidEmail;
 
 @Entity
 @Table(name = "spreker")
@@ -38,10 +39,11 @@ public class Spreker implements Serializable {
 	private String voornaam;
 
 	@Getter
-	@NotNull(message = "{spreker.err.email.notblank}")
-	@Email(message = "{spreker.err.email.pattern}")
-	@Column(unique=true)
+	@NotBlank(message = "{spreker.err.email.notblank}") 
+	@Email(message = "{spreker.err.email.pattern}") 
+	@Column(unique = true)
 	private String email;
+
 
 	public Spreker(String naam, String voornaam, String email) {
 		this.naam = naam;
