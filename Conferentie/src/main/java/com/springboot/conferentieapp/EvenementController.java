@@ -1,5 +1,6 @@
 package com.springboot.conferentieapp;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class EvenementController {
 	
 	@GetMapping 
 	public String showEventsList(Model model) {	
-		model.addAttribute("evenementen", evenementRepo.findAll()); 
+		List<Evenement> lijst = evenementRepo.findAllByOrderByDatumAscBegintijdstipAsc();
+	    model.addAttribute("evenementen", lijst);
 		
 		log.info("GET /events");
 		return "EvenementListView"; 

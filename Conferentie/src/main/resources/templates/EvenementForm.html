@@ -41,7 +41,6 @@
 				<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error"
 					th:errors="*{eindtijdstip}"></span>
 
-
 				<label for="beamercode"><p th:text="#{eventsform.form.beamerCode}" style="display: inline;">Projector code (4 digits) </p><p id="star">*</p></label>
 				<input type="text" id="beamercode" th:field="*{beamercode}">
 				<span th:if="${#fields.hasErrors('beamercode')}" th:errorclass="error" th:errors="*{beamercode}"></span>
@@ -67,10 +66,6 @@
 
 				<label for="lokaal"><p  th:text="#{eventsform.form.room}" style="display: inline;">Room </p><p id="star">*</p></label>
 				<select id="lokaal" th:field="*{lokaal}">
-					<!--<option value="">-- Kies een bestaand lokaal --</option>
-					<option value="A101">A101</option>
-					<option value="B202">B202</option>
-					<option value="C303">C303</option>-->
 					<option th:each="lokaal : ${lokaalLijst}"
 							               th:value="${lokaal}"
 							               th:text="${lokaal.naam}">

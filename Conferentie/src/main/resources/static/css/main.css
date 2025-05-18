@@ -27,15 +27,19 @@ button {
 	justify-self: center;
 	
 	margin-top: 15px; 
-	min-height: 100vh;
+	min-height: 90vh;
 	min-width: 500px;
 	width: auto;
 
 	h1 {
 		text-align: center;
-		margin-top: 45px;
+		margin-top: 40px;
 		margin-bottom: 15px;
 	}
+}
+
+.login-page{
+	justify-content: center;
 }
 
 .error-page{
@@ -56,10 +60,8 @@ button {
 
 	label {
 		padding-bottom: 10px;
-		padding-top: 20px;
-		
+		padding-top: 10px;
 		margin-left: 20px; 
-		margin-right: 20px; 
 	}
 	
 	width: 100%;
@@ -148,7 +150,7 @@ button {
 	margin: 30px;
 
 	min-height: 200px;
-	max-height: 400px;
+	max-height: 300px;
 
 	min-width: 430px;
 	width: 435px;
@@ -274,6 +276,10 @@ button {
 	margin-bottom: -10px;
 }
 
+#add-spreker, #add-lokaal{
+	margin-top: 20px;
+}
+
 /** event form **/
 
 .sidebar-eventform{
@@ -282,7 +288,6 @@ button {
 	flex-direction: row;
 	justify-self: center;
 	margin-right: -112px;
-
 }
 
 .add-buttons{
@@ -292,8 +297,8 @@ button {
 	gap: 30px;
 	margin-bottom: 82.5px;
 	margin-right: -112px;
+	margin-left: -10px; 
 	position: sticky;
-
 }
 
 /** navagation bar **/
@@ -369,6 +374,18 @@ button {
 	padding: 0;
 }
 
+.right-part-nav{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+#name p{
+	font-size: 10pt;
+	font-weight: bold;
+	margin-top: 11px;
+}
+
 /** footer **/
 
 .site-footer {
@@ -394,6 +411,11 @@ button {
 
 .site-footer a:hover {
 	text-decoration: underline;
+}
+
+#conference-date{
+	font-style: italic;
+	letter-spacing: 1px;
 }
 
 /** Heart toggle on evenement view**/

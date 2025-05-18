@@ -1,6 +1,9 @@
 package com.springboot.conferentieapp;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,9 @@ public class SprekerController {
 	@Autowired
 	private SprekerRepository repository; 
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	@GetMapping       
 	public String redirectToForm() {
 	    return "redirect:/speakers/new";
@@ -40,7 +46,8 @@ public class SprekerController {
 	public String handleCreateSpreker(
 	        @Valid Spreker spreker,
 	        BindingResult bindingResult,
-	        Model model) {
+	        Model model,
+	        Locale locale) {
 
 	    if (!bindingResult.hasFieldErrors("email") 
 	        && repository.existsByEmail(spreker.getEmail())) {
@@ -65,8 +72,12 @@ public class SprekerController {
 	        return "SprekerForm";
 	    }
 
-	    String msg = String.format("Spreker met email '%s' werd toegevoegd.",
-                spreker.getEmail());
+	    
+	    String msg = messageSource.getMessage(
+	            "spreker.success",
+	            new Object[]{spreker.getEmail()},
+	            locale
+	        );
 
 		model.addAttribute("msg", msg);
 		model.addAttribute("spreker", new Spreker());

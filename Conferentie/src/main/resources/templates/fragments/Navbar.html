@@ -27,8 +27,9 @@
 	                </li>
 	            </div>
 				
+				<div class="right-part-nav">
 				<li id="name" sec:authorize="isAuthenticated()">
-					<p th:text="|Hello, ${#authentication.name}(${#strings.toLowerCase(#strings.substringAfter(#authentication.authorities.iterator().next(), 'ROLE_'))})!|"></p>
+					<p th:text="|Hello, ${#strings.toLowerCase(#strings.substringAfter(#authentication.authorities.iterator().next(), 'ROLE_'))}!|"></p>
 				</li>
   
 	            <li id="logout" sec:authorize="isAuthenticated()">
@@ -41,10 +42,10 @@
 	            <li id="login" sec:authorize="isAnonymous()">
 	                <a th:text="#{menubar.link.login}" th:href="@{/login}">Login</a>
 	            </li>
+				</div>
 	        </ul>
 	    </nav>
 	</div>
-
 
 </body>
 

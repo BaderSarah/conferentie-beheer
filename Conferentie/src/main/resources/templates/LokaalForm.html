@@ -25,8 +25,7 @@
 		<input type="number" id="capaciteit" th:field="*{capaciteit}">
 		<span th:if="${#fields.hasErrors('capaciteit')}" th:errorclass="error" th:errors="*{capaciteit}"></span>
 
-		<br><br>
-		<button th:text="#{rooms.form.btn}" type="submit">Add</button>
+		<button id="add-lokaal" th:text="#{rooms.form.btn}" type="submit">Add</button>
 	</form>
 	
 	</div>

@@ -29,8 +29,7 @@
 		<input type="text" id="email" th:field="*{email}">
 		<span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
 				
-		<br><br>
-		<button th:text="#{speakers.form.btn}" type="submit">Add</button>
+		<button id="add-spreker" th:text="#{speakers.form.btn}" type="submit">Add</button>
 	</form>
 	
 	</div>

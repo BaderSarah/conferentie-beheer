@@ -83,9 +83,52 @@ public class InitDataConfig implements CommandLineRunner {
                 b202,
                 Set.of(ines)
         );
+        
+        Evenement event3 = new Evenement(
+                "Data Science Workshop",
+                "Hands-on workshop over data-analyse technieken",
+                3456,
+                15,
+                49.99,
+                LocalDate.of(2025, 5, 10),
+                LocalTime.of(10, 0),
+                LocalTime.of(13, 0),
+                a101,
+                Set.of(eva)
+        );
+
+        Evenement event4 = new Evenement(
+                "Advanced AI Models",
+                "Diepgaande sessie over neurale netwerken",
+                4567,
+                25,
+                59.99,
+                LocalDate.of(2025, 5, 15),
+                LocalTime.of(14, 30),
+                LocalTime.of(17, 0),
+                b202,
+                Set.of(tom)
+        );
+
+        Evenement event5 = new Evenement(
+                "Cybersecurity Advanced",
+                "Verdieping in cybersecurity technieken en tools",
+                5678,
+                10,
+                39.99,
+                LocalDate.of(2025, 5, 20),
+                LocalTime.of(9, 30),
+                LocalTime.of(12, 30),
+                a101,
+                Set.of(ines, eva)
+        );
+
 
         eventRepo.save(event1);
         eventRepo.save(event2);
+        eventRepo.save(event3);
+        eventRepo.save(event4);
+        eventRepo.save(event5);
 
         // users
         
