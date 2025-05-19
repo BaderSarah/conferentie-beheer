@@ -15,8 +15,20 @@
 	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
 
 		<div sec:authorize="hasRole('USER')" class="role-btn">
-		    <input type="checkbox" id="heart-toggle" class="heart-checkbox" />
-		    <label for="heart-toggle" class="heart-label"></label>
+			<th:block th:with="isFav=${favorieten.contains(evenement)}">
+			    <form th:if="${isFav}"
+			          th:action="@{/events/{id}/unfavourite(id=${evenement.id})}"
+			          method="post" class="fav-form">
+			        <button type="submit" class="heart-btn filled" title="Verwijder uit favorieten"></button>
+			    </form>
+
+			    <form th:if="${!isFav}"
+			          th:action="@{/events/{id}/favourite(id=${evenement.id})}"
+			          method="post" class="fav-form">
+			        <button type="submit" class="heart-btn" title="Voeg toe aan favorieten"></button>
+			    </form>
+			</th:block>
+
 		</div>
 
 		<div style="margin-top: 0px;">
@@ -43,6 +55,11 @@
 			<p style="display: inline;margin-left: 10px;" th:text="${evenement.lokaal.naam}"></p>
 		</div>
 
+		<div style="margin-top: 20px;">
+					<h3 th:text="#{eventsdetails.room.capacity}" style="display: inline;">Capacity:</h3>
+					<p style="display: inline;margin-left: 10px;" th:text="${evenement.lokaal.capaciteit}"></p>
+	   </div>
+		
 		<div style="margin-top: 20px;">
 			<h3 th:text="#{eventsdetails.date}" style="display: inline;">Date:</h3>
 			<p style="display: inline;margin-left: 10px;" th:text="${#temporals.format(evenement.datum, 'dd/MM/yyyy')}"></p>

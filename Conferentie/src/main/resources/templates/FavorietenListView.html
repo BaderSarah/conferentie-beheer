@@ -29,74 +29,39 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>AI in de Praktijk</td>
-						<td>
-							<ul>
-								<li>Dr. Eva Janssens</li>
-								<li>Tom De Wilde</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-04-20</td>
-						<td>14:00</td>
-						<td>16:00</td>
-						<td>
-							<form th:action="@{/}" method="get" style="display:inline;">
-								<button type="submit" title="Verwijder uit favorieten"
-									style="background:none; border:none;">
-									<img src="/images/trash-icon.svg" alt="Verwijder"
-									style="width: 30px; height: 30px; margin-right: -7px;">
-								</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Cybersecurity Basics</td>
-						<td>
-							<ul>
-								<li>Ines Peeters</li>
-							</ul>
-						</td>
-						<td>B202</td>
-						<td>2025-05-03</td>
-						<td>8:00</td>
-						<td>12:00</td>
-						<td>
-							<form th:action="@{/}" method="get" style="display:inline;">
-								<button type="submit" title="Verwijder uit favorieten"
-									style="background:none; border:none;">
-									<img src="/images/trash-icon.svg" alt="Verwijder"
-										style="width: 30px; height: 30px; margin-right: -7px;">
-								</button>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td>Green Tech Talks</td>
-						<td>
-							<ul>
-								<li>Sarah Vermeer</li>
-							</ul>
-						</td>
-						<td>A101</td>
-						<td>2025-05-15</td>
-						<td>20:00</td>
-						<td>23:00</td>
-						<td>
-							<form th:action="@{/}" method="get" style="display:inline;">
-								<button type="submit" title="Verwijder uit favorieten"
-									style="background:none; border:none;">
-									<img src="/images/trash-icon.svg" alt="Verwijder"
-									style="width: 30px; height: 30px; margin-right: -7px;">
-								</button>
-							</form>
-						</td>
-					</tr>
+				<tr th:each="ev : ${favorieten}">
+				    <td th:text="${ev.naam}">naam</td>
+				    <td>
+				        <ul>
+				            <li th:each="sp : ${ev.sprekers}"
+				                th:text="${sp.voornaam + ' ' + sp.naam}"></li>
+				        </ul>
+				    </td>
+				    <td th:text="${ev.lokaal.naam}">A101</td>
+				    <td th:text="${#temporals.format(ev.datum,'dd/MM/yyyy')}">20-04-2025</td>
+				    <td th:text="${#temporals.format(ev.begintijdstip,'HH:mm')}">14:00</td>
+				    <td th:text="${#temporals.format(ev.eindtijdstip,'HH:mm')}">16:00</td>
+				    <td>
+				        <form th:action="@{/events/{id}/unfavourite(id=${ev.id})}"
+				              method="post" style="display:inline">
+				            <button type="submit" title="Verwijder uit favorieten"
+				                    style="background:none;border:none;">
+				                <img src="/images/trash-icon.svg" alt="Verwijder"
+				                     style="width:30px;height:30px;margin-right:-7px;">
+				            </button>
+				        </form>
+				    </td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
-		<button id="verwijder-alle-favorieten-btn" th:text="#{favourites.button.deleteAll}">Delete all</button>
+		<form th:action="@{/events/favourites/delete-all}" method="post"
+		      style="margin-top:20px;">
+		    <button id="verwijder-alle-favorieten-btn"
+		            th:text="#{favourites.button.deleteAll}">
+		        Delete all
+		    </button>
+		</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}"></div>
 

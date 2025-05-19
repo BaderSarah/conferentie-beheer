@@ -85,27 +85,34 @@ public class ConferentieServiceImpl implements ConferentieService {
     public void deleteSpreker(long id) {
         sprekerRepository.deleteById(id);
     }
+    
+    @Override
+    public Set<Evenement> getFavorieten(long gebruikerId) {
+        Gebruiker g = gebruikerRepository.findById(gebruikerId)
+                          .orElseThrow();    
+        return g.getFavorieteEvenementen();
+    }
 
     @Override
     public void addFavouriteEvent(long eventId, long gebruikerId) {
         Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)
             .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
-
         Evenement evenement = evenementRepository.findById(eventId)
             .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden"));
 
         gebruiker.voegEvenementFavoriet(evenement);
+        gebruikerRepository.save(gebruiker);
     }
 
     @Override
     public void deleteFavouriteEvent(long eventId, long gebruikerId) {
         Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)
             .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
-
         Evenement evenement = evenementRepository.findById(eventId)
             .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden"));
 
         gebruiker.verwijderEvenementFavoriet(evenement);
+        gebruikerRepository.save(gebruiker);
     }
 
     @Override
@@ -114,6 +121,7 @@ public class ConferentieServiceImpl implements ConferentieService {
             .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
 
         gebruiker.verwijderAlleFavorieten();
+        gebruikerRepository.save(gebruiker);
     }
 
 }

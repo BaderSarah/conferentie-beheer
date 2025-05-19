@@ -24,22 +24,16 @@ public class GebruikerDetailsService implements UserDetailsService {
 		@Autowired
 		private GebruikerRepository gebruikerRepo;
 
-		@Override
-	    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		    Optional<Gebruiker> optionalGebruiker = gebruikerRepo.findByEmail(email);
+	    @Override
+	    public UserDetails loadUserByUsername(String email)
+	                       throws UsernameNotFoundException {
 
-		    if (optionalGebruiker.isEmpty()) {
-			      throw new UsernameNotFoundException(email);
-		    }
+	        Gebruiker g = gebruikerRepo.findByEmail(email)
+	                      .orElseThrow(() -> new UsernameNotFoundException(email));
 
-		    Gebruiker gebruiker = optionalGebruiker.get(); 
+	        return new GebruikerDetails(g);
+	    }
 
-		    return new User(
-		        gebruiker.getEmail(),
-		        gebruiker.getWachtwoord(),
-		        convertAuthorities(gebruiker.getRol()) 
-		    );
-		}
 		  
 	    private Collection<? extends GrantedAuthority> convertAuthorities(Rol rol) { 
 			 return Collections.singletonList(

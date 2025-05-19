@@ -58,6 +58,11 @@
 		    </form>
 		</div>
 
+		<div sec:authorize="hasRole('USER')" class="role-btn">
+				    <form th:action="@{/events/favourites}" method="get" class="sub-form">
+				        <button id="maak-event-btn" th:text="#{eventslist.button.favourites}">View Favourites</button>
+				    </form>
+				</div>
     </div>
 
     <div th:replace="~{fragments/footer :: footer}"></div>

@@ -420,6 +420,18 @@ button {
 
 /** Heart toggle on evenement view**/
 
+.heart-btn{
+    border:none;
+    background:url('/images/heart-outline.svg') no-repeat center;
+    width:32px;height:32px;
+    cursor:pointer;
+}
+.heart-btn.filled{
+    background:url('/images/heart-filled.svg') no-repeat center;
+}
+.fav-form{display:inline;}
+
+/*
 .heart-checkbox {
   display: none;
   padding-top: -40px;
@@ -441,19 +453,21 @@ button {
   
   transition: color 0.3s ease;
   align-self: flex-end;
-}
+} 
 
-.heart-label::before {
-  content: "♡"; /* empty heart */
+.heart-label::before { 
+  content: "♡"; 
   font-size: 55px;
-}
+} 
 
 .heart-checkbox:checked + .heart-label::before {
-  content: "♥"; /* full heart */
+  content: "♥"; 
   color: #e60000;
   transition: transform 0.2s ease, color 0.3s ease;
   transform: scale(1.2);
 }
+*/
+ 
 
 /** Evenement view **/
 .evenement-view{

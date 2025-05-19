@@ -1,11 +1,10 @@
 package com.springboot.conferentieapp;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-//import java.util.List;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,124 +12,150 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Evenement;
-import domein.Lokaal;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
 import service.ConferentieService;
+import service.GebruikerDetails;
 
 @Slf4j
 @Controller
 @RequestMapping("/events")
+@RequiredArgsConstructor   
 public class EvenementController {
-	
-	@Autowired
-	private ConferentieService confService; 
-	
-	@Autowired
-	private EvenementRepository evenementRepo; 
-	
-	@Autowired
-	private SprekerRepository sprekerRepo; 
-	
-	@Autowired
-	private LokaalRepository lokaalRepo; 
-	
-	@GetMapping 
-	public String showEventsList(Model model) {	
-		List<Evenement> lijst = evenementRepo.findAllByOrderByDatumAscBegintijdstipAsc();
-	    model.addAttribute("evenementen", lijst);
-		
-		log.info("GET /events");
-		return "EvenementListView"; 
-	}
-	
-	@GetMapping("/new")
-	public String showCreateEventForm(Model model) {
+
+    private final ConferentieService   confService;
+    private final EvenementRepository  evenementRepo;
+    private final SprekerRepository    sprekerRepo;
+    private final LokaalRepository     lokaalRepo;
+
+    @GetMapping
+    public String showEventsList(Model model) {
+        model.addAttribute(
+            "evenementen",
+            evenementRepo.findAllByOrderByDatumAscBegintijdstipAsc()
+        );
+        return "EvenementListView";
+    }
+
+    @GetMapping("/new")
+    public String showCreateEventForm(Model model) {
         model.addAttribute("evenement", new Evenement());
         model.addAttribute("sprekersLijst", sprekerRepo.findAll());
-        model.addAttribute("lokaalLijst", lokaalRepo.findAll());
+        model.addAttribute("lokaalLijst",   lokaalRepo.findAll());
+        return "EvenementForm";
+    }
 
-		
-		log.info("GET /events/new");
-	    return "EvenementForm";
-	}
+    @PostMapping
+    public String handleCreateEvent(@Valid Evenement evenement,
+                                    BindingResult bindingResult) {
 
-	@PostMapping
-	public String handleCreateEvent(
-	        @Valid Evenement evenement,
-	        BindingResult bindingResult,
-	        Model model) {
+        if (bindingResult.hasErrors()) {
+            return "EvenementForm";
+        }
+        confService.createEvenement(evenement);
+        return "redirect:/events";
+    }
 
-	    log.info("POST /events");
-	    log.info("" + bindingResult.getFieldErrorCount() + " fouten bij POST /events"); 
+    @GetMapping("/{id}")
+    public String eventDetails(@PathVariable long id, Model model, Authentication auth) {
+        return evenementRepo.findById(id)
+            .map(e -> {
+                model.addAttribute("evenement", e);
 
-	    if (bindingResult.hasErrors()) {
-	        log.warn("Evenement formulier bevat fouten");
-	        return "EvenementForm"; 
-	    } 
-	    
-	    confService.createEvenement(evenement); 
+                GebruikerDetails user = currentUser(auth);
+                Set<Evenement> favorieten = (user == null)
+                    ? Set.of()
+                    : confService.getFavorieten(user.getGebruiker().getId());
+                model.addAttribute("favorieten", favorieten);
 
-	    return "EvenementListView";
-	}
-	
+                return "EvenementView";
+            })
+            .orElseGet(() -> "redirect:/events");
+    }
 
-	 @GetMapping("/{id}")
-	 public String eventDetails(@PathVariable long id, Model model) {
-	     Optional<Evenement> optionalEvenement = evenementRepo.findById(id);
-		 log.info("GET /events/${:id}"); 
-	     
-	     if (optionalEvenement.isPresent()) {
-	    	 
-	         model.addAttribute("evenement", optionalEvenement.get());
-	         log.info("events/${:id} -> event gevonden" + optionalEvenement.get()); 
-	         return "EvenementView";
-	     } else {
-	    	 
-	    	 log.error("events/${:id} -> geen event gevonden"); 
-	         return "redirect:/events"; 
-	     }
-	 }
 
-		@GetMapping("/favourites")
-		public String showFavourites(Model model) {
-			log.info("GET /events/favourites");
-			return "FavorietenListView"; 
-		}
-	
-//		@GetMapping("/favourites")
-//		public String showFavourites(Model model, @AuthenticationPrincipal Gebruiker gebruiker) {
-//		    model.addAttribute("favorieten", gebruiker.getFavorieteEvenementen());
-//		    return "FavorietenListView";
-//		}
-//
-//		@PostMapping("/{id}/favourite")
-//		public String addToFavourites(@PathVariable long id, @AuthenticationPrincipal Gebruiker gebruiker, RedirectAttributes redirectAttributes) {
-//		    try {
-//		        confService.addFavouriteEvent(id, gebruiker.getId());
-//		        redirectAttributes.addFlashAttribute("success", "Evenement toegevoegd aan je favorieten.");
-//		    } catch (Exception e) {
-//		        redirectAttributes.addFlashAttribute("error", e.getMessage());
-//		    }
-//		    return "redirect:/events/" + id;
-//		}
-//
-//		@PostMapping("/{id}/unfavourite")
-//		public String removeFromFavourites(@PathVariable long id, @AuthenticationPrincipal Gebruiker gebruiker, RedirectAttributes redirectAttributes) {
-//		    try {
-//		        confService.deleteFavouriteEvent(id, gebruiker.getId());
-//		        redirectAttributes.addFlashAttribute("success", "Evenement verwijderd uit je favorieten.");
-//		    } catch (Exception e) {
-//		        redirectAttributes.addFlashAttribute("error", e.getMessage());
-//		    }
-//		    return "redirect:/events/" + id;
-//		}
+    private GebruikerDetails currentUser(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated()
+            || auth instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        return (GebruikerDetails) auth.getPrincipal();
+    }
 
+    @GetMapping("/favourites")
+    public String showFavourites(Model model, Authentication auth) {
+
+        GebruikerDetails user = currentUser(auth);
+
+        model.addAttribute("favorieten",
+            user == null
+              ? List.of() 
+              : confService.getFavorieten(user.getGebruiker().getId())
+        );
+        return "FavorietenListView";
+    }
+
+    @PostMapping("/favourites/delete-all")
+    public String deleteAllFavourites(Authentication auth,
+                                      RedirectAttributes ra) {
+
+        GebruikerDetails user = currentUser(auth);
+        if (user == null) {
+            ra.addFlashAttribute("error",
+                   "Je moet ingelogd zijn om favorieten te beheren.");
+        } else {
+            confService.deleteAllFavouriteEvents(user.getGebruiker().getId());
+            ra.addFlashAttribute("success", "Alle favorieten verwijderd.");
+        }
+        return "redirect:/events/favourites";
+    }
+
+    @PostMapping("/{id}/favourite")
+    public String addToFavourites(@PathVariable long id,
+                                  Authentication auth,
+                                  RedirectAttributes ra) {
+
+        GebruikerDetails user = currentUser(auth);
+        if (user == null) {
+            ra.addFlashAttribute("error", "Log in om een favoriet toe te voegen.");
+        } else {
+            try {
+                confService.addFavouriteEvent(id, user.getGebruiker().getId());
+                ra.addFlashAttribute("success",
+                        "Evenement toegevoegd aan je favorieten.");
+            } catch (Exception ex) {
+                ra.addFlashAttribute("error", ex.getMessage());
+            }
+        }
+        return "redirect:/events/" + id;
+    }
+
+    @PostMapping("/{id}/unfavourite")
+    public String removeFromFavourites(@PathVariable long id,
+                                       Authentication auth,
+                                       RedirectAttributes ra) {
+
+        GebruikerDetails user = currentUser(auth);
+        if (user == null) {
+            ra.addFlashAttribute("error", "Log in om een favoriet te verwijderen.");
+        } else {
+            try {
+                confService.deleteFavouriteEvent(id, user.getGebruiker().getId());
+                ra.addFlashAttribute("success",
+                        "Evenement verwijderd uit je favorieten.");
+            } catch (Exception ex) {
+                ra.addFlashAttribute("error", ex.getMessage());
+            }
+        }
+        return "redirect:/events/" + id;
+    }
 }
+
