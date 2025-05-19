@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Evenement;
+import exception.MaxFavouritesReachedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -121,10 +122,10 @@ public class EvenementController {
         GebruikerDetails user = currentUser(auth);
         if (user == null) {
             ra.addFlashAttribute("error",
-                   "Je moet ingelogd zijn om favorieten te beheren.");
+                   "You have to be logged in to change your favourites.");
         } else {
             confService.deleteAllFavouriteEvents(user.getGebruiker().getId());
-            ra.addFlashAttribute("success", "Alle favorieten verwijderd.");
+            ra.addFlashAttribute("success", "All favourites are deleted.");
         }
         
 	    log.info("USER deleted all favourites");
@@ -139,22 +140,23 @@ public class EvenementController {
 
         GebruikerDetails user = currentUser(auth);
         if (user == null) {
-            ra.addFlashAttribute("error", "Log in om een favoriet toe te voegen.");
+            ra.addFlashAttribute("error", "Login to add a favourite.");
         } else {
             try {
                 confService.addFavouriteEvent(id, user.getGebruiker().getId());
                 ra.addFlashAttribute("success",
-                        "Evenement toegevoegd aan je favorieten.");
-                
-                log.info("USER added a event to favourites");
+                        "Event added to favourites.");
+                log.info("USER added an event to favourites");
+            } catch (MaxFavouritesReachedException ex) {
+            	ra.addFlashAttribute("favLimitMsgKey", "flash.limitReached");
+                log.info("USER reached favourites limit");
             } catch (Exception ex) {
                 ra.addFlashAttribute("error", ex.getMessage());
-
             }
         }
-        
         return "redirect:/events/" + id;
     }
+
 
     @PostMapping("/{id}/unfavourite")
     public String removeFromFavourites(@PathVariable long id,
@@ -163,12 +165,12 @@ public class EvenementController {
 
         GebruikerDetails user = currentUser(auth);
         if (user == null) {
-            ra.addFlashAttribute("error", "Log in om een favoriet te verwijderen.");
+            ra.addFlashAttribute("error", "Login to delete a favourite.");
         } else {
             try {
                 confService.deleteFavouriteEvent(id, user.getGebruiker().getId());
                 ra.addFlashAttribute("success",
-                        "Evenement verwijderd uit je favorieten.");
+                        "Event deleted from favourites.");
             } catch (Exception ex) {
                 ra.addFlashAttribute("error", ex.getMessage());
             }

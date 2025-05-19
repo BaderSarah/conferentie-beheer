@@ -39,9 +39,16 @@
                             </ul>
                         </td>
                         <td th:text="${evenement.lokaal.naam}">Room</td>
-                        <td th:text="${evenement.datum}">2025-04-20</td>
-                        <td th:text="${evenement.begintijdstip}">14:00</td>
-                        <td th:text="${evenement.eindtijdstip}">16:00</td>
+						<td th:text="${#temporals.format(evenement.datum,        'dd/MM/yyyy')}">
+						    20-04-2025
+						</td>
+						<td th:text="${#temporals.format(evenement.begintijdstip, 'HH:mm')}">
+						    14:00
+						</td>
+						<td th:text="${#temporals.format(evenement.eindtijdstip,  'HH:mm')}">
+						    16:00
+						</td>
+
                         <td>
 							<a th:href="@{/events/{id}(id=${evenement.id})}" class="bekijk-col">
 							    <button id="bekijk-btn" th:text="#{eventslist.table.btnView}">view</button>

@@ -4,6 +4,7 @@ import domein.Evenement;
 import domein.Gebruiker;
 import domein.Lokaal;
 import domein.Spreker;
+import exception.MaxFavouritesReachedException;
 import lombok.RequiredArgsConstructor;
 import repository.EvenementRepository;
 import repository.GebruikerRepository;
@@ -78,22 +79,29 @@ public class ConferentieServiceImpl implements ConferentieService {
     public Set<Evenement> getFavorieten(long gebruikerId) {
         Gebruiker g = gebruikerRepository.findById(gebruikerId)
             .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
-        g.getFavorieteEvenementen().size();  // om lazy loading te forceren
+        g.getFavorieteEvenementen().size();  
         return g.getFavorieteEvenementen();
     }
+    
+    public static final int MAX_FAVS = 5;  
 
-    @Override
-    public void addFavouriteEvent(long eventId, long gebruikerId) {
-        Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)
-            .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
-        Evenement evenement = evenementRepository.findById(eventId)
-            .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden"));
 
-        gebruiker.voegEvenementFavoriet(evenement);
-        gebruikerRepository.save(gebruiker);
-        gebruikerRepository.flush();
-    }
-
+	@Override
+	public void addFavouriteEvent(long eventId, long gebruikerId) {
+	    Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)
+	        .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
+	    Evenement evenement = evenementRepository.findById(eventId)
+	        .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden"));
+	
+	    if (gebruiker.getFavorieteEvenementen().size() >= MAX_FAVS &&
+	        !gebruiker.getFavorieteEvenementen().contains(evenement)) {
+	
+	        throw new MaxFavouritesReachedException();   // ← eigen runtime-exception
+	    }
+	
+	    gebruiker.voegEvenementFavoriet(evenement);
+	    gebruikerRepository.saveAndFlush(gebruiker);
+	}
     @Override
     public void deleteFavouriteEvent(long eventId, long gebruikerId) {
         Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)

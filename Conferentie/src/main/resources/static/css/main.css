@@ -192,10 +192,6 @@ button {
 	}
 }
 
-.favorieten-table {
-	min-height: 100px;
-	max-height: 500px;
-}
 
 /** buttons **/
 
@@ -237,6 +233,7 @@ button {
 .role-btn{
 	align-self: self-end;
 }
+
 #bekijk-btn:hover {
 	border: 2px solid #0060bd;
 	background-color: white;
@@ -456,6 +453,12 @@ button {
     outline-offset: 2px;
 }
 
+.role-heart-div{
+	display: flex;
+	flex-direction: column;
+	justify-content: right;
+}
+
 /** Evenement view **/
 .evenement-view{
 	padding-top: 20px;
@@ -496,4 +499,10 @@ button {
 
 } 
 
+.fav-limit-msg{
+    margin-top:4px;
+    font-size:0.9rem;
+    color:red;   
+    font-weight:600;
+}
 

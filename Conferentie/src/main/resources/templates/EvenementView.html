@@ -14,28 +14,33 @@
 
 	<div class="page evenement-view" style="margin: 30px;max-width: 750px;">
 
-		<div sec:authorize="hasRole('USER')" class="role-btn">
-			<th:block th:with="isFav=${favorieten.contains(evenement)}">
-			    <form th:if="${isFav}"
-			          th:action="@{/events/{id}/unfavourite(id=${evenement.id})}"
-			          method="post" class="fav-form">
-					  <input type="hidden"
-					         th:name="${_csrf.parameterName}"
-					         th:value="${_csrf.token}" />
-			        <button type="submit" class="heart-btn filled" title="Verwijder uit favorieten"></button>
-			    </form>
+		<div sec:authorize="hasRole('USER')" class="role-btn role-heart-div">
+		    <th:block th:with="isFav=${favorieten.contains(evenement)}">
+				<p class="fav-limit-msg" th:if="${favLimitMsgKey}"
+				   th:text="#{${favLimitMsgKey}}"></p>    
+			
+			<form th:if="${isFav}"
+		              th:action="@{/events/{id}/unfavourite(id=${evenement.id})}"
+		              method="post" class="fav-form">
+		            <input type="hidden" th:name="${_csrf.parameterName}"
+		                                 th:value="${_csrf.token}" />
+		            <button type="submit" class="heart-btn filled"
+		                    title="Verwijder uit favorieten"></button>
+		        </form>
 
-			    <form th:if="${!isFav}"
-			          th:action="@{/events/{id}/favourite(id=${evenement.id})}"
-			          method="post" class="fav-form">
-					  <input type="hidden"
-					         th:name="${_csrf.parameterName}"
-					         th:value="${_csrf.token}" />
-			        <button type="submit" class="heart-btn" title="Voeg toe aan favorieten"></button>
-			    </form>
-			</th:block>
+		        <form th:if="${!isFav}"
+		              th:action="@{/events/{id}/favourite(id=${evenement.id})}"
+		              method="post" class="fav-form">
+		            <input type="hidden" th:name="${_csrf.parameterName}"
+		                                 th:value="${_csrf.token}" />
+		            <button type="submit" class="heart-btn"
+		                    title="Voeg toe aan favorieten"></button>
+		        </form>
 
+				
+		    </th:block>
 		</div>
+
 
 		<div style="margin-top: 0px;">
 			<h2 th:text="#{eventsdetails.title}" style="display: inline;">Name of event: </h2>
