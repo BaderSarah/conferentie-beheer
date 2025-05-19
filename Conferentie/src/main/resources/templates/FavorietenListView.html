@@ -56,7 +56,11 @@
 			</table>
 		</div>
 		<form th:action="@{/events/favourites/delete-all}" method="post"
-		      style="margin-top:20px;">
+		      class="btn-delete-favourites-form">
+			  <input type="hidden"
+			         th:name="${_csrf.parameterName}"
+			         th:value="${_csrf.token}" />
+
 		    <button id="verwijder-alle-favorieten-btn"
 		            th:text="#{favourites.button.deleteAll}">
 		        Delete all

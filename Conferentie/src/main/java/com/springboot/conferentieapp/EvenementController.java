@@ -42,6 +42,9 @@ public class EvenementController {
             "evenementen",
             evenementRepo.findAllByOrderByDatumAscBegintijdstipAsc()
         );
+        
+	    log.info("GET /events");
+
         return "EvenementListView";
     }
 
@@ -50,6 +53,9 @@ public class EvenementController {
         model.addAttribute("evenement", new Evenement());
         model.addAttribute("sprekersLijst", sprekerRepo.findAll());
         model.addAttribute("lokaalLijst",   lokaalRepo.findAll());
+        
+	    log.info("GET /events/new");
+        
         return "EvenementForm";
     }
 
@@ -75,7 +81,9 @@ public class EvenementController {
                     ? Set.of()
                     : confService.getFavorieten(user.getGebruiker().getId());
                 model.addAttribute("favorieten", favorieten);
-
+                
+                log.info("GET /events/{}", id);
+                log.info("favorieten: {}", favorieten);
                 return "EvenementView";
             })
             .orElseGet(() -> "redirect:/events");
@@ -100,6 +108,9 @@ public class EvenementController {
               ? List.of() 
               : confService.getFavorieten(user.getGebruiker().getId())
         );
+        
+	    log.info("GET /events/favourites");
+        
         return "FavorietenListView";
     }
 
@@ -115,6 +126,9 @@ public class EvenementController {
             confService.deleteAllFavouriteEvents(user.getGebruiker().getId());
             ra.addFlashAttribute("success", "Alle favorieten verwijderd.");
         }
+        
+	    log.info("USER deleted all favourites");
+        
         return "redirect:/events/favourites";
     }
 
@@ -131,10 +145,14 @@ public class EvenementController {
                 confService.addFavouriteEvent(id, user.getGebruiker().getId());
                 ra.addFlashAttribute("success",
                         "Evenement toegevoegd aan je favorieten.");
+                
+                log.info("USER added a event to favourites");
             } catch (Exception ex) {
                 ra.addFlashAttribute("error", ex.getMessage());
+
             }
         }
+        
         return "redirect:/events/" + id;
     }
 
@@ -155,6 +173,9 @@ public class EvenementController {
                 ra.addFlashAttribute("error", ex.getMessage());
             }
         }
+        
+	    log.info("USER removed a event to favourites");
+        
         return "redirect:/events/" + id;
     }
 }

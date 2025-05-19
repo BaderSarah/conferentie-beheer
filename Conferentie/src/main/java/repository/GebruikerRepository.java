@@ -3,6 +3,7 @@ package repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,11 +27,6 @@ public interface GebruikerRepository extends JpaRepository<Gebruiker, Long> {
      List<Evenement> findSortedFavouritesByGebruikerId(@Param("gebruikerId") long gebruikerId);
 
 
-//     @Query("""
-//    		  select g from Gebruiker g
-//    		  left join fetch g.favorieteEvenementen fe
-//    		  where g.id = :id
-//    		  order by fe.datum asc, fe.begintijdstip asc
-//    		""")
-//    Optional<Gebruiker> findWithFavouritesSorted(long id);
+    @EntityGraph(attributePaths = "favorieteEvenementen")
+    Optional<Gebruiker> findWithFavorietenById(Long id);
 }

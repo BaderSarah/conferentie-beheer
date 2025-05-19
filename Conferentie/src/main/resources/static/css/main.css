@@ -247,6 +247,12 @@ button {
 	background-color: #c21320;
 }
 
+.btn-delete-favourites-form{
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+}
+
 #login-btn {
 	margin-bottom: 0px;
 	margin-top: 20px;
@@ -418,56 +424,37 @@ button {
 	letter-spacing: 1px;
 }
 
-/** Heart toggle on evenement view**/
-
-.heart-btn{
-    border:none;
-    background:url('/images/heart-outline.svg') no-repeat center;
-    width:32px;height:32px;
-    cursor:pointer;
-}
-.heart-btn.filled{
-    background:url('/images/heart-filled.svg') no-repeat center;
-}
-.fav-form{display:inline;}
-
-/*
-.heart-checkbox {
-  display: none;
-  padding-top: -40px;
-  margin-bottom: -50px;
-  height: 40px;
-  width: 80px;
-  
-  align-self: flex-end;
+.heart-btn {
+    appearance: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 50px;          /* grootte */
+    line-height: 0.75;
+    transition: transform 0.15s ease;
 }
 
-.heart-label {
- 
-  margin-right: 15px;
-  margin-bottom: -50px;
-  
-  cursor: pointer;
-  font-size: 55px;
-  color: #999;
-  
-  transition: color 0.3s ease;
-  align-self: flex-end;
-} 
-
-.heart-label::before { 
-  content: "♡"; 
-  font-size: 55px;
-} 
-
-.heart-checkbox:checked + .heart-label::before {
-  content: "♥"; 
-  color: #e60000;
-  transition: transform 0.2s ease, color 0.3s ease;
-  transform: scale(1.2);
+.heart-btn::before {
+    content: "\2661";
+    color: #666; 
 }
-*/
- 
+
+.heart-btn.filled::before {
+    content: "\2764";  
+    color: #e0245e; 
+    font-weight: 600;  
+    text-shadow: 1px 1px 0 #b91c3a; 
+}
+
+.heart-btn:hover,
+.heart-btn:focus {
+    transform: scale(1.15);
+}
+
+.heart-btn:focus-visible {
+    outline: 2px solid #e0245e;
+    outline-offset: 2px;
+}
 
 /** Evenement view **/
 .evenement-view{

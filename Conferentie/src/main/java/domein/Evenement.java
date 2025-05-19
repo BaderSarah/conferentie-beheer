@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,7 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "evenement")
 @Setter
 @NoArgsConstructor()
+@EqualsAndHashCode(of = "id") 
 public class Evenement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -87,6 +89,10 @@ public class Evenement implements Serializable {
     @Transient private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
     @Transient private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
     @Transient private static final int MAX_SPREKERS = 3;
+    
+    @ManyToMany(mappedBy = "favorieteEvenementen")
+    private Set<Gebruiker> gebruikers = new HashSet<>();
+
 
     public Evenement(String naam, String beschrijving, int beamercode,
                      int beamercheck, double prijs, LocalDate datum,

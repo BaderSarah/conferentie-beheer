@@ -19,12 +19,18 @@
 			    <form th:if="${isFav}"
 			          th:action="@{/events/{id}/unfavourite(id=${evenement.id})}"
 			          method="post" class="fav-form">
+					  <input type="hidden"
+					         th:name="${_csrf.parameterName}"
+					         th:value="${_csrf.token}" />
 			        <button type="submit" class="heart-btn filled" title="Verwijder uit favorieten"></button>
 			    </form>
 
 			    <form th:if="${!isFav}"
 			          th:action="@{/events/{id}/favourite(id=${evenement.id})}"
 			          method="post" class="fav-form">
+					  <input type="hidden"
+					         th:name="${_csrf.parameterName}"
+					         th:value="${_csrf.token}" />
 			        <button type="submit" class="heart-btn" title="Voeg toe aan favorieten"></button>
 			    </form>
 			</th:block>

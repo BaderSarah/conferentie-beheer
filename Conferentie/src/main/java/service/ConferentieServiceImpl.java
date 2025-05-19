@@ -22,17 +22,10 @@ import java.util.Set;
 @Transactional
 public class ConferentieServiceImpl implements ConferentieService {
 
-	@Autowired
-	private EvenementRepository evenementRepository; 
-	
-	@Autowired
-	private SprekerRepository sprekerRepository; 
-	
-	@Autowired
-	private LokaalRepository lokaalRepository; 
-	
-	@Autowired
-	private GebruikerRepository gebruikerRepository; 
+    private final EvenementRepository evenementRepository; 
+    private final SprekerRepository sprekerRepository; 
+    private final LokaalRepository lokaalRepository; 
+    private final GebruikerRepository gebruikerRepository; 
 
     @Override
     public void createEvenement(Evenement evenement) {
@@ -41,24 +34,19 @@ public class ConferentieServiceImpl implements ConferentieService {
 
     @Override
     public void updateEvenement(long id, Evenement nieuwEvenement) {
-    	
-        Optional<Evenement> bestaandOpt = evenementRepository.findById(id);
+        Evenement bestaand = evenementRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden met id: " + id));
         
-        if (bestaandOpt.isPresent()) {
-            Evenement bestaand = bestaandOpt.get();
-            bestaand.setNaam(nieuwEvenement.getNaam());
-            bestaand.setBeschrijving(nieuwEvenement.getBeschrijving());
-            bestaand.setBeamercode(nieuwEvenement.getBeamercode());
-            bestaand.setBeamercheck(nieuwEvenement.getBeamercheck());
-            bestaand.setPrijs(nieuwEvenement.getPrijs());
-            bestaand.setDatum(nieuwEvenement.getDatum());
-            bestaand.setBegintijdstip(nieuwEvenement.getBegintijdstip());
-            bestaand.setEindtijdstip(nieuwEvenement.getEindtijdstip());
-            bestaand.setLokaal(nieuwEvenement.getLokaal());
-            // bestaand.setSprekers(nieuwEvenement.getSprekers());
-        } else {
-            throw new IllegalArgumentException("Evenement niet gevonden met id: " + id);
-        }
+        bestaand.setNaam(nieuwEvenement.getNaam());
+        bestaand.setBeschrijving(nieuwEvenement.getBeschrijving());
+        bestaand.setBeamercode(nieuwEvenement.getBeamercode());
+        bestaand.setBeamercheck(nieuwEvenement.getBeamercheck());
+        bestaand.setPrijs(nieuwEvenement.getPrijs());
+        bestaand.setDatum(nieuwEvenement.getDatum());
+        bestaand.setBegintijdstip(nieuwEvenement.getBegintijdstip());
+        bestaand.setEindtijdstip(nieuwEvenement.getEindtijdstip());
+        bestaand.setLokaal(nieuwEvenement.getLokaal());
+        // evt. sprekers ook updaten als gewenst
     }
 
     @Override
@@ -89,7 +77,8 @@ public class ConferentieServiceImpl implements ConferentieService {
     @Override
     public Set<Evenement> getFavorieten(long gebruikerId) {
         Gebruiker g = gebruikerRepository.findById(gebruikerId)
-                          .orElseThrow();    
+            .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
+        g.getFavorieteEvenementen().size();  // om lazy loading te forceren
         return g.getFavorieteEvenementen();
     }
 
@@ -102,6 +91,7 @@ public class ConferentieServiceImpl implements ConferentieService {
 
         gebruiker.voegEvenementFavoriet(evenement);
         gebruikerRepository.save(gebruiker);
+        gebruikerRepository.flush();
     }
 
     @Override
@@ -113,6 +103,7 @@ public class ConferentieServiceImpl implements ConferentieService {
 
         gebruiker.verwijderEvenementFavoriet(evenement);
         gebruikerRepository.save(gebruiker);
+        gebruikerRepository.flush(); 
     }
 
     @Override
@@ -122,7 +113,6 @@ public class ConferentieServiceImpl implements ConferentieService {
 
         gebruiker.verwijderAlleFavorieten();
         gebruikerRepository.save(gebruiker);
+        gebruikerRepository.flush();
     }
-
 }
-

@@ -17,6 +17,7 @@ import domein.Evenement;
 import domein.Gebruiker;
 import domein.Lokaal;
 import domein.Spreker;
+import jakarta.validation.ConstraintViolationException;
 import repository.EvenementRepository;
 import repository.GebruikerRepository;
 import repository.LokaalRepository;
@@ -130,34 +131,39 @@ public class InitDataConfig implements CommandLineRunner {
         eventRepo.save(event4);
         eventRepo.save(event5);
 
-        // users
-        
+        // gebruikers
         String userPsw = encoder.encode("user123"); 
-        
+
         var user =
-				Gebruiker.builder()
-					.naam("lastname")
-					.voornaam("firstname")
-	                .email("user@mail.com")
-	                .rol(Rol.USER)
-	                .wachtwoord(userPsw)
-	                .bevestigWachtwoord(userPsw)
-	                .build();
-        
+            Gebruiker.builder()
+                .naam("lastname")
+                .voornaam("firstname")
+                .email("user@mail.com")
+                .rol(Rol.USER)
+                .wachtwoord(userPsw)
+                .bevestigWachtwoord(userPsw)
+                .build();
+
         String adminPsw = encoder.encode("admin123");
+
+        var admin =
+            Gebruiker.builder()
+                .naam("lastname")
+                .voornaam("firstname")
+                .email("admin@mail.com")
+                .rol(Rol.ADMIN)
+                .wachtwoord(adminPsw)
+                .bevestigWachtwoord(adminPsw)
+                .build();
+
         
-	    var admin =
-	        		Gebruiker.builder()
-	        		.naam("lastname")
-					.voornaam("firstname")
-	                .email("admin@mail.com")
-	                .rol(Rol.ADMIN)
-	                .wachtwoord(adminPsw)
-	                .bevestigWachtwoord(adminPsw)
-	                .build();
-	        
-		List<Gebruiker> userList =  Arrays.asList(admin, user);
-		gebruikerRepo.saveAll(userList);
+        gebruikerRepo.saveAll(Arrays.asList(admin, user));
+
+        user.voegEvenementFavoriet(event1);
+        user.voegEvenementFavoriet(event2);
+
+
+        gebruikerRepo.save(user);
 	}
 
 }

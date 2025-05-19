@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,6 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import util.Rol;
+import validator.OnCreate;
 import validator.ValidEmail;
 import validator.ValidPasswords;
 
@@ -80,11 +82,10 @@ public class Gebruiker implements Serializable {
     private String wachtwoord;
     
     @Transient
-    @NotBlank
+    @NotBlank(message = "{gebruiker.err.password.confirm}", groups = OnCreate.class)
     private String bevestigWachtwoord;
 
-    @Setter(AccessLevel.PROTECTED)
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE}) 
     @JoinTable(
         name = "gebruiker_favoriete_evenementen",
         joinColumns = @JoinColumn(name = "gebruiker_id"),
@@ -92,11 +93,15 @@ public class Gebruiker implements Serializable {
     )
     private Set<Evenement> favorieteEvenementen = new HashSet<>();
 
+    
     public Set<Evenement> getFavorieteEvenementen() {
         return Collections.unmodifiableSet(favorieteEvenementen);
     }
 
     public void voegEvenementFavoriet(Evenement evenement) {
+        if (favorieteEvenementen == null) {
+            favorieteEvenementen = new HashSet<>();
+        }
         if (evenement == null) {
             throw new IllegalArgumentException("Evenement mag niet null zijn.");
         }
