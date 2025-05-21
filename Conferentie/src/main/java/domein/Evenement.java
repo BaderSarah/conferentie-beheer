@@ -1,6 +1,7 @@
 package domein;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,16 +12,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import validator.ValidBeamerCheck;
+import validator.ValidConferenceDate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,8 @@ import org.hibernate.validator.constraints.Range;
 @Entity
 @Table(name = "evenement")
 @Setter
+@ValidConferenceDate
+@ValidBeamerCheck
 @NoArgsConstructor()
 @EqualsAndHashCode(of = "id") 
 public class Evenement implements Serializable {
@@ -37,7 +40,7 @@ public class Evenement implements Serializable {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private long id; 
+	@Getter private Long id; 
 
     @Getter
     @NotBlank(message = "{event.err.name.notblank}")
@@ -57,6 +60,7 @@ public class Evenement implements Serializable {
     @Getter
     @DecimalMin(value = "9.99", inclusive = true, message = "{event.err.price.min}")
     @DecimalMax(value = "99.99", inclusive = true, message = "{event.err.price.max}")
+//    @Digits(integer = 2, fraction = 2, message = "Prijs moet 2 decimalen hebben") // #TODO
     private double prijs;
 
     @Getter
@@ -77,21 +81,20 @@ public class Evenement implements Serializable {
     @ManyToOne
     private Lokaal lokaal;
 
+    @Getter
     @Size(min = 1, max = 3, message = "{event.err.speakers}")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "evenement_sprekers",
             joinColumns = @JoinColumn(name = "evenement_id"),
             inverseJoinColumns = @JoinColumn(name = "spreker_id")
         )
-    @Setter(AccessLevel.PRIVATE) private Set<Spreker> sprekers = new HashSet<>();
+    private Set<Spreker> sprekers = new HashSet<>();
 
-    @Transient private static final LocalDate CONFERENTIE_START = LocalDate.of(2025, 5, 1);
-    @Transient private static final LocalDate CONFERENTIE_EIND = LocalDate.of(2025, 5, 5);
     @Transient private static final int MAX_SPREKERS = 3;
     
     @ManyToMany(mappedBy = "favorieteEvenementen")
-    private Set<Gebruiker> gebruikers = new HashSet<>();
+    @Getter private Set<Gebruiker> gebruikers = new HashSet<>();
 
 
     public Evenement(String naam, String beschrijving, int beamercode,
@@ -111,11 +114,7 @@ public class Evenement implements Serializable {
         setSprekers(sprekers);
     }
 
-    // ------- Getters en Methoden -------
-
-    public Set<Spreker> getSprekers() {
-        return sprekers;
-    }
+    // ------- Setter en Methoden -------
 
     public void voegSprekerToe(Spreker spreker) {
         if (spreker == null) {

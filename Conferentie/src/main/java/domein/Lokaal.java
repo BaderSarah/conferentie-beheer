@@ -31,7 +31,7 @@ public class Lokaal implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private long id; 
+	@Getter private Long id; 
 
 	@Getter
 	@NotNull(message = "{lokaal.err.name.notblank}")

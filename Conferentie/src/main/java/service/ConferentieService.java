@@ -11,25 +11,24 @@ public interface ConferentieService {
 
     void createEvenement(Evenement evenement);
 
-    void updateEvenement(long id, Evenement nieuwEvenement);
+    void updateEvenement(Long id, Evenement nieuwEvenement);
+    
+//    void deleteSpreker(Long id); 
+//    
+//    void deleteLokaal(Long id); 
 
-    void deleteEvenement(long id);
+    void deleteEvenement(Long id);
 
     void createLokaal(Lokaal lokaal);
 
-    void deleteLokaal(long id);
-
     void createSpreker(Spreker spreker);
 
-    Set<Evenement> getFavorieten(long id);
+    Set<Evenement> getFavorieten(Long id);
     
-    void addFavouriteEvent(long eventId, long gebruikerId);
+    void addFavouriteEvent(Long eventId, Long gebruikerId);
 
-    void deleteFavouriteEvent(long eventId, long gebruikerId);
+    void deleteFavouriteEvent(Long eventId, Long gebruikerId);
 
-    void deleteAllFavouriteEvents(long gebruikerId);
+    void deleteAllFavouriteEvents(Long gebruikerId);
     
-    void deleteSprekerWithUnlinking(long id); 
-    
-    void deleteLokaalWithUnlinking(long id); 
 }

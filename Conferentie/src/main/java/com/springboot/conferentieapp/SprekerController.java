@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ import service.ConferentieService;
 
 @Slf4j
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/speakers")
 public class SprekerController {
 	
@@ -110,13 +112,13 @@ public class SprekerController {
 	    return "SprekerForm";
 	}
 	
-	@PostMapping("/delete/{id}")
-	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-	    confServ.deleteSprekerWithUnlinking(id); 
-	    redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
-	    
-	    return "redirect:/beheer"; 
-	}
+//	@PostMapping("/delete/{id}")
+//	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+//	    confServ.deleteSpreker(id); 
+//	    redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
+//	    
+//	    return "redirect:/management"; 
+//	}
 
 	
 	@PostMapping("/edit/{id}")
@@ -143,7 +145,7 @@ public class SprekerController {
 
 	    model.addAttribute("spreker", new Spreker()); 
 
-	    return "Beheer";
+	    return "redirect:/management";
 	}
 
 }

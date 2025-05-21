@@ -611,13 +611,16 @@ button {
 	width: 20px;
 	height: 20px;
 	cursor: pointer;
-	color: #c21320;
 }
 
 .delete-button{
 
 	border: 1px #d3d3d3 solid;
 	border-radius: 5px;
+}
+
+.delete-button:hover{
+	background-color: rgb(226, 56, 90);
 }
 
 .kleine-tabel {

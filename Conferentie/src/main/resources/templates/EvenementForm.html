@@ -19,8 +19,11 @@
 			</form>
 
 			<h1 th:text="#{eventsform.title}">Create event</h1>
-			<form class="form" th:action="@{/events}" th:object="${evenement}" method="post">
-
+			<form class="form"
+				th:action="${evenement.id != null} ? @{/events/edit/{id}(id=${evenement.id})} : @{/events}"
+				th:object="${evenement}"
+				method="post">
+				
 				<label for="naam"><p  th:text="#{eventsform.form.name}"  style="display: inline;">Name </p><p id="star">*</p></label>
 				<input type="text" id="naam" th:field="*{naam}">
 				<span th:if="${#fields.hasErrors('naam')}" th:errorclass="error" th:errors="*{naam}"></span>
@@ -62,7 +65,7 @@
 				<select id="sprekersSelect" multiple size="3" class="spreker-multiselect" 
 				style="max-height: 100px;height: auto;min-height: 50px;">
 					<option th:each="spreker : ${sprekersLijst}"
-		               th:value="${spreker}"
+		               th:value="${spreker.id}"
 		               th:text="${spreker.voornaam + ' ' + spreker.naam}">
 		            </option>
 				</select>
@@ -71,14 +74,20 @@
 				<label for="lokaal"><p  th:text="#{eventsform.form.room}" style="display: inline;">Room </p><p id="star">*</p></label>
 				<select id="lokaal" th:field="*{lokaal}">
 					<option th:each="lokaal : ${lokaalLijst}"
-							               th:value="${lokaal}"
+										   th:value="${lokaal.id}"
 							               th:text="${lokaal.naam}">
 					</option>
 				</select>
 				<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
+				<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+				    <ul>
+				        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+				    </ul>
+				</div>
 
 				<br><br>
-				<button th:text="#{eventsform.form.btn}" type="submit">Create event</button>
+				<button th:text="${evenement.id != null} ? #{eventsform.form.btn.edit} : #{eventsform.form.btn.add}" 
+						type="submit">Add</button>
 			</form>
 		</div>
 
@@ -88,14 +97,14 @@
 					<img src="/images/plus-icon.svg" alt="voeg toe"
 						style="width: 30px; height: 30px; margin-right: -7px;">
 				</button>
-			</form><!-- th:text="#{menubar.link.newevent}" -->
+			</form>
 
 			<form th:action="@{/rooms/new}" method="get" class="sub-form">
 				<button type="submit" title="voeg een lokaal toe" style="background:none; border:none;">
 					<img src="/images/plus-icon.svg" alt="voeg toe"
 						style="width: 30px; height: 30px; margin-right: -7px;">
 				</button>
-			</form><!-- th:text="#{menubar.link.newevent}" -->
+			</form>
 		</div>
 
 	</div>

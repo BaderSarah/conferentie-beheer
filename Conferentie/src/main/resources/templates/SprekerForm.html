@@ -20,7 +20,7 @@
 	<div th:if="${msg}" class="msg-completion" th:text="${msg}"></div>
 
 	<form class="form"
-		      th:action="${spreker.id} != null ? @{/speakers/edit/{id}(id=${lokaal.id})} : @{/speakers}"
+			  th:action="${spreker.id != null} ? @{/speakers/edit/{id}(id=${spreker.id})} : @{/speakers}"
 		      th:object="${spreker}"
 		      method="post">		
 		<input type="hidden" th:field="*{id}"/>
@@ -37,7 +37,12 @@
 		<input type="text" id="email" th:field="*{email}">
 		<span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
 				
-		<button id="add-spreker" th:text="${spreker.id} != null ? #{speakers.form.btn.edit} : #{speakers.form.btn.add}" type="submit">Add</button>
+		<button id="add-spreker" 
+		        th:text="${spreker.id != null} ? #{speakers.form.btn.edit} : #{speakers.form.btn.add}" 
+		        type="submit">
+		    Add
+		</button>
+
 	</form>
 	
 	</div>

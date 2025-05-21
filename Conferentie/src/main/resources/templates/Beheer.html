@@ -21,7 +21,7 @@
 						<tr>
 							<th th:text="#{beheer.lokaal.name}">Name</th>
 							<th></th>
-							<th></th>
+							<!--<th></th>-->
 						</tr>
 					</thead>
 					<tbody>
@@ -32,14 +32,14 @@
 							        <img src="/images/pencil-icon.svg" alt="edit" class="pencils">
 							    </a>
 							</td>
-							<td>
+							<!--<td>
 								<form th:action="@{/rooms/delete/{id}(id=${lokaal.id})}" method="post">
 								    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 								    <button class="delete-button" type="submit" title="Delete room">
 								        <img src="/images/trash-icon.svg" alt="delete">
 								    </button>
 								</form>
-							</td>
+							</td>-->
 						</tr>
 					</tbody>
 				</table>
@@ -57,7 +57,7 @@
 						<tr>
 							<th th:text="#{beheer.spreker.name}">Name</th>
 							<th></th>
-							<th></th>
+							<!--<th></th>-->
 						</tr>
 					</thead>
 					<tbody>
@@ -68,14 +68,14 @@
 							        <img src="/images/pencil-icon.svg" alt="edit" class="pencils">
 							    </a>
 							</td>
-							<td>
+							<!--<td>
 							    <form th:action="@{/speakers/delete/{id}(id=${spreker.id})}" method="post" style="display:inline;">
 							        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							        <button class="delete-button" type="submit" title="Verwijder spreker">
 							            <img src="/images/trash-icon.svg" alt="delete">
 							        </button>
 							    </form>
-							</td>
+							</td>-->
 						</tr>
 					</tbody>
 				</table>
@@ -96,12 +96,18 @@
 						<th th:text="#{beheer.event.name}">Name</th>
 						<th th:text="#{beheer.event.date}">Date</th>
 						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="event : ${evenementen}">
 						<td th:text="${event.naam}">Name event</td>
 						<td th:text="${event.datum}">Date event</td>
+						<td>
+							<a th:href="@{/events/edit/{id}(id=${event.id})}" title="Change event" class="edit-button">
+								<img src="/images/pencil-icon.svg" alt="edit" class="pencils">
+							</a>
+						</td>
 						<td>
 							<form th:action="@{/events/delete/{id}(id=${event.id})}" method="post">
 								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

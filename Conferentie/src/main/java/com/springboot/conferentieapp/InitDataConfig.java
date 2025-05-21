@@ -60,121 +60,121 @@ public class InitDataConfig implements CommandLineRunner {
 
         // Evenementen
         Evenement event1 = new Evenement(
-                "AI in de Praktijk",
-                "Praktische toepassingen van AI",
-                7896,
-                39,
-                29.99,
-                LocalDate.of(2025, 5, 2),
-                LocalTime.of(14, 0),
-                LocalTime.of(16, 0),
-                a101,
-                Set.of(eva, tom)
-        );
+        	    "AI in de Praktijk",
+        	    "Praktische toepassingen van AI",
+        	    7896,
+        	    7896 % 97, // = 37
+        	    29.99,
+        	    LocalDate.of(2025, 5, 2),
+        	    LocalTime.of(14, 0),
+        	    LocalTime.of(16, 0),
+        	    a101,
+        	    Set.of(eva, tom)
+        	);
 
-        Evenement event2 = new Evenement(
-                "Cybersecurity Basics",
-                "Intro tot cybersecurity",
-                2345,
-                0,
-                19.99,
-                LocalDate.of(2025, 5, 3),
-                LocalTime.of(9, 0),
-                LocalTime.of(12, 0),
-                b202,
-                Set.of(ines)
-        );
-        
-        Evenement event3 = new Evenement(
-                "Data Science Workshop",
-                "Hands-on workshop over data-analyse technieken",
-                3456,
-                15,
-                49.99,
-                LocalDate.of(2025, 5, 10),
-                LocalTime.of(10, 0),
-                LocalTime.of(13, 0),
-                a101,
-                Set.of(eva)
-        );
+        	Evenement event2 = new Evenement(
+        	    "Cybersecurity Basics",
+        	    "Intro tot cybersecurity",
+        	    2345,
+        	    2345 % 97, // = 16
+        	    19.99,
+        	    LocalDate.of(2025, 5, 3),
+        	    LocalTime.of(9, 0),
+        	    LocalTime.of(12, 0),
+        	    b202,
+        	    Set.of(ines)
+        	);
 
-        Evenement event4 = new Evenement(
-                "Advanced AI Models",
-                "Diepgaande sessie over neurale netwerken",
-                4567,
-                25,
-                59.99,
-                LocalDate.of(2025, 5, 15),
-                LocalTime.of(14, 30),
-                LocalTime.of(17, 0),
-                b202,
-                Set.of(tom)
-        );
+        	Evenement event3 = new Evenement(
+        	    "Data Science Workshop",
+        	    "Hands-on workshop over data-analyse technieken",
+        	    3456,
+        	    3456 % 97, // = 63
+        	    49.99,
+        	    LocalDate.of(2025, 5, 10),
+        	    LocalTime.of(10, 0),
+        	    LocalTime.of(13, 0),
+        	    a101,
+        	    Set.of(eva)
+        	);
 
-        Evenement event5 = new Evenement(
-                "Cybersecurity Advanced",
-                "Verdieping in cybersecurity technieken en tools",
-                5678,
-                10,
-                39.99,
-                LocalDate.of(2025, 5, 20),
-                LocalTime.of(9, 30),
-                LocalTime.of(12, 30),
-                a101,
-                Set.of(ines, eva)
-        );
+        	Evenement event4 = new Evenement(
+        	    "Advanced AI Models",
+        	    "Diepgaande sessie over neurale netwerken",
+        	    4567,
+        	    4567 % 97, // = 9
+        	    59.99,
+        	    LocalDate.of(2025, 5, 15),
+        	    LocalTime.of(14, 30),
+        	    LocalTime.of(17, 0),
+        	    b202,
+        	    Set.of(tom)
+        	);
 
-        Evenement event6 = new Evenement(
-                "Intro to Quantum Computing",
-                "Basisprincipes en aankomende toepassingen",
-                6789,
-                20,
-                44.99,
-                LocalDate.of(2025, 5, 22),
-                LocalTime.of(10, 0),
-                LocalTime.of(12, 30),
-                b202,
-                Set.of(tom, eva)
-        );
+        	Evenement event5 = new Evenement(
+        	    "Cybersecurity Advanced",
+        	    "Verdieping in cybersecurity technieken en tools",
+        	    5678,
+        	    5678 % 97, // = 55
+        	    39.99,
+        	    LocalDate.of(2025, 5, 20),
+        	    LocalTime.of(9, 30),
+        	    LocalTime.of(12, 30),
+        	    a101,
+        	    Set.of(ines, eva)
+        	);
 
-        Evenement event7 = new Evenement(
-                "Ethics in AI",
-                "Interactieve sessie over ethische vraagstukken",
-                7890,
-                18,
-                24.99,
-                LocalDate.of(2025, 5, 25),
-                LocalTime.of(14, 0),
-                LocalTime.of(16, 30),
-                a101,
-                Set.of(ines)
-        );
+        	Evenement event6 = new Evenement(
+        	    "Intro to Quantum Computing",
+        	    "Basisprincipes en aankomende toepassingen",
+        	    6789,
+        	    6789 % 97, // = 1
+        	    44.99,
+        	    LocalDate.of(2025, 5, 22),
+        	    LocalTime.of(10, 0),
+        	    LocalTime.of(12, 30),
+        	    b202,
+        	    Set.of(tom, eva)
+        	);
 
-        Evenement event8 = new Evenement(
-                "DevOps Fundamentals",
-                "Toolchain & best practices voor continue integratie",
-                8901,
-                30,
-                34.99,
-                LocalDate.of(2025, 5, 27),
-                LocalTime.of(9, 0),
-                LocalTime.of(12, 0),
-                b202,
-                Set.of(tom)
-        );
+        	Evenement event7 = new Evenement(
+        	    "Ethics in AI",
+        	    "Interactieve sessie over ethische vraagstukken",
+        	    7890,
+        	    7890 % 97, // = 3
+        	    24.99,
+        	    LocalDate.of(2025, 5, 25),
+        	    LocalTime.of(14, 0),
+        	    LocalTime.of(16, 30),
+        	    a101,
+        	    Set.of(ines)
+        	);
 
-        Evenement event9 = new Evenement(
-                "Cloud Security Deep-Dive",
-                "Beveiligingsstrategieën voor multi-cloud omgevingen",
-                9012,
-                12,
-                54.99,
-                LocalDate.of(2025, 5, 29),
-                LocalTime.of(13, 30),
-                LocalTime.of(17, 0),
-                a101,
-                Set.of(eva, ines)
-        );
+        	Evenement event8 = new Evenement(
+        	    "DevOps Fundamentals",
+        	    "Toolchain & best practices voor continue integratie",
+        	    8901,
+        	    8901 % 97, // = 94
+        	    34.99,
+        	    LocalDate.of(2025, 5, 27),
+        	    LocalTime.of(9, 0),
+        	    LocalTime.of(12, 0),
+        	    b202,
+        	    Set.of(tom)
+        	);
+
+        	Evenement event9 = new Evenement(
+        	    "Cloud Security Deep-Dive",
+        	    "Beveiligingsstrategieën voor multi-cloud omgevingen",
+        	    9012,
+        	    9012 % 97, // = 92
+        	    54.99,
+        	    LocalDate.of(2025, 5, 29),
+        	    LocalTime.of(13, 30),
+        	    LocalTime.of(17, 0),
+        	    a101,
+        	    Set.of(eva, ines)
+        	); 
 
         eventRepo.saveAll(List.of(event1, event2, event3, event4, event5,
                                   event6, event7, event8, event9));

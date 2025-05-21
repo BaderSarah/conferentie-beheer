@@ -29,7 +29,7 @@ public class Spreker implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private long id; 
+	@Getter private Long id; 
 
 	@Getter
 	@NotBlank(message = "{spreker.err.name.notblank}")

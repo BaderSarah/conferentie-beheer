@@ -1,22 +1,24 @@
 package com.springboot.conferentieapp;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Evenement;
-import domein.Lokaal;
 import exception.MaxFavouritesReachedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -51,6 +53,7 @@ public class EvenementController {
         return "EvenementListView";
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/new")
     public String showCreateEventForm(Model model, HttpServletRequest request) {
         model.addAttribute("evenement", new Evenement());
@@ -64,22 +67,38 @@ public class EvenementController {
         return "EvenementForm";
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public String deleteEvent(@PathVariable long id) {
     	evenementRepo.deleteById(id);
         return "redirect:/management";
     }
+    
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public String handleCreateEvent(@Valid Evenement evenement,
-                                    BindingResult bindingResult) {
+                                    BindingResult bindingResult,
+                                    Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("sprekersLijst", sprekerRepo.findAll());
+            model.addAttribute("lokaalLijst", lokaalRepo.findAll());
             return "EvenementForm";
         }
-        confService.createEvenement(evenement);
+
+        try {
+            confService.createEvenement(evenement);
+        } catch (IllegalArgumentException ex) {
+            bindingResult.reject(null, ex.getMessage());
+            model.addAttribute("sprekersLijst", sprekerRepo.findAll());
+            model.addAttribute("lokaalLijst", lokaalRepo.findAll());
+            return "EvenementForm";
+        }
+
         return "redirect:/events";
     }
+
 
     @GetMapping("/{id}")
     public String eventDetails(@PathVariable long id, Model model, Authentication auth) {
@@ -109,6 +128,7 @@ public class EvenementController {
         return (GebruikerDetails) auth.getPrincipal();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/favourites")
     public String showFavourites(Model model, Authentication auth) {
 
@@ -125,6 +145,7 @@ public class EvenementController {
         return "FavorietenListView";
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/favourites/delete-all")
     public String deleteAllFavourites(Authentication auth,
                                       RedirectAttributes ra) {
@@ -143,6 +164,7 @@ public class EvenementController {
         return "redirect:/events/favourites";
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{id}/favourite")
     public String addToFavourites(@PathVariable long id,
                                   Authentication auth,
@@ -168,6 +190,7 @@ public class EvenementController {
     }
 
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{id}/unfavourite")
     public String removeFromFavourites(@PathVariable long id,
                                        Authentication auth,
@@ -190,5 +213,59 @@ public class EvenementController {
         
         return "redirect:/events/" + id;
     }
+    
+    @GetMapping("/edit/{id}")
+    public String showEditEvenementForm(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Optional<Evenement> optEvenement = evenementRepo.findById(id);
+        if (optEvenement.isEmpty()) return "redirect:/404";
+
+        model.addAttribute("evenement", optEvenement.get());
+
+        model.addAttribute("sprekersLijst", sprekerRepo.findAll());
+        model.addAttribute("lokaalLijst", lokaalRepo.findAll());
+
+        // Voor de terug-knop
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer", referer);
+
+        return "EvenementForm";  // Zorg dat je formulierpagina zo heet
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateEvenement(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("evenement") Evenement nieuwEvenement,
+            BindingResult bindingResult,
+            Model model,
+            HttpServletRequest request
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("sprekersLijst", sprekerRepo.findAll());
+            model.addAttribute("lokaalLijst", lokaalRepo.findAll());
+            return "EvenementForm";
+        }
+
+        Optional<Evenement> opt = evenementRepo.findById(id);
+        if (opt.isEmpty()) return "redirect:/404";
+
+        Evenement bestaand = opt.get();
+
+        bestaand.setNaam(nieuwEvenement.getNaam());
+        bestaand.setBeschrijving(nieuwEvenement.getBeschrijving());
+        bestaand.setDatum(nieuwEvenement.getDatum());
+        bestaand.setBegintijdstip(nieuwEvenement.getBegintijdstip());
+        bestaand.setEindtijdstip(nieuwEvenement.getEindtijdstip());
+        bestaand.setBeamercode(nieuwEvenement.getBeamercode());
+        bestaand.setBeamercheck(nieuwEvenement.getBeamercheck());
+        bestaand.setPrijs(nieuwEvenement.getPrijs());
+        bestaand.setLokaal(nieuwEvenement.getLokaal());
+        bestaand.setSprekers(nieuwEvenement.getSprekers());
+
+        evenementRepo.save(bestaand);
+
+        return "redirect:/management";
+    }
+
+    
 }
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import service.ConferentieService;
 
 @Slf4j
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/rooms")
 public class LokaalController {
 	
@@ -132,15 +134,15 @@ public class LokaalController {
 
 	    model.addAttribute("lokaal", new Lokaal()); 
 
-	    return "Beheer";
+	    return "redirect:/management";
 	}
 
 	
-	@PostMapping("/delete/{id}")
-	public String deleteLokaal(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-	    confServ.deleteLokaalWithUnlinking(id); 
-	    redirectAttributes.addFlashAttribute("msg", "Lokaal succesvol verwijderd.");
-	    
-	    return "redirect:/beheer"; 
-	}
+//	@PostMapping("/delete/{id}")
+//	public String deleteLokaal(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+//	    confServ.deleteLokaal(id); 
+//	    redirectAttributes.addFlashAttribute("msg", "Lokaal succesvol verwijderd.");
+//	    
+//	    return "redirect:/management"; 
+//	}
 }

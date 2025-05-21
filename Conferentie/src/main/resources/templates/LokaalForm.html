@@ -20,7 +20,7 @@
 	<div th:if="${msg}" class="msg-completion" th:text="${msg}"></div>
 
 	<form class="form"
-	      th:action="${lokaal.id} != null ? @{/rooms/edit/{id}(id=${lokaal.id})} : @{/rooms}"
+		  th:action="${lokaal.id != null} ? @{/rooms/edit/{id}(id=${lokaal.id})} : @{/rooms}"
 	      th:object="${lokaal}"
 	      method="post">
 
@@ -32,7 +32,11 @@
 		<input type="number" id="capaciteit" th:field="*{capaciteit}">
 		<span th:if="${#fields.hasErrors('capaciteit')}" th:errorclass="error" th:errors="*{capaciteit}"></span>
 
-		<button id="add-lokaal" th:text="${lokaal.id} != null ? #{rooms.form.btn.edit} : #{rooms.form.btn.add}" type="submit">Add</button>
+		<button id="add-lokaal" 
+		        th:text="${lokaal.id != null} ? #{rooms.form.btn.edit} : #{rooms.form.btn.add}" 
+		        type="submit">
+		    Add
+		</button>
 	</form>
 	
 	</div>
