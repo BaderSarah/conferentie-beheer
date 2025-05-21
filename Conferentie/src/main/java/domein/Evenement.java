@@ -114,7 +114,7 @@ public class Evenement implements Serializable {
     // ------- Getters en Methoden -------
 
     public Set<Spreker> getSprekers() {
-        return Collections.unmodifiableSet(sprekers);
+        return sprekers;
     }
 
     public void voegSprekerToe(Spreker spreker) {

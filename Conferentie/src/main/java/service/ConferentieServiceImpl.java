@@ -14,6 +14,8 @@ import repository.SprekerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 import java.util.Set;
@@ -69,11 +71,6 @@ public class ConferentieServiceImpl implements ConferentieService {
     public void createSpreker(Spreker spreker) {
         sprekerRepository.save(spreker);
     }
-
-    @Override
-    public void deleteSpreker(long id) {
-        sprekerRepository.deleteById(id);
-    }
     
     @Override
     public Set<Evenement> getFavorieten(long gebruikerId) {
@@ -123,4 +120,39 @@ public class ConferentieServiceImpl implements ConferentieService {
         gebruikerRepository.save(gebruiker);
         gebruikerRepository.flush();
     }
+    
+    
+    // NIEUW
+    
+    @Override
+    public void deleteSprekerWithUnlinking(long id) {
+        Optional<Spreker> opt = sprekerRepository.findById(id);
+        if (opt.isEmpty()) return;
+
+        Spreker spreker = opt.get();
+
+        for (Evenement ev : spreker.getEvenementen()) {
+            ev.getSprekers().remove(spreker);
+        }
+
+        spreker.getEvenementen().clear();
+        sprekerRepository.delete(spreker);
+    }
+
+    @Override
+    public void deleteLokaalWithUnlinking(long id) {
+        Optional<Lokaal> opt = lokaalRepository.findById(id);
+        if (opt.isEmpty()) return;
+
+        Lokaal lokaal = opt.get();
+
+        for (Evenement ev : lokaal.getEvenementen()) {
+            ev.setLokaal(null);
+        }
+
+        lokaal.getEvenementen().clear();
+        lokaalRepository.delete(lokaal);
+    }
+
+
 }

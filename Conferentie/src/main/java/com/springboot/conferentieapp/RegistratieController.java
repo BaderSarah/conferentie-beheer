@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import domein.Evenement;
 import domein.Gebruiker;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.GebruikerRepository;
@@ -23,11 +24,14 @@ public class RegistratieController {
 
     @Autowired
     private GebruikerRepository gebruikerRepo;
-
+    
     @GetMapping("/registration")
-    public String showCreateUserForm(Model model) {
+    public String showCreateUserForm(Model model, HttpServletRequest request) {
         model.addAttribute("gebruiker", new Gebruiker());
         log.info("GET /registration");
+        
+	    String referer = request.getHeader("Referer");
+	    model.addAttribute("referer", referer);
         return "Registreer";
     }
 

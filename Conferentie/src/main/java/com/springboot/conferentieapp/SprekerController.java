@@ -1,6 +1,7 @@
 package com.springboot.conferentieapp;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -9,14 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Lokaal;
 import domein.Spreker;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.SprekerRepository;
+import service.ConferentieService;
 
 @Slf4j
 @Controller
@@ -27,6 +32,9 @@ public class SprekerController {
 	private SprekerRepository repository; 
 	
 	@Autowired
+	private ConferentieService confServ; 
+	
+	@Autowired
 	private MessageSource messageSource;
 	
 	@GetMapping       
@@ -34,13 +42,16 @@ public class SprekerController {
 	    return "redirect:/speakers/new";
 	}
 
-
 	@GetMapping("/new")
-	public String showCreateSprekerForm(Model model) {
+	public String showCreateSprekerForm(Model model, HttpServletRequest request) {
         model.addAttribute("spreker", new Spreker());
 		log.info("GET /speakers/new");
-	    return "SprekerForm";
+	    
+	    String referer = request.getHeader("Referer");
+	    model.addAttribute("referer", referer);
+		return "SprekerForm";
 	}
+
 	
 	@PostMapping
 	public String handleCreateSpreker(
@@ -84,6 +95,55 @@ public class SprekerController {
 		
 		return "SprekerForm";
 
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String showEditSpeakerForm(@PathVariable Long id, Model model, HttpServletRequest request) {
+	    Optional<Spreker> spreker = repository.findById(id);
+	    if (spreker.isEmpty()) return "redirect:/404";
+
+	    model.addAttribute("spreker", spreker.get());
+
+	    String referer = request.getHeader("Referer");
+	    model.addAttribute("referer", referer); 
+
+	    return "SprekerForm";
+	}
+	
+	@PostMapping("/delete/{id}")
+	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    confServ.deleteSprekerWithUnlinking(id); 
+	    redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
+	    
+	    return "redirect:/beheer"; 
+	}
+
+	
+	@PostMapping("/edit/{id}")
+	public String updateSpreker(
+	        @PathVariable Long id,
+	        @Valid Spreker spreker,
+	        BindingResult bindingResult,
+	        Model model,
+	        Locale locale
+	) {
+	    if (bindingResult.hasErrors()) {
+	        return "LokaalForm";
+	    }
+
+	    Optional<Spreker> bestaand = repository.findById(id);
+	    if (bestaand.isEmpty()) return "redirect:/404";
+
+	    Spreker bestaandSpreker = bestaand.get();
+	    bestaandSpreker.setNaam(spreker.getNaam());
+	    bestaandSpreker.setVoornaam(spreker.getVoornaam());
+	    bestaandSpreker.setEmail(spreker.getEmail()); 
+	    
+	    repository.save(bestaandSpreker);
+
+	    model.addAttribute("spreker", new Spreker()); 
+
+	    return "Beheer";
 	}
 
 }

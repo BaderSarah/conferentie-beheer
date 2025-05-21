@@ -1,12 +1,15 @@
 package domein;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
@@ -43,6 +46,10 @@ public class Spreker implements Serializable {
 	@Email(message = "{spreker.err.email.pattern}") 
 	@Column(unique = true)
 	private String email;
+	
+	@ManyToMany(mappedBy = "sprekers")
+	@Getter
+	private Set<Evenement> evenementen = new HashSet<>();
 
 
 	public Spreker(String naam, String voornaam, String email) {

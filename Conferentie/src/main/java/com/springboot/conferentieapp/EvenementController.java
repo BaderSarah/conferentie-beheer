@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Evenement;
+import domein.Lokaal;
 import exception.MaxFavouritesReachedException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,16 +50,24 @@ public class EvenementController {
 
         return "EvenementListView";
     }
-
+    
     @GetMapping("/new")
-    public String showCreateEventForm(Model model) {
+    public String showCreateEventForm(Model model, HttpServletRequest request) {
         model.addAttribute("evenement", new Evenement());
         model.addAttribute("sprekersLijst", sprekerRepo.findAll());
         model.addAttribute("lokaalLijst",   lokaalRepo.findAll());
         
 	    log.info("GET /events/new");
-        
+	    String referer = request.getHeader("Referer");
+	    model.addAttribute("referer", referer);
+	
         return "EvenementForm";
+    }
+    
+    @PostMapping("/delete/{id}")
+    public String deleteEvent(@PathVariable long id) {
+    	evenementRepo.deleteById(id);
+        return "redirect:/management";
     }
 
     @PostMapping

@@ -29,22 +29,5 @@ public class AdminBeheerController {
         model.addAttribute("evenementen", evenementRepo.findAll());
         return "Beheer";
     }
-
-    @PostMapping("/room/delete/{id}")
-    public String deleteLokaal(@PathVariable long id) {
-        lokaalRepo.deleteById(id);
-        return "redirect:/management";
-    }
-
-    @PostMapping("/speaker/delete/{id}")
-    public String deleteSpreker(@PathVariable long id) {
-        sprekerRepo.deleteById(id);
-        return "redirect:/management";
-    }
-
-    @PostMapping("/event/delete/{id}")
-    public String deleteEvent(@PathVariable long id) {
-        evenementRepo.deleteById(id);
-        return "redirect:/management";
-    }
+    
 }

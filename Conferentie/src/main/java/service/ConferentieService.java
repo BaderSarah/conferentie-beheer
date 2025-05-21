@@ -21,8 +21,6 @@ public interface ConferentieService {
 
     void createSpreker(Spreker spreker);
 
-    void deleteSpreker(long id);
-
     Set<Evenement> getFavorieten(long id);
     
     void addFavouriteEvent(long eventId, long gebruikerId);
@@ -31,4 +29,7 @@ public interface ConferentieService {
 
     void deleteAllFavouriteEvents(long gebruikerId);
     
+    void deleteSprekerWithUnlinking(long id); 
+    
+    void deleteLokaalWithUnlinking(long id); 
 }

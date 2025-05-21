@@ -11,12 +11,20 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 		
 	<div class="page">
+		
+	<form th:action="${referer}" method="get" style="text-align: center;">
+		<button type="submit" class="terug-knop"><span th:text="#{button.back}">Back</span></button>
+	</form>
 	
 	<h1 th:text="#{speakers.title}">Add a speaker</h1>
 	<div th:if="${msg}" class="msg-completion" th:text="${msg}"></div>
 
-	<form class="form" th:action="@{/speakers}" th:object="${spreker}" method="post">
-
+	<form class="form"
+		      th:action="${spreker.id} != null ? @{/speakers/edit/{id}(id=${lokaal.id})} : @{/speakers}"
+		      th:object="${spreker}"
+		      method="post">		
+		<input type="hidden" th:field="*{id}"/>
+		
 		<label th:text="#{speakers.form.firstName}" for="voornaam"><p style="display: inline;">First name </p><p id="star">*</p></label>
 		<input type="text" id="voornaam" th:field="*{voornaam}">
 		<span th:if="${#fields.hasErrors('voornaam')}" th:errorclass="error" th:errors="*{voornaam}"></span>
@@ -29,7 +37,7 @@
 		<input type="text" id="email" th:field="*{email}">
 		<span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
 				
-		<button id="add-spreker" th:text="#{speakers.form.btn}" type="submit">Add</button>
+		<button id="add-spreker" th:text="${spreker.id} != null ? #{speakers.form.btn.edit} : #{speakers.form.btn.add}" type="submit">Add</button>
 	</form>
 	
 	</div>

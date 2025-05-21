@@ -13,10 +13,12 @@
 		
 	<div class="page">
 
+	<form th:action="${referer}" method="get" style="text-align: center;">
+			<button type="submit" class="terug-knop"><span th:text="#{button.back}">Back</span></button>
+	</form>
+	
 	<h1 th:text="#{registration.title}">Registration</h1>
-	<a th:href="@{/login}">
-	<p style="cursor: pointer; margin-bottom: -5px;" th:text="#{registration.linkBack}"><u>&lt&lt Back to login</u></p>
-	</a>
+
 	<div>
 	    <form class="form" th:action="@{/registration}" th:object="${gebruiker}" method="post">
 			

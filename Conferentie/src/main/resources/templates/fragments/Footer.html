@@ -22,6 +22,10 @@
 	            <span sec:authorize="hasRole('ADMIN')">
 	                | <a th:text="#{footer.link.newevent}" th:href="@{/events/new}">New event</a>
 	            </span>
+				
+				<span sec:authorize="hasRole('ADMIN')">
+				    | <a th:text="#{footer.link.management}" th:href="@{/management}">Management</a>
+			    </span>
 	        </p>
 
 	        <p id="conference-date" th:text="#{footer.conference.info}">Conference date: 23/06/2025 - 15/07/2025</p>
