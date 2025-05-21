@@ -25,6 +25,11 @@
 	                <li sec:authorize="hasRole('USER')">
 	                    <a th:text="#{menubar.link.favourites}" th:href="@{/events/favourites}">Favourites</a>
 	                </li>
+					
+					<li sec:authorize="hasRole('ADMIN')">
+					    <a th:href="@{/beheer}">Beheer</a>
+					</li>
+
 	            </div>
 				
 				<div class="right-part-nav">

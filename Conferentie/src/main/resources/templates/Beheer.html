@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Beheer</title>
+	<link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="beheer-container">
+
+	<!-- LINKER KOLOM -->
+	<div class="beheer-kolom-links">
+
+		<!-- Lokalen -->
+		<div class="beheer-panel">
+			<h2>Lokalen</h2>
+			<div class="beheer-tabel-container kleine-tabel">
+				<table class="beheer-tabel">
+					<thead>
+						<tr>
+							<th>Naam</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lokaal : ${lokalen}">
+							<td th:text="${lokaal.naam}">Naam lokaal</td>
+							<td>
+								<form th:action="@{/admin/lokaal/delete/{id}(id=${lokaal.id})}" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<button class="delete-button" type="submit" title="Verwijder lokaal">
+										<img src="/images/trash-icon.svg" alt="verwijder">
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<a th:href="@{/rooms/new}">
+				<button class="beheer-toevoeg-knop" id="add-lokaal">Voeg lokaal toe</button>
+			</a>
+		</div>
+
+		<!-- Sprekers -->
+		<div class="beheer-panel">
+			<h2>Sprekers</h2>
+			<div class="beheer-tabel-container kleine-tabel">
+				<table class="beheer-tabel">
+					<thead>
+						<tr>
+							<th>Naam</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="spreker : ${sprekers}">
+							<td th:text="${spreker.voornaam + ' ' + spreker.naam}">Naam spreker</td>
+							<td>
+								<form th:action="@{/admin/spreker/delete/{id}(id=${spreker.id})}" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<button class="delete-button" type="submit" title="Verwijder spreker">
+										<img src="/images/trash-icon.svg" alt="verwijder">
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<a th:href="@{/speakers/new}">
+				<button class="beheer-toevoeg-knop" id="add-spreker">Voeg spreker toe</button>
+			</a>
+		</div>
+
+	</div>
+
+	<!-- RECHTER KOLOM -->
+	<div class="beheer-panel">
+		<h2>Evenementen</h2>
+		<div class="beheer-tabel-container lange-tabel">
+			<table class="beheer-tabel">
+				<thead>
+					<tr>
+						<th>Naam</th>
+						<th>Datum</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="event : ${evenementen}">
+						<td th:text="${event.naam}">Naam evenement</td>
+						<td th:text="${event.datum}">Datum evenement</td>
+						<td>
+							<form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<button class="delete-button" type="submit" title="Verwijder event">
+									<img src="/images/trash-icon.svg" alt="verwijder">
+								</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<a th:href="@{/events/new}">
+			<button class="beheer-toevoeg-knop" >Voeg evenement toe</button>
+		</a>
+	</div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
