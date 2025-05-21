@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Beheer</title>
+	<title>Management</title>
 	<link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
@@ -11,28 +11,26 @@
 
 <div class="beheer-container">
 
-	<!-- LINKER KOLOM -->
 	<div class="beheer-kolom-links">
 
-		<!-- Lokalen -->
 		<div class="beheer-panel">
-			<h2>Lokalen</h2>
+			<h2 th:text="#{beheer.lokaal.title}">Rooms</h2>
 			<div class="beheer-tabel-container kleine-tabel">
 				<table class="beheer-tabel">
 					<thead>
 						<tr>
-							<th>Naam</th>
+							<th th:text="#{beheer.lokaal.name}">Name</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="lokaal : ${lokalen}">
-							<td th:text="${lokaal.naam}">Naam lokaal</td>
+							<td th:text="${lokaal.naam}">Name room</td>
 							<td>
-								<form th:action="@{/admin/lokaal/delete/{id}(id=${lokaal.id})}" method="post">
+								<form th:action="@{/room/delete/{id}(id=${lokaal.id})}" method="post">
 									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-									<button class="delete-button" type="submit" title="Verwijder lokaal">
-										<img src="/images/trash-icon.svg" alt="verwijder">
+									<button class="delete-button" type="submit" title="Delete room">
+										<img src="/images/trash-icon.svg" alt="Delete">
 									</button>
 								</form>
 							</td>
@@ -41,29 +39,28 @@
 				</table>
 			</div>
 			<a th:href="@{/rooms/new}">
-				<button class="beheer-toevoeg-knop" id="add-lokaal">Voeg lokaal toe</button>
+				<button class="beheer-toevoeg-knop" id="add-lokaal" th:text="#{beheer.lokaal.btn}">Add room</button>
 			</a>
 		</div>
 
-		<!-- Sprekers -->
 		<div class="beheer-panel">
-			<h2>Sprekers</h2>
+			<h2 th:text="#{beheer.spreker.title}">Speakers</h2>
 			<div class="beheer-tabel-container kleine-tabel">
 				<table class="beheer-tabel">
 					<thead>
 						<tr>
-							<th>Naam</th>
+							<th th:text="#{beheer.spreker.name}">Name</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="spreker : ${sprekers}">
-							<td th:text="${spreker.voornaam + ' ' + spreker.naam}">Naam spreker</td>
+							<td th:text="${spreker.voornaam + ' ' + spreker.naam}">Name speaker</td>
 							<td>
-								<form th:action="@{/admin/spreker/delete/{id}(id=${spreker.id})}" method="post">
+								<form th:action="@{/speaker/delete/{id}(id=${spreker.id})}" method="post">
 									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-									<button class="delete-button" type="submit" title="Verwijder spreker">
-										<img src="/images/trash-icon.svg" alt="verwijder">
+									<button class="delete-button" type="submit" title="Delete speaker">
+										<img src="/images/trash-icon.svg" alt="delete">
 									</button>
 								</form>
 							</td>
@@ -72,33 +69,32 @@
 				</table>
 			</div>
 			<a th:href="@{/speakers/new}">
-				<button class="beheer-toevoeg-knop" id="add-spreker">Voeg spreker toe</button>
+				<button class="beheer-toevoeg-knop" id="add-spreker" th:text="#{beheer.spreker.btn}">Add speaker</button>
 			</a>
 		</div>
 
 	</div>
 
-	<!-- RECHTER KOLOM -->
 	<div class="beheer-panel">
-		<h2>Evenementen</h2>
+		<h2 th:text="#{beheer.event.title}">Events</h2>
 		<div class="beheer-tabel-container lange-tabel">
 			<table class="beheer-tabel">
 				<thead>
 					<tr>
-						<th>Naam</th>
-						<th>Datum</th>
+						<th th:text="#{beheer.event.name}">Name</th>
+						<th th:text="#{beheer.event.date}">Date</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="event : ${evenementen}">
-						<td th:text="${event.naam}">Naam evenement</td>
-						<td th:text="${event.datum}">Datum evenement</td>
+						<td th:text="${event.naam}">Name event</td>
+						<td th:text="${event.datum}">Date event</td>
 						<td>
-							<form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="post">
+							<form th:action="@{/event/delete/{id}(id=${event.id})}" method="post">
 								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-								<button class="delete-button" type="submit" title="Verwijder event">
-									<img src="/images/trash-icon.svg" alt="verwijder">
+								<button class="delete-button" type="submit" title="Delete event">
+									<img src="/images/trash-icon.svg" alt="delete">
 								</button>
 							</form>
 						</td>
@@ -107,7 +103,7 @@
 			</table>
 		</div>
 		<a th:href="@{/events/new}">
-			<button class="beheer-toevoeg-knop" >Voeg evenement toe</button>
+			<button class="beheer-toevoeg-knop" th:text="#{beheer.event.btn}">Add event</button>
 		</a>
 	</div>
 

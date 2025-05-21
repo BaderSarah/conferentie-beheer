@@ -22,29 +22,29 @@ public class AdminBeheerController {
     private final SprekerRepository sprekerRepo;
     private final EvenementRepository evenementRepo;
 
-    @GetMapping("/beheer")
+    @GetMapping("/management")
     public String showBeheerPagina(Model model) {
         model.addAttribute("lokalen", lokaalRepo.findAll());
         model.addAttribute("sprekers", sprekerRepo.findAll());
         model.addAttribute("evenementen", evenementRepo.findAll());
-        return "beheer";
+        return "Beheer";
     }
 
-    @PostMapping("/lokaal/delete/{id}")
+    @PostMapping("/room/delete/{id}")
     public String deleteLokaal(@PathVariable long id) {
         lokaalRepo.deleteById(id);
-        return "redirect:/admin/beheer";
+        return "redirect:/management";
     }
 
-    @PostMapping("/spreker/delete/{id}")
+    @PostMapping("/speaker/delete/{id}")
     public String deleteSpreker(@PathVariable long id) {
         sprekerRepo.deleteById(id);
-        return "redirect:/admin/beheer";
+        return "redirect:/management";
     }
 
     @PostMapping("/event/delete/{id}")
     public String deleteEvent(@PathVariable long id) {
         evenementRepo.deleteById(id);
-        return "redirect:/admin/beheer";
+        return "redirect:/management";
     }
 }
