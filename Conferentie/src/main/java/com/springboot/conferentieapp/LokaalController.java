@@ -138,11 +138,15 @@ public class LokaalController {
 	}
 
 	
-//	@PostMapping("/delete/{id}")
-//	public String deleteLokaal(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-//	    confServ.deleteLokaal(id); 
-//	    redirectAttributes.addFlashAttribute("msg", "Lokaal succesvol verwijderd.");
-//	    
-//	    return "redirect:/management"; 
-//	}
+	@PostMapping("/delete/{id}")
+	public String deleteLokaal(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    try {
+	        confServ.deleteLokaal(id);
+	        redirectAttributes.addFlashAttribute("msg", "Lokaal succesvol verwijderd.");
+	    } catch (IllegalStateException e) {
+	        redirectAttributes.addFlashAttribute("error", "Kan lokaal niet verwijderen: " + e.getMessage());
+	    }
+	    return "redirect:/management";
+	}
+
 }

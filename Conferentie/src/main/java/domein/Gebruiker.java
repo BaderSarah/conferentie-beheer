@@ -85,18 +85,14 @@ public class Gebruiker implements Serializable {
     @NotBlank(message = "{gebruiker.err.password.confirm}", groups = OnCreate.class)
     private String bevestigWachtwoord;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}) 
+    @Builder.Default
+    @ManyToMany
     @JoinTable(
         name = "gebruiker_favoriete_evenementen",
         joinColumns = @JoinColumn(name = "gebruiker_id"),
         inverseJoinColumns = @JoinColumn(name = "evenement_id")
     )
-    private Set<Evenement> favorieteEvenementen = new HashSet<>();
-
-    
-    public Set<Evenement> getFavorieteEvenementen() {
-        return Collections.unmodifiableSet(favorieteEvenementen);
-    }
+    @Getter private Set<Evenement> favorieteEvenementen = new HashSet<>();
 
     public void voegEvenementFavoriet(Evenement evenement) {
         if (favorieteEvenementen == null) {
@@ -121,18 +117,9 @@ public class Gebruiker implements Serializable {
     }
 
     public void verwijderEvenementFavoriet(Evenement evenement) {
-        if (evenement == null) {
-            throw new IllegalArgumentException("Evenement mag niet null zijn.");
-        }
 
-        boolean bestaat = favorieteEvenementen.stream()
-                .anyMatch(ev -> Objects.equals(ev.getId(), evenement.getId()));
-
-        if (!bestaat) {
-            throw new IllegalArgumentException("Evenement bestaat niet in je favorieten.");
-        }
-
-        favorieteEvenementen.removeIf(ev -> Objects.equals(ev.getId(), evenement.getId()));
+    	this.favorieteEvenementen.remove(evenement);
+        evenement.getGebruikers().remove(this);
     }
 
     public void verwijderAlleFavorieten() {

@@ -68,11 +68,16 @@ public class EvenementController {
     }
     
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/delete/{id}")
-    public String deleteEvent(@PathVariable long id) {
-    	evenementRepo.deleteById(id);
-        return "redirect:/management";
-    }
+	@PostMapping("/delete/{id}")
+	public String deleteEvent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    try {
+	    	confService.deleteEvenement(id);
+	        redirectAttributes.addFlashAttribute("msg", "Evenement succesvol verwijderd.");
+	    } catch (IllegalStateException e) {
+	        redirectAttributes.addFlashAttribute("error", "Kan evenement niet verwijderen: " + e.getMessage());
+	    }
+	    return "redirect:/management";
+	}
     
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -107,8 +112,8 @@ public class EvenementController {
                 model.addAttribute("evenement", e);
 
                 GebruikerDetails user = currentUser(auth);
-                Set<Evenement> favorieten = (user == null)
-                    ? Set.of()
+                List<Evenement> favorieten = (user == null)
+                    ? List.of()
                     : confService.getFavorieten(user.getGebruiker().getId());
                 model.addAttribute("favorieten", favorieten);
                 
@@ -224,11 +229,10 @@ public class EvenementController {
         model.addAttribute("sprekersLijst", sprekerRepo.findAll());
         model.addAttribute("lokaalLijst", lokaalRepo.findAll());
 
-        // Voor de terug-knop
         String referer = request.getHeader("Referer");
         model.addAttribute("referer", referer);
 
-        return "EvenementForm";  // Zorg dat je formulierpagina zo heet
+        return "EvenementForm";  
     }
 
     @PostMapping("/edit/{id}")

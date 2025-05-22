@@ -84,7 +84,7 @@
 		</div>
 
 		<div sec:authorize="hasRole('ADMIN')" class="role-btn">
-		    <form th:action="@{/events/new}" method="get" class="sub-form">
+		    <form th:action="@{/events/edit/{id}(id=${evenement.id})}" method="get" class="sub-form">
 		        <button id="change-event-btn"
 		                th:text="#{eventsdetails.btn}"
 		                style="margin-top: 20px;margin-left: 20px;">

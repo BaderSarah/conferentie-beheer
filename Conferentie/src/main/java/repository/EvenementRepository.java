@@ -5,11 +5,13 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import domein.Evenement;
 import domein.Lokaal;
+import domein.Spreker;
 
 public interface EvenementRepository extends JpaRepository<Evenement, Long> {
 
@@ -30,5 +32,8 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long> {
                                @Param("datum") LocalDate datum,
                                @Param("begin") LocalTime begintijdstip,
                                @Param("eind") LocalTime eindtijdstip);
+
+    boolean existsBySprekersContaining(Spreker spreker);
+    boolean existsByLokaal(Lokaal lokaal);
 
 }

@@ -1,6 +1,6 @@
 package service;
 
-import java.util.Set;
+import java.util.List;
 
 import domein.Evenement;
 import domein.Lokaal;
@@ -13,9 +13,9 @@ public interface ConferentieService {
 
     void updateEvenement(Long id, Evenement nieuwEvenement);
     
-//    void deleteSpreker(Long id); 
-//    
-//    void deleteLokaal(Long id); 
+    void deleteSpreker(Long id); 
+    
+    void deleteLokaal(Long id); 
 
     void deleteEvenement(Long id);
 
@@ -23,7 +23,7 @@ public interface ConferentieService {
 
     void createSpreker(Spreker spreker);
 
-    Set<Evenement> getFavorieten(Long id);
+    List<Evenement> getFavorieten(Long id);
     
     void addFavouriteEvent(Long eventId, Long gebruikerId);
 

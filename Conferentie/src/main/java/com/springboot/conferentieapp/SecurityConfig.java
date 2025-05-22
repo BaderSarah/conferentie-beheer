@@ -50,6 +50,11 @@ public class SecurityConfig {
                     "/fragments/**", "/i18n/**",
                     "/css/**", "/images/**"
                 ).permitAll()
+                
+                // ----- ADMIN & USER -----
+                .requestMatchers(
+                		"/events/{id:[0-9]+}"
+                ).hasAnyRole("ADMIN", "USER")
 
                 // ----- ADMIN -----
                 .requestMatchers(
@@ -60,8 +65,7 @@ public class SecurityConfig {
 
                 // ----- USER  -----
                 .requestMatchers(
-                    "/events/favourites",
-                    "/events/{id:[0-9]+}"
+                    "/events/favourites"
                 ).hasRole("USER")
 
                 .requestMatchers("/events").permitAll()

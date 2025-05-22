@@ -112,14 +112,16 @@ public class SprekerController {
 	    return "SprekerForm";
 	}
 	
-//	@PostMapping("/delete/{id}")
-//	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-//	    confServ.deleteSpreker(id); 
-//	    redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
-//	    
-//	    return "redirect:/management"; 
-//	}
-
+	@PostMapping("/delete/{id}")
+	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    try {
+	        confServ.deleteSpreker(id);
+	        redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
+	    } catch (IllegalStateException e) {
+	        redirectAttributes.addFlashAttribute("error", "Kan spreker niet verwijderen: " + e.getMessage());
+	    }
+	    return "redirect:/management";
+	}
 	
 	@PostMapping("/edit/{id}")
 	public String updateSpreker(

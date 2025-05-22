@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -52,7 +54,7 @@ public class ConferentieServiceImpl implements ConferentieService {
     public void updateEvenement(Long id, Evenement nieuwEvenement) {
         Evenement bestaand = evenementRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden met id: " + id));
-        
+
         bestaand.setNaam(nieuwEvenement.getNaam());
         bestaand.setBeschrijving(nieuwEvenement.getBeschrijving());
         bestaand.setBeamercode(nieuwEvenement.getBeamercode());
@@ -62,25 +64,23 @@ public class ConferentieServiceImpl implements ConferentieService {
         bestaand.setBegintijdstip(nieuwEvenement.getBegintijdstip());
         bestaand.setEindtijdstip(nieuwEvenement.getEindtijdstip());
         bestaand.setLokaal(nieuwEvenement.getLokaal());
+        bestaand.setSprekers(nieuwEvenement.getSprekers());
     }
 
     @Override
     public void deleteEvenement(Long id) {
-        Optional<Evenement> opt = evenementRepository.findById(id);
-        if (opt.isEmpty()) return;
+   	
+    	gebruikerRepository.deleteFavorietenByEvenementId(id);
+        gebruikerRepository.flush();
 
-        Evenement evenement = opt.get();
+        evenementRepository.findById(id).ifPresent(evenement -> {
+            evenement.getGebruikers().clear();
+            evenementRepository.save(evenement);
 
-        for (Gebruiker g : new HashSet<>(evenement.getGebruikers())) {
-            g.getFavorieteEvenementen().remove(evenement);
-        }
-
-        gebruikerRepository.saveAll(evenement.getGebruikers());
-
-        evenement.getGebruikers().clear(); // optioneel
-
-        evenementRepository.delete(evenement);
+            evenementRepository.delete(evenement);
+        });
     }
+
 
     @Override
     public void createLokaal(Lokaal lokaal) {
@@ -93,12 +93,17 @@ public class ConferentieServiceImpl implements ConferentieService {
     }
     
     @Override
-    public Set<Evenement> getFavorieten(Long gebruikerId) {
-        Gebruiker g = gebruikerRepository.findById(gebruikerId)
+    public List<Evenement> getFavorieten(Long gebruikerId) {
+        Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)
             .orElseThrow(() -> new IllegalArgumentException("Gebruiker niet gevonden"));
-        g.getFavorieteEvenementen().size();  
-        return g.getFavorieteEvenementen();
+
+        return gebruiker.getFavorieteEvenementen()
+            .stream()
+            .sorted(Comparator.comparing(Evenement::getDatum)
+                              .thenComparing(Evenement::getBegintijdstip)
+                              .thenComparing(Evenement::getNaam)).toList();
     }
+
     
     public static final int MAX_FAVS = 5;  
 
@@ -140,40 +145,31 @@ public class ConferentieServiceImpl implements ConferentieService {
         gebruikerRepository.save(gebruiker);
         gebruikerRepository.flush();
     }
-    
-    
-    // NIEUW
-    
-//    @Override
-//    public void deleteSpreker(Long id) {
-//        Optional<Spreker> opt = sprekerRepository.findById(id);
-//        if (opt.isEmpty()) return;
-//
-//        Spreker spreker = opt.get();
-//
-//        for (Evenement ev : spreker.getEvenementen()) {
-//            deleteEvenement(ev.getId());
-//        }
-//
-//        spreker.getEvenementen().clear();
-//        sprekerRepository.delete(spreker);
-//    }
-//
-//    @Override
-//    public void deleteLokaal(Long id) {
-//        Optional<Lokaal> opt = lokaalRepository.findById(id);
-//        if (opt.isEmpty()) return;
-//
-//        Lokaal lokaal = opt.get();
-//
-//        for (Evenement ev : lokaal.getEvenementen()) {
-//            deleteEvenement(ev.getId());
-//        }
-//
-//
-//        lokaal.getEvenementen().clear();
-//        lokaalRepository.delete(lokaal);
-//    }
+     
+    @Override
+    public void deleteSpreker(Long id) {
+        Spreker spreker = sprekerRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Spreker niet gevonden"));
 
+        boolean isInGebruik = evenementRepository.existsBySprekersContaining(spreker);
+        if (isInGebruik) {
+            throw new IllegalStateException("Deze spreker is nog gekoppeld aan een of meerdere evenementen.");
+        }
+
+        sprekerRepository.delete(spreker);
+    }
+
+    @Override
+    public void deleteLokaal(Long id) {
+        Lokaal lokaal = lokaalRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Lokaal niet gevonden"));
+
+        boolean isInGebruik = evenementRepository.existsByLokaal(lokaal);
+        if (isInGebruik) {
+            throw new IllegalStateException("Dit lokaal is nog gekoppeld aan een of meerdere evenementen.");
+        }
+
+        lokaalRepository.delete(lokaal);
+    }
 
 }

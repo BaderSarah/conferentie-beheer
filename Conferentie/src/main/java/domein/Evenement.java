@@ -1,5 +1,6 @@
 package domein;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -96,7 +97,6 @@ public class Evenement implements Serializable {
     @ManyToMany(mappedBy = "favorieteEvenementen")
     @Getter private Set<Gebruiker> gebruikers = new HashSet<>();
 
-
     public Evenement(String naam, String beschrijving, int beamercode,
                      int beamercheck, double prijs, LocalDate datum,
                      LocalTime beginTijdstip, LocalTime eindTijdstip,
@@ -145,4 +145,13 @@ public class Evenement implements Serializable {
             sprekers.remove(spreker);
         }
     }
+    
+    public void verwijderGebruikerFavoriet(Gebruiker gebruiker) {
+//        if (gebruiker != null) {
+            gebruikers.remove(gebruiker);
+            gebruiker.getFavorieteEvenementen().remove(this);
+//        }
+    }
+
+
 }
