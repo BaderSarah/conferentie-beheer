@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ValidConferenceDate {
 
-    String message() default "Datum ligt buiten conferentieperiode";
+    String message() default "{event.err.date.range}";
 
     Class<?>[] groups() default {};
 

@@ -224,6 +224,11 @@ public class EvenementController {
         Optional<Evenement> optEvenement = evenementRepo.findById(id);
         if (optEvenement.isEmpty()) return "redirect:/404";
 
+        System.out.println(optEvenement.get().getDatum());
+        System.out.println(optEvenement.get().getBegintijdstip());
+        System.out.println(optEvenement.get().getEindtijdstip());
+
+        
         model.addAttribute("evenement", optEvenement.get());
 
         model.addAttribute("sprekersLijst", sprekerRepo.findAll());
@@ -244,6 +249,7 @@ public class EvenementController {
             HttpServletRequest request
     ) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("evenement", nieuwEvenement);
             model.addAttribute("sprekersLijst", sprekerRepo.findAll());
             model.addAttribute("lokaalLijst", lokaalRepo.findAll());
             return "EvenementForm";

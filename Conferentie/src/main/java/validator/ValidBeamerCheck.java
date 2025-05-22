@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ValidBeamerCheck {
 
-    String message() default "Beamercheck klopt niet";
+	String message() default "{event.err.beamercheck}";
 
     Class<?>[] groups() default {};
 

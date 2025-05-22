@@ -1,6 +1,5 @@
 package domein;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +27,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "evenement")
-@Setter
+@Data
 @ValidConferenceDate
 @ValidBeamerCheck
 @NoArgsConstructor()
@@ -41,48 +42,43 @@ public class Evenement implements Serializable {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private Long id; 
+	private Long id; 
 
-    @Getter
     @NotBlank(message = "{event.err.name.notblank}")
     @Pattern(regexp = "^[A-Za-z].*", message = "{event.err.name.pattern}")
     private String naam;
 
-    @Getter
     private String beschrijving;
 
-    @Getter
     @Range(min = 1000, max = 9999, message = "{event.err.projectorCode}")
     private int beamercode;
 
-    @Getter
     private int beamercheck; 
 
-    @Getter
     @DecimalMin(value = "9.99", inclusive = true, message = "{event.err.price.min}")
     @DecimalMax(value = "99.99", inclusive = true, message = "{event.err.price.max}")
 //    @Digits(integer = 2, fraction = 2, message = "Prijs moet 2 decimalen hebben") // #TODO
     private double prijs;
 
-    @Getter
-    @NotNull(message = "{event.err.date}")
+
     // @DateInConferenceRange(start = "2025-05-01", end = "2025-05-05", message = "{event.err.date.range}")
+    @NotNull(message = "{event.err.date}")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate datum;
 
-    @Getter
     @NotNull(message = "{event.err.starttime}")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime begintijdstip;
 
-    @Getter
+
     @NotNull(message = "{event.err.endtime}")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime eindtijdstip;
 
-    @Getter
     @NotNull(message = "{event.err.room}")
     @ManyToOne
     private Lokaal lokaal;
 
-    @Getter
     @Size(min = 1, max = 3, message = "{event.err.speakers}")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -147,10 +143,10 @@ public class Evenement implements Serializable {
     }
     
     public void verwijderGebruikerFavoriet(Gebruiker gebruiker) {
-//        if (gebruiker != null) {
+        if (gebruiker != null) {
             gebruikers.remove(gebruiker);
             gebruiker.getFavorieteEvenementen().remove(this);
-//        }
+        }
     }
 
 

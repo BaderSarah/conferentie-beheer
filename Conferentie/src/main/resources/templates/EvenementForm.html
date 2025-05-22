@@ -35,16 +35,16 @@
 					th:errors="*{beschrijving}"></span>
 
 				<label for="date"><p th:text="#{eventsform.form.date}" style="display: inline;">Date </p><p id="star">*</p></label>
-				<input type="date" id="datetime" th:field="*{datum}">
+				<input type="date" th:field="*{datum}" />
 				<span th:if="${#fields.hasErrors('datum')}" th:errorclass="error" th:errors="*{datum}"></span>
 
 				<label for="begintijdstip"><p th:text="#{eventsform.form.startTime}" style="display: inline;">Start time </p><p id="star">*</p></label>
-				<input type="time" id="datetime" th:field="*{begintijdstip}">
+				<input type="time" th:field="*{begintijdstip}" />
 				<span th:if="${#fields.hasErrors('begintijdstip')}" th:errorclass="error"
 					th:errors="*{begintijdstip}"></span>
 
 				<label for="eindtijdstip"><p th:text="#{eventsform.form.endTime}" style="display: inline;">End time </p><p id="star">*</p></label>
-				<input type="time" id="datetime" th:field="*{eindtijdstip}">
+				<input type="time" th:field="*{eindtijdstip}" />
 				<span th:if="${#fields.hasErrors('eindtijdstip')}" th:errorclass="error"
 					th:errors="*{eindtijdstip}"></span>
 
@@ -62,12 +62,12 @@
 				<span th:if="${#fields.hasErrors('prijs')}" th:errorclass="error" th:errors="*{prijs}"></span>
 
 				<label for="sprekersSelect"><p  th:text="#{eventsform.form.speakers}" style="display: inline;">Speaker(s) </p><p id="star">*</p></label>
-				<select id="sprekersSelect" multiple size="3" class="spreker-multiselect" 
-				style="max-height: 100px;height: auto;min-height: 50px;">
-					<option th:each="spreker : ${sprekersLijst}"
-		               th:value="${spreker.id}"
-		               th:text="${spreker.voornaam + ' ' + spreker.naam}">
-		            </option>
+				<select id="sprekersSelect" th:field="*{sprekers}" multiple size="3" class="spreker-multiselect"
+				        style="max-height: 100px;height: auto;min-height: 50px;">
+				    <option th:each="spreker : ${sprekersLijst}"
+				           th:value="${spreker.id}"
+				           th:text="${spreker.voornaam + ' ' + spreker.naam}">
+				    </option>
 				</select>
 				<span th:if="${#fields.hasErrors('sprekers')}" th:errorclass="error" th:errors="*{sprekers}"></span>
 
@@ -78,10 +78,10 @@
 							               th:text="${lokaal.naam}">
 					</option>
 				</select>
-				<span th:if="${#fields.hasErrors('lokaal')}" th:errorclass="error" th:errors="*{lokaal}"></span>
+				<span th:if="${#fields.hasErrors('lokaal')}"  th:errors="*{lokaal}"></span>
 				<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
-				    <ul>
-				        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+				    <ul style="list-style-type: none;">
+				        <li th:each="err : ${#fields.globalErrors()}" class="error" th:text="${err}"></li>
 				    </ul>
 				</div>
 
