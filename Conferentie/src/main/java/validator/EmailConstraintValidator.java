@@ -7,20 +7,27 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import repository.GebruikerRepository;
 
-@Component 
+@Component
 public class EmailConstraintValidator implements ConstraintValidator<ValidEmail, String> {
 
-    @Autowired
     private GebruikerRepository gebruikerRepository;
+
+    public EmailConstraintValidator() {    }
+
+    @Autowired
+    public void setGebruikerRepository(GebruikerRepository gebruikerRepository) {
+        this.gebruikerRepository = gebruikerRepository;
+    }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.isEmpty())
-            return false;
-
-        if (!value.contains("@"))
-            return false;
-
+        if (value == null || value.isEmpty()) return false;
+        if (!value.contains("@")) return false;
+        if (gebruikerRepository == null) {
+            return true; 
+        }
         return !gebruikerRepository.existsByEmail(value);
     }
 }
+
+

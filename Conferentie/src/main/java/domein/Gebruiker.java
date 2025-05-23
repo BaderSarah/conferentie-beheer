@@ -1,12 +1,10 @@
 package domein;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,28 +19,24 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import util.Rol;
-import validator.OnCreate;
 import validator.ValidEmail;
 import validator.ValidPasswords;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import validator.groups.OnRegistration;
 
 @Entity
 @Data
 @Builder
-@ValidPasswords
+@ValidPasswords(groups = OnRegistration.class)
 @AllArgsConstructor
-@NoArgsConstructor // (access = AccessLevel.PROTECTED)
+@NoArgsConstructor 
 @EqualsAndHashCode(of = "email")
 @Table(name = "gebruikers")
 public class Gebruiker implements Serializable {
@@ -55,13 +49,13 @@ public class Gebruiker implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "{gebruiker.err.name.notblank}")
-    @Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.name.pattern}")
+    @NotBlank(message = "{gebruiker.err.name.notblank}", groups = {Default.class, OnRegistration.class})
+    @Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.name.pattern}", groups = {Default.class, OnRegistration.class})
     @Column(nullable = false)
     private String naam;
 
-    @NotBlank(message = "{gebruiker.err.firstname.notblank}")
-    @Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.firstname.pattern}")
+    @NotBlank(message = "{gebruiker.err.firstname.notblank}", groups = {Default.class, OnRegistration.class})
+    @Pattern(regexp = "^[A-Za-z].*", message = "{gebruiker.err.firstname.pattern}", groups = {Default.class, OnRegistration.class})
     @Column(nullable = false)
     private String voornaam;
 
@@ -69,19 +63,17 @@ public class Gebruiker implements Serializable {
     @Column(length = 20, nullable = false)
     private Rol rol;
 
-    @NotNull(message = "{gebruiker.err.email.notblank}")
-    @Email(message = "{gebruiker.err.email.pattern}")
+    @NotNull(message = "{gebruiker.err.email.notblank}", groups = {Default.class, OnRegistration.class})
+    @Email(message = "{gebruiker.err.email.pattern}", groups = {Default.class, OnRegistration.class})
     @Column(nullable = false, unique = true)
     @ValidEmail
     private String email;
 
-//    @Size(min = 4, max = 20)
-    @NotBlank(message = "{gebruiker.err.password.notblank}")
+
     @Column(nullable = false)
     private String wachtwoord;
     
     @Transient
-    @NotBlank(message = "{gebruiker.err.password.confirm}")
     private String bevestigWachtwoord;
 
     @Builder.Default

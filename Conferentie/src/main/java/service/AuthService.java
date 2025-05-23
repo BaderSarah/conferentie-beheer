@@ -11,7 +11,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import repository.GebruikerRepository;
-import validator.OnCreate;
+import validator.groups.OnRegistration;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class AuthService {
     public Gebruiker registreer(Gebruiker nieuw) {
 
         Set<ConstraintViolation<Gebruiker>> fouten =
-                validator.validate(nieuw, OnCreate.class);
+                validator.validate(nieuw, OnRegistration.class);
 
         if (!fouten.isEmpty()) {
             throw new ConstraintViolationException(fouten);

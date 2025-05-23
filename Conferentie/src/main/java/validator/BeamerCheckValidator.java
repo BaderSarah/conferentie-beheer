@@ -24,7 +24,7 @@ public class BeamerCheckValidator implements ConstraintValidator<ValidBeamerChec
         if (!valid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
-                   .addPropertyNode("beamercheck")  // link error to field beamercheck
+                   .addPropertyNode("beamercheck")  
                    .addConstraintViolation();
         }
 

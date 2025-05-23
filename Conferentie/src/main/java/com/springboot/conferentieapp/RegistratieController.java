@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import domein.Evenement;
 import domein.Gebruiker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.GebruikerRepository;
 import util.Rol;
-import validator.OnCreate;
+import validator.groups.OnRegistration;
 
 @Slf4j
 @Controller
@@ -38,9 +36,10 @@ public class RegistratieController {
 
     @PostMapping("/registration")
     public String handleCreateUser(
-            @ModelAttribute("gebruiker") @Valid Gebruiker gebruiker,
+            @Validated(OnRegistration.class) @ModelAttribute("gebruiker") Gebruiker gebruiker,
             BindingResult bindingResult,
             Model model) {
+
 
         log.info("POST /registration – {} fouten", bindingResult.getFieldErrorCount());
 

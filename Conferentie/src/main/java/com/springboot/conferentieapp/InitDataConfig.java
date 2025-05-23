@@ -45,6 +45,34 @@ public class InitDataConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+		
+		// gebruikers
+		String userPsw = encoder.encode("user123"); 
+		
+		var user =
+				Gebruiker.builder()
+				.naam("lastname")
+				.voornaam("firstname")
+				.email("user@mail.com")
+				.rol(Rol.USER)
+				.wachtwoord(userPsw)
+				.bevestigWachtwoord(userPsw)
+				.build();
+		
+		String adminPsw = encoder.encode("admin123");
+		
+		var admin =
+				Gebruiker.builder()
+				.naam("lastname")
+				.voornaam("firstname")
+				.email("admin@mail.com")
+				.rol(Rol.ADMIN)
+				.wachtwoord(adminPsw)
+				.bevestigWachtwoord(adminPsw)
+				.build();
+		
+		
+		gebruikerRepo.saveAll(Arrays.asList(admin, user));
 
 		Lokaal a101 = new Lokaal("A101", 20);
         Lokaal b202 = new Lokaal("B202", 30);
@@ -181,39 +209,12 @@ public class InitDataConfig implements CommandLineRunner {
         eventRepo.saveAll(List.of(event1, event2, event3, event4, event5,
                                   event6, event7, event8, event9));
 
-        // gebruikers
-        String userPsw = encoder.encode("user123"); 
-
-        var user =
-            Gebruiker.builder()
-                .naam("lastname")
-                .voornaam("firstname")
-                .email("user@mail.com")
-                .rol(Rol.USER)
-                .wachtwoord(userPsw)
-                .bevestigWachtwoord(userPsw)
-                .build();
-
-        String adminPsw = encoder.encode("admin123");
-
-        var admin =
-            Gebruiker.builder()
-                .naam("lastname")
-                .voornaam("firstname")
-                .email("admin@mail.com")
-                .rol(Rol.ADMIN)
-                .wachtwoord(adminPsw)
-                .bevestigWachtwoord(adminPsw)
-                .build();
-
-        
-        gebruikerRepo.saveAll(Arrays.asList(admin, user));
 
         user.voegEvenementFavoriet(event1);
         user.voegEvenementFavoriet(event2);
 
-
         gebruikerRepo.save(user);
+
 	}
 
 }
