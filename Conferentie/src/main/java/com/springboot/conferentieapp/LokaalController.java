@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.LokaalRepository;
-import service.ConferentieService;
+import service.LokaalService;
 
 @Slf4j
 @Controller
@@ -36,7 +36,7 @@ public class LokaalController {
 	private MessageSource messageSource;
 	
 	@Autowired
-	private ConferentieService confServ; 
+	private LokaalService lokaalService; 
 	
 	@GetMapping       
 	public String redirectToForm() {
@@ -141,7 +141,7 @@ public class LokaalController {
 	@PostMapping("/delete/{id}")
 	public String deleteLokaal(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 	    try {
-	        confServ.deleteLokaal(id);
+	        lokaalService.deleteLokaal(id);
 	        redirectAttributes.addFlashAttribute("msg", "Lokaal succesvol verwijderd.");
 	    } catch (IllegalStateException e) {
 	        redirectAttributes.addFlashAttribute("error", "Kan lokaal niet verwijderen: " + e.getMessage());

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import perform.PerformRestConferentie;
+
 @SpringBootApplication
 @EnableJpaRepositories("repository")
 @EntityScan("domein") 
@@ -24,6 +26,12 @@ public class ConferentieApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConferentieApplication.class, args);
+		try {
+			new PerformRestConferentie();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 	@Override

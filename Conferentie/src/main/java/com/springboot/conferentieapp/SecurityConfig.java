@@ -50,7 +50,8 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/login**", "/registration**",
                     "/fragments/**", "/i18n/**",
-                    "/css/**", "/images/**", "/error"
+                    "/css/**", "/images/**", "/error",
+                    "/rest/**"
                 ).permitAll()
                 
                 // ----- ADMIN & USER -----

@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import domein.Lokaal;
 import domein.Spreker;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import repository.SprekerRepository;
-import service.ConferentieService;
+import service.SprekerService;
 
 @Slf4j
 @Controller
@@ -34,7 +33,7 @@ public class SprekerController {
 	private SprekerRepository repository; 
 	
 	@Autowired
-	private ConferentieService confServ; 
+	private SprekerService sprekerService; 
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -115,7 +114,7 @@ public class SprekerController {
 	@PostMapping("/delete/{id}")
 	public String deleteSpreker(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 	    try {
-	        confServ.deleteSpreker(id);
+	        sprekerService.deleteSpreker(id);
 	        redirectAttributes.addFlashAttribute("msg", "Spreker succesvol verwijderd.");
 	    } catch (IllegalStateException e) {
 	        redirectAttributes.addFlashAttribute("error", "Kan spreker niet verwijderen: " + e.getMessage());

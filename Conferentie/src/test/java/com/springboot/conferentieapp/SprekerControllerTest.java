@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import domein.Spreker;
 import repository.SprekerRepository;
-import service.ConferentieService;
+import service.SprekerService;
 
 
 @ActiveProfiles("test")
@@ -39,7 +39,7 @@ class SprekerControllerTest {
     private SprekerRepository sprekerRepository;
 
     @MockitoBean
-    private ConferentieService conferentieService;
+    private SprekerService sprekerService;
 
     @MockitoBean
     private MessageSource messageSource;

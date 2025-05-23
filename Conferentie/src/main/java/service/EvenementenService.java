@@ -1,27 +1,21 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import domein.Evenement;
-import domein.Lokaal;
-import domein.Spreker;
 
+public interface EvenementenService {
 
-public interface ConferentieService {
-
-    void createEvenement(Evenement evenement);
+    Evenement createEvenement(Evenement evenement);
 
     void updateEvenement(Long id, Evenement nieuwEvenement);
     
-    void deleteSpreker(Long id); 
-    
-    void deleteLokaal(Long id); 
-
     void deleteEvenement(Long id);
-
-    void createLokaal(Lokaal lokaal);
-
-    void createSpreker(Spreker spreker);
+    
+    Evenement getEvenement(Long id); 
+    
+    List<Evenement> getAllEvenements(); 
 
     List<Evenement> getFavorieten(Long id);
     
@@ -31,4 +25,6 @@ public interface ConferentieService {
 
     void deleteAllFavouriteEvents(Long gebruikerId);
     
+    List<Evenement> getEvenementenByDatum(LocalDate datum);
+
 }

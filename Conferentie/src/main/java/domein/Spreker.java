@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +27,7 @@ import validator.ValidEmail;
 @Table(name = "spreker")
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"id", "voornaam", "naam", "email"})
 public class Spreker implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +53,7 @@ public class Spreker implements Serializable {
 	private String email;
 	
 	@ManyToMany(mappedBy = "sprekers")
+    @JsonIgnore
 	@Getter
 	private Set<Evenement> evenementen = new HashSet<>();
 

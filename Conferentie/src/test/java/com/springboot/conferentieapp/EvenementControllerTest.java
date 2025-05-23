@@ -24,7 +24,7 @@ import domein.Gebruiker;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
-import service.ConferentieService;
+import service.EvenementenService;
 import service.GebruikerDetails;
 import util.Rol;
 
@@ -47,7 +47,7 @@ class EvenementControllerTest {
     private LokaalRepository lokaalRepository;
 
     @MockitoBean
-    private ConferentieService conferentieService;
+    private EvenementenService eventService;
 
     
     @Test
@@ -376,7 +376,7 @@ class EvenementControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void testDeleteEvent_Succesvol() throws Exception {
-        doNothing().when(conferentieService).deleteEvenement(1L);
+        doNothing().when(eventService).deleteEvenement(1L);
 
         mockMvc.perform(post("/events/delete/1").with(csrf()))
                 .andExpect(status().is3xxRedirection())
@@ -412,8 +412,8 @@ class EvenementControllerTest {
         gebruiker.setRol(Rol.USER);
         GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
 
-        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
-        when(conferentieService.getFavorieten(anyLong())).thenReturn(List.of());
+        doNothing().when(eventService).addFavouriteEvent(eq(1L), eq(1L));
+        when(eventService.getFavorieten(anyLong())).thenReturn(List.of());
 
         mockMvc.perform(get("/events/favourites")
                 .with(user(gebruikerDetails)))
@@ -429,7 +429,7 @@ class EvenementControllerTest {
         gebruiker.setRol(Rol.USER);
         GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
 
-        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+        doNothing().when(eventService).addFavouriteEvent(eq(1L), eq(1L));
 
         mockMvc.perform(post("/events/1/favourite")
                 .with(csrf())
@@ -445,7 +445,7 @@ class EvenementControllerTest {
         gebruiker.setRol(Rol.USER);
         GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
 
-        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+        doNothing().when(eventService).addFavouriteEvent(eq(1L), eq(1L));
 
         mockMvc.perform(post("/events/favourites/delete-all")
                 .with(csrf())
@@ -461,7 +461,7 @@ class EvenementControllerTest {
         gebruiker.setRol(Rol.USER);
         GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
 
-        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+        doNothing().when(eventService).addFavouriteEvent(eq(1L), eq(1L));
 
         mockMvc.perform(post("/events/1/unfavourite")
                 .with(csrf())

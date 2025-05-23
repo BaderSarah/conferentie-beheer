@@ -35,5 +35,6 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long> {
 
     boolean existsBySprekersContaining(Spreker spreker);
     boolean existsByLokaal(Lokaal lokaal);
+    List<Evenement> findByDatum(LocalDate datum);
 
 }

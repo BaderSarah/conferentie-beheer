@@ -2,7 +2,6 @@ package com.springboot.conferentieapp;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import domein.Evenement;
-import exception.MaxFavouritesReachedException;
+import exceptions.MaxFavouritesReachedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
-import service.ConferentieService;
+import service.EvenementenService;
 import service.GebruikerDetails;
 
 @Slf4j
@@ -36,7 +35,8 @@ import service.GebruikerDetails;
 @RequiredArgsConstructor   
 public class EvenementController {
 
-    private final ConferentieService   confService;
+    private final EvenementenService   eventService;
+    
     private final EvenementRepository  evenementRepo;
     private final SprekerRepository    sprekerRepo;
     private final LokaalRepository     lokaalRepo;
@@ -71,7 +71,7 @@ public class EvenementController {
 	@PostMapping("/delete/{id}")
 	public String deleteEvent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 	    try {
-	    	confService.deleteEvenement(id);
+	    	eventService.deleteEvenement(id);
 	        redirectAttributes.addFlashAttribute("msg", "Evenement succesvol verwijderd.");
 	    } catch (IllegalStateException e) {
 	        redirectAttributes.addFlashAttribute("error", "Kan evenement niet verwijderen: " + e.getMessage());
@@ -93,7 +93,7 @@ public class EvenementController {
         }
 
         try {
-            confService.createEvenement(evenement);
+            eventService.createEvenement(evenement);
         } catch (IllegalArgumentException ex) {
             bindingResult.reject(null, ex.getMessage());
             model.addAttribute("sprekersLijst", sprekerRepo.findAll());
@@ -114,7 +114,7 @@ public class EvenementController {
                 GebruikerDetails user = currentUser(auth);
                 List<Evenement> favorieten = (user == null)
                     ? List.of()
-                    : confService.getFavorieten(user.getGebruiker().getId());
+                    : eventService.getFavorieten(user.getGebruiker().getId());
                 model.addAttribute("favorieten", favorieten);
                 
                 log.info("GET /events/{}", id);
@@ -142,7 +142,7 @@ public class EvenementController {
         model.addAttribute("favorieten",
             user == null
               ? List.of() 
-              : confService.getFavorieten(user.getGebruiker().getId())
+              : eventService.getFavorieten(user.getGebruiker().getId())
         );
         
 	    log.info("GET /events/favourites");
@@ -160,7 +160,7 @@ public class EvenementController {
             ra.addFlashAttribute("error",
                    "You have to be logged in to change your favourites.");
         } else {
-            confService.deleteAllFavouriteEvents(user.getGebruiker().getId());
+            eventService.deleteAllFavouriteEvents(user.getGebruiker().getId());
             ra.addFlashAttribute("success", "All favourites are deleted.");
         }
         
@@ -180,7 +180,7 @@ public class EvenementController {
             ra.addFlashAttribute("error", "Login to add a favourite.");
         } else {
             try {
-                confService.addFavouriteEvent(id, user.getGebruiker().getId());
+                eventService.addFavouriteEvent(id, user.getGebruiker().getId());
                 ra.addFlashAttribute("success",
                         "Event added to favourites.");
                 log.info("USER added an event to favourites");
@@ -206,7 +206,7 @@ public class EvenementController {
             ra.addFlashAttribute("error", "Login to delete a favourite.");
         } else {
             try {
-                confService.deleteFavouriteEvent(id, user.getGebruiker().getId());
+                eventService.deleteFavouriteEvent(id, user.getGebruiker().getId());
                 ra.addFlashAttribute("success",
                         "Event deleted from favourites.");
             } catch (Exception ex) {

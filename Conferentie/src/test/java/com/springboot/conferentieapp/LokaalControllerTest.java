@@ -22,9 +22,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import domein.Lokaal;
-import domein.Spreker;
 import repository.LokaalRepository;
-import service.ConferentieService;
+import service.LokaalService;
 
 @ActiveProfiles("test")
 @Import(SecurityConfig.class)
@@ -39,7 +38,7 @@ class LokaalControllerTest {
     private LokaalRepository lokaalRepository;
 
     @MockitoBean
-    private ConferentieService conferentieService;
+    private LokaalService lokaalService;
 
     @MockitoBean
     private MessageSource messageSource;

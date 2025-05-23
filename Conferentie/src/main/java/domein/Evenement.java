@@ -31,6 +31,11 @@ import java.util.Set;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @Entity
 @Table(name = "evenement")
 @Data
@@ -38,6 +43,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @ValidBeamerCheck
 @NoArgsConstructor()
 @EqualsAndHashCode(of = "id") 
+@JsonPropertyOrder(
+		{"id", "naam", "beschrijving", 
+		 "beamercode", "beamercheck", "prijs", 
+		 "datum", "begintijdstip", "eindtijdstip", 
+		 "lokaal", "sprekers"})
 public class Evenement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,11 +69,9 @@ public class Evenement implements Serializable {
 
     @DecimalMin(value = "9.99", inclusive = true, message = "{event.err.price.min}")
     @DecimalMax(value = "99.99", inclusive = true, message = "{event.err.price.max}")
-//    @Digits(integer = 2, fraction = 2, message = "Prijs moet 2 decimalen hebben") // #TODO
     private double prijs;
 
 
-    // @DateInConferenceRange(start = "2025-05-01", end = "2025-05-05", message = "{event.err.date.range}")
     @NotNull(message = "{event.err.date}")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate datum;
@@ -93,6 +101,7 @@ public class Evenement implements Serializable {
     @Transient private static final int MAX_SPREKERS = 3;
     
     @ManyToMany(mappedBy = "favorieteEvenementen")
+    @JsonIgnore
     @Getter private Set<Gebruiker> gebruikers = new HashSet<>();
 
     public Evenement(String naam, String beschrijving, int beamercode,

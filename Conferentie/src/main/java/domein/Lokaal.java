@@ -6,13 +6,16 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
@@ -25,6 +28,7 @@ import lombok.Setter;
 @Table(name = "lokaal")
 @Setter
 @NoArgsConstructor
+@JsonPropertyOrder({"id", "naam", "capaciteit"})
 public class Lokaal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,6 +49,7 @@ public class Lokaal implements Serializable {
 	
 	@OneToMany(mappedBy = "lokaal", cascade = CascadeType.ALL, orphanRemoval = false)
 	@Getter
+	@JsonIgnore
 	private Set<Evenement> evenementen = new HashSet<>();
 
 	public Lokaal(String naam, int capaciteit) {
