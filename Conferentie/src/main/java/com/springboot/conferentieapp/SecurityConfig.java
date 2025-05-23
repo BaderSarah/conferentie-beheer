@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ import service.GebruikerDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -48,7 +50,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/login**", "/registration**",
                     "/fragments/**", "/i18n/**",
-                    "/css/**", "/images/**"
+                    "/css/**", "/images/**", "/error"
                 ).permitAll()
                 
                 // ----- ADMIN & USER -----

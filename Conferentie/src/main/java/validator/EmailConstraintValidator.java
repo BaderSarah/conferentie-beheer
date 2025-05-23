@@ -8,7 +8,7 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null || value.isEmpty())
-            return true;
+            return false;
 
         return value.contains("@");
     }

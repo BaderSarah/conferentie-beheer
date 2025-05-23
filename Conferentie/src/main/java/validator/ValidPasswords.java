@@ -16,7 +16,7 @@ import jakarta.validation.Payload;
 @Retention(RUNTIME)
 public @interface ValidPasswords {
 
-	    String message() default "password does not match the confirm password";
+	    String message() default "{registration.err.password}";
 	    Class<?>[] groups() default{};
 	    Class<? extends Payload>[] payload() default {};
 	

@@ -16,7 +16,7 @@ import jakarta.validation.Payload;
 @Retention(RUNTIME)
 public @interface ValidEmail {
 
-    String message() default "you must include a valid email";
+    String message() default "{registration.err.mail}";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default {};
 }

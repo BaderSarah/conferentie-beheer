@@ -71,7 +71,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(14, 0),
         	    LocalTime.of(16, 0),
         	    a101,
-        	    Set.of(eva, tom)
+        	    List.of(eva, tom)
         	);
 
         	Evenement event2 = new Evenement(
@@ -84,7 +84,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(9, 0),
         	    LocalTime.of(12, 0),
         	    b202,
-        	    Set.of(ines)
+        	    List.of(ines)
         	);
 
         	Evenement event3 = new Evenement(
@@ -97,7 +97,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(10, 0),
         	    LocalTime.of(13, 0),
         	    a101,
-        	    Set.of(eva)
+        	    List.of(eva)
         	);
 
         	Evenement event4 = new Evenement(
@@ -110,7 +110,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(14, 30),
         	    LocalTime.of(17, 0),
         	    b202,
-        	    Set.of(tom)
+        	    List.of(tom)
         	);
 
         	Evenement event5 = new Evenement(
@@ -123,7 +123,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(9, 30),
         	    LocalTime.of(12, 30),
         	    a101,
-        	    Set.of(ines, eva)
+        	    List.of(ines, eva)
         	);
 
         	Evenement event6 = new Evenement(
@@ -136,7 +136,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(10, 0),
         	    LocalTime.of(12, 30),
         	    b202,
-        	    Set.of(tom, eva)
+        	    List.of(tom, eva)
         	);
 
         	Evenement event7 = new Evenement(
@@ -149,7 +149,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(14, 0),
         	    LocalTime.of(16, 30),
         	    a101,
-        	    Set.of(ines)
+        	    List.of(ines)
         	);
 
         	Evenement event8 = new Evenement(
@@ -162,7 +162,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(9, 0),
         	    LocalTime.of(12, 0),
         	    b202,
-        	    Set.of(tom)
+        	    List.of(tom)
         	);
 
         	Evenement event9 = new Evenement(
@@ -175,7 +175,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    LocalTime.of(13, 30),
         	    LocalTime.of(17, 0),
         	    a101,
-        	    Set.of(eva, ines)
+        	    List.of(eva, ines)
         	); 
 
         eventRepo.saveAll(List.of(event1, event2, event3, event4, event5,

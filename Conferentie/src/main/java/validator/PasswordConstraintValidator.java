@@ -14,7 +14,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
     public boolean isValid(Gebruiker registration, ConstraintValidatorContext context) {
         
     	if (registration.getWachtwoord() == null || registration.getBevestigWachtwoord() == null) {
-            return true;
+            return false;
         }
     	
         boolean isValid = registration.getWachtwoord().equals(registration.getBevestigWachtwoord());
@@ -22,7 +22,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
-            .addPropertyNode("password")
+            .addPropertyNode("bevestigWachtwoord")
             .addConstraintViolation();
         }
 

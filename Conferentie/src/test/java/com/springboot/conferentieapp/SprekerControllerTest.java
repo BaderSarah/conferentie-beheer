@@ -83,18 +83,46 @@ class SprekerControllerTest {
     
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testCreateSpreker_FouteInvoer() throws Exception {
+    void testCreateSpreker_FouteInvoer_LegeNaam() throws Exception {
     	mockMvc.perform(post("/speakers")
                         .param("naam", "")
+                        .param("voornaam", "voornaam")
+                        .param("email", "voornaam@mail.com")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("SprekerForm"))
+            	.andExpect(model().attributeHasFieldErrors("spreker", "naam"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testCreateSpreker_FouteInvoer_LegeVoornaam() throws Exception {
+    	mockMvc.perform(post("/speakers")
+                        .param("naam", "naam")
                         .param("voornaam", "")
+                        .param("email", "voornaam@mail.com")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("SprekerForm"))
+            	.andExpect(model().attributeHasFieldErrors("spreker", "voornaam"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testCreateSpreker_FouteInvoer_LegeEmail() throws Exception {
+    	mockMvc.perform(post("/speakers")
+                        .param("naam", "naam")
+                        .param("voornaam", "voornaam")
                         .param("email", "")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
                 .andExpect(view().name("SprekerForm"))
-            	.andExpect(model().attributeHasErrors("spreker"));
+            	.andExpect(model().attributeHasFieldErrors("spreker", "email"));
     }
-
+    
     @Test
     @WithMockUser(roles = "ADMIN")
     void testCreateSpreker_EmailBestaatAl() throws Exception {

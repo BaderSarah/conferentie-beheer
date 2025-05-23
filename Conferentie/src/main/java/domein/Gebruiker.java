@@ -53,7 +53,6 @@ public class Gebruiker implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @NotBlank(message = "{gebruiker.err.name.notblank}")
@@ -82,7 +81,7 @@ public class Gebruiker implements Serializable {
     private String wachtwoord;
     
     @Transient
-    @NotBlank(message = "{gebruiker.err.password.confirm}", groups = OnCreate.class)
+    @NotBlank(message = "{gebruiker.err.password.confirm}")
     private String bevestigWachtwoord;
 
     @Builder.Default

@@ -124,6 +124,7 @@ public class ConferentieServiceImpl implements ConferentieService {
 	    gebruiker.voegEvenementFavoriet(evenement);
 	    gebruikerRepository.saveAndFlush(gebruiker);
 	}
+	
     @Override
     public void deleteFavouriteEvent(Long eventId, Long gebruikerId) {
         Gebruiker gebruiker = gebruikerRepository.findById(gebruikerId)

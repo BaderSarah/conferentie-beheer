@@ -23,7 +23,9 @@ import validator.ValidConferenceDate;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.Range;
@@ -86,7 +88,7 @@ public class Evenement implements Serializable {
             joinColumns = @JoinColumn(name = "evenement_id"),
             inverseJoinColumns = @JoinColumn(name = "spreker_id")
         )
-    private Set<Spreker> sprekers = new HashSet<>();
+    private List<Spreker> sprekers = new ArrayList<>();
 
     @Transient private static final int MAX_SPREKERS = 3;
     
@@ -96,7 +98,7 @@ public class Evenement implements Serializable {
     public Evenement(String naam, String beschrijving, int beamercode,
                      int beamercheck, double prijs, LocalDate datum,
                      LocalTime beginTijdstip, LocalTime eindTijdstip,
-                     Lokaal lokaal, Set<Spreker> sprekers) {
+                     Lokaal lokaal, List<Spreker> sprekers) {
 
         setNaam(naam);
         this.beschrijving = beschrijving;

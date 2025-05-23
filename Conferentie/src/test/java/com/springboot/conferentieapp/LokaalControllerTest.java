@@ -88,15 +88,41 @@ class LokaalControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    void testCreateLokaal_FouteInvoer() throws Exception {
+    void testCreateLokaal_FouteInvoer_OngeldigeNaam() throws Exception {
+    	mockMvc.perform(post("/rooms")
+    			.param("naam", "hallo")
+    			.param("capaciteit", "10")
+    			.with(csrf())
+    			.contentType(MediaType.APPLICATION_FORM_URLENCODED))
+    	.andExpect(status().isOk())
+    	.andExpect(view().name("LokaalForm"))
+    	.andExpect(model().attributeHasFieldErrors("lokaal", "naam"));
+    }
+    
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testCreateLokaal_FouteInvoer_LegeNaam() throws Exception {
     	mockMvc.perform(post("/rooms")
     			.param("naam", "")
+    			.param("capaciteit", "10")
+    			.with(csrf())
+    			.contentType(MediaType.APPLICATION_FORM_URLENCODED))
+    	.andExpect(status().isOk())
+    	.andExpect(view().name("LokaalForm"))
+    	.andExpect(model().attributeHasFieldErrors("lokaal", "naam"));
+    }
+    
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testCreateLokaal_FouteInvoer_OngeldigeCapaciteit() throws Exception {
+    	mockMvc.perform(post("/rooms")
+    			.param("naam", "A101")
     			.param("capaciteit", "-10")
     			.with(csrf())
     			.contentType(MediaType.APPLICATION_FORM_URLENCODED))
     	.andExpect(status().isOk())
     	.andExpect(view().name("LokaalForm"))
-    	.andExpect(model().attributeHasErrors("lokaal"));
+    	.andExpect(model().attributeHasFieldErrors("lokaal", "capaciteit"));
     }
     
     @Test

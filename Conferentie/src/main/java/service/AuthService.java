@@ -23,7 +23,6 @@ public class AuthService {
     @Transactional
     public Gebruiker registreer(Gebruiker nieuw) {
 
-        // ✦ alleen OnCreate valideren
         Set<ConstraintViolation<Gebruiker>> fouten =
                 validator.validate(nieuw, OnCreate.class);
 

@@ -1,22 +1,26 @@
 package com.springboot.conferentieapp;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,10 +28,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import domein.Evenement;
+import domein.Gebruiker;
+import domein.Spreker;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
 import service.ConferentieService;
+import service.GebruikerDetails;
+import util.Rol;
 
 @ActiveProfiles("test")
 @Import(SecurityConfig.class)
@@ -50,6 +58,7 @@ class EvenementControllerTest {
     @MockitoBean
     private ConferentieService conferentieService;
 
+    
     @Test
     void testShowEventsList() throws Exception {
         when(evenementRepository.findAllByOrderByDatumAscBegintijdstipAsc())
@@ -102,6 +111,25 @@ class EvenementControllerTest {
 		mockMvc.perform(post("/events")
 				.param("naam", "Testevent")
 				.param("prijs", "5.00")
+				.param("beamercode", "1234")
+				.param("beamercheck", "70")
+				.param("datum", "2025-05-02")
+				.param("begintijdstip", "10:00")
+				.param("eindtijdstip", "11:00")
+				.param("lokaal.id", "1")
+				.param("sprekers[0].id", "1")
+				.with(csrf())
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		.andExpect(status().isOk())
+		.andExpect(view().name("EvenementForm"))
+		.andExpect(model().attributeHasFieldErrors("evenement", "prijs"));
+	}
+	
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_PrijsLeeg() throws Exception {
+		mockMvc.perform(post("/events")
+				.param("naam", "Testevent")
 				.param("beamercode", "1234")
 				.param("beamercheck", "70")
 				.param("datum", "2025-05-02")
@@ -191,12 +219,31 @@ class EvenementControllerTest {
 	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
 	        .andExpect(status().isOk())
 	        .andExpect(view().name("EvenementForm"))
-	        .andExpect(model().attributeHasFieldErrors("evenement", "datum"));
+	        .andExpect(model().attributeHasFieldErrors("evenement", "begintijdstip"));
 	}
 	
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	void testCreateEvenement_FouteInvoer_GeenEindTijdstip() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "Testevent")
+	            .param("prijs", "20.00")
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "70")
+	            .param("datum", "2025-05-02")
+	            .param("begintijdstip", "10:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"))
+	        .andExpect(model().attributeHasFieldErrors("evenement", "eindtijdstip"));
+	}
+	
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_GeenLokaal() throws Exception {
 	    mockMvc.perform(post("/events")
 	            .param("naam", "Testevent")
 	            .param("prijs", "20.00")
@@ -210,26 +257,7 @@ class EvenementControllerTest {
 	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
 	        .andExpect(status().isOk())
 	        .andExpect(view().name("EvenementForm"))
-	        .andExpect(model().attributeHasFieldErrors("evenement", "datum"));
-	}
-	
-	@Test
-	@WithMockUser(roles = "ADMIN")
-	void testCreateEvenement_FouteInvoer_GeenLokaal() throws Exception {
-	    mockMvc.perform(post("/events")
-	            .param("naam", "Testevent")
-	            .param("prijs", "20.00")
-	            .param("beamercode", "1234")
-	            .param("beamercheck", "70")
-	            .param("datum", "2025-05-02")
-	            .param("begintijdstip", "10:00")
-
-	            .param("sprekers[0].id", "1")
-	            .with(csrf())
-	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-	        .andExpect(status().isOk())
-	        .andExpect(view().name("EvenementForm"))
-	        .andExpect(model().attributeHasFieldErrors("evenement", "datum"));
+	        .andExpect(model().attributeHasFieldErrors("evenement", "lokaal"));
 	}
 	
 	
@@ -252,6 +280,26 @@ class EvenementControllerTest {
 	        .andExpect(model().attributeHasFieldErrors("evenement", "sprekers"));
 	}
 
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_GeldigeInvoer() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "Testevent")
+	            .param("prijs", "20.00")
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "0")
+	            .param("datum", "2025-05-02")
+	            .param("begintijdstip", "10:00")
+	            .param("eindtijdstip", "11:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"));
+	    
+	}
+	
 
     @Test
     @WithMockUser(roles = "ADMIN")
@@ -262,70 +310,108 @@ class EvenementControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/management"));
     }
+    
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testEditEventNietGevonden() throws Exception {
+    	when(evenementRepository.findById(99L)).thenReturn(Optional.empty());
+    	
+    	mockMvc.perform(get("/events/edit/99"))
+    	.andExpect(status().is3xxRedirection())
+    	.andExpect(redirectedUrl("/404"));
+    }
+    
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testUpdateEvenement_FoutieveInvoer() throws Exception {
+    	mockMvc.perform(post("/events/edit/1")
+    			.param("naam", "")
+    			.with(csrf())
+    			.contentType(MediaType.APPLICATION_FORM_URLENCODED))
+    	.andExpect(status().isOk())
+    	.andExpect(view().name("EvenementForm"))
+    	.andExpect(model().attributeHasErrors("evenement"));
+    }
 
     @Test
-    @WithMockUser(roles = "USER")
     void testShowFavouritesAlsUser() throws Exception {
+        Gebruiker gebruiker = new Gebruiker();
+        gebruiker.setId(1L);
+        gebruiker.setRol(Rol.USER);
+        GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
+
+        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
         when(conferentieService.getFavorieten(anyLong())).thenReturn(List.of());
 
-        mockMvc.perform(get("/events/favourites"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("FavorietenListView"))
-                .andExpect(model().attributeExists("favorieten"));
+        mockMvc.perform(get("/events/favourites")
+                .with(user(gebruikerDetails)))
+            .andExpect(status().isOk())
+            .andExpect(view().name("FavorietenListView"))
+            .andExpect(model().attributeExists("favorieten"));
+    }
+
+    @Test
+    void testAddToFavourites() throws Exception {
+        Gebruiker gebruiker = new Gebruiker();
+        gebruiker.setId(1L);
+        gebruiker.setRol(Rol.USER);
+        GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
+
+        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+
+        mockMvc.perform(post("/events/1/favourite")
+                .with(csrf())
+                .with(user(gebruikerDetails)))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/events/1"));
+    }
+
+    @Test
+    void testDeleteAllFavourites() throws Exception {
+        Gebruiker gebruiker = new Gebruiker();
+        gebruiker.setId(1L);
+        gebruiker.setRol(Rol.USER);
+        GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
+
+        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+
+        mockMvc.perform(post("/events/favourites/delete-all")
+                .with(csrf())
+                .with(user(gebruikerDetails)))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/events/favourites"));
+    }
+
+    @Test
+    void testRemoveFromFavourites() throws Exception {
+        Gebruiker gebruiker = new Gebruiker();
+        gebruiker.setId(1L);
+        gebruiker.setRol(Rol.USER);
+        GebruikerDetails gebruikerDetails = new GebruikerDetails(gebruiker);
+
+        doNothing().when(conferentieService).addFavouriteEvent(eq(1L), eq(1L));
+
+        mockMvc.perform(post("/events/1/unfavourite")
+                .with(csrf())
+                .with(user(gebruikerDetails)))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/events/1"));
     }
 
     @Test
     @WithAnonymousUser
-    void testRedirectNaarLoginVoorFavourites() throws Exception {
-        mockMvc.perform(get("/events/favourites"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+    void testRedirectToLoginWhenAnonymousFavourites() throws Exception {
+    	mockMvc.perform(get("/events/favourites"))
+    	.andExpect(status().is3xxRedirection())
+    	.andExpect(redirectedUrlPattern("**/login"));
     }
-
+    
     @Test
-    @WithMockUser(roles = "ADMIN")
-    void testEditEventNietGevonden() throws Exception {
-        when(evenementRepository.findById(99L)).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/events/edit/99"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/404"));
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    void testUpdateEvenement_FoutieveInvoer() throws Exception {
-        mockMvc.perform(post("/events/edit/1")
-                .param("naam", "") // vereist veld
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-                .andExpect(status().isOk())
-                .andExpect(view().name("EvenementForm"))
-                .andExpect(model().attributeHasErrors("evenement"));
-    }
-
-    @Test
-    @WithMockUser(roles = "USER")
-    void testAddToFavourites() throws Exception {
-        mockMvc.perform(post("/events/1/favourite").with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/events/1"));
-    }
-
-    @Test
-    @WithMockUser(roles = "USER")
-    void testDeleteAllFavourites() throws Exception {
-        mockMvc.perform(post("/events/favourites/delete-all").with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/events/favourites"));
-    }
-
-    @Test
-    @WithMockUser(roles = "USER")
-    void testRemoveFromFavourites() throws Exception {
-        mockMvc.perform(post("/events/1/unfavourite").with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/events/1"));
+    @WithAnonymousUser
+    void testRedirectToLoginWhenAnonymousEventById() throws Exception {
+        mockMvc.perform(get("/events/1"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrlPattern("**/login"));
     }
 
 }
