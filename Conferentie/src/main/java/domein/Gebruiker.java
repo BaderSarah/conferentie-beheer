@@ -66,7 +66,7 @@ public class Gebruiker implements Serializable {
     @NotNull(message = "{gebruiker.err.email.notblank}", groups = {Default.class, OnRegistration.class})
     @Email(message = "{gebruiker.err.email.pattern}", groups = {Default.class, OnRegistration.class})
     @Column(nullable = false, unique = true)
-    @ValidEmail
+    @ValidEmail(groups = {Default.class, OnRegistration.class})
     private String email;
 
 
