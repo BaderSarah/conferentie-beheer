@@ -27,7 +27,7 @@ public class ValidatorConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-        source.setBasename("classpath:i18n/messages"); // zonder ".properties"
+        source.setBasename("classpath:i18n/messages"); 
         source.setDefaultEncoding("UTF-8");
         return source;
     }

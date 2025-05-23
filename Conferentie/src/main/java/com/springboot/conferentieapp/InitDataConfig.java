@@ -93,7 +93,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "AI in de Praktijk",
         	    "Praktische toepassingen van AI",
         	    7896,
-        	    7896 % 97, // = 37
+        	    7896 % 97,
         	    29.99,
         	    LocalDate.of(2025, 5, 2),
         	    LocalTime.of(14, 0),
@@ -106,7 +106,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Cybersecurity Basics",
         	    "Intro tot cybersecurity",
         	    2345,
-        	    2345 % 97, // = 16
+        	    2345 % 97,
         	    19.99,
         	    LocalDate.of(2025, 5, 3),
         	    LocalTime.of(9, 0),
@@ -119,7 +119,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Data Science Workshop",
         	    "Hands-on workshop over data-analyse technieken",
         	    3456,
-        	    3456 % 97, // = 63
+        	    3456 % 97,
         	    49.99,
         	    LocalDate.of(2025, 5, 10),
         	    LocalTime.of(10, 0),
@@ -132,7 +132,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Advanced AI Models",
         	    "Diepgaande sessie over neurale netwerken",
         	    4567,
-        	    4567 % 97, // = 9
+        	    4567 % 97,
         	    59.99,
         	    LocalDate.of(2025, 5, 15),
         	    LocalTime.of(14, 30),
@@ -145,7 +145,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Cybersecurity Advanced",
         	    "Verdieping in cybersecurity technieken en tools",
         	    5678,
-        	    5678 % 97, // = 55
+        	    5678 % 97,
         	    39.99,
         	    LocalDate.of(2025, 5, 20),
         	    LocalTime.of(9, 30),
@@ -158,7 +158,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Intro to Quantum Computing",
         	    "Basisprincipes en aankomende toepassingen",
         	    6789,
-        	    6789 % 97, // = 1
+        	    6789 % 97,
         	    44.99,
         	    LocalDate.of(2025, 5, 22),
         	    LocalTime.of(10, 0),
@@ -171,7 +171,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Ethics in AI",
         	    "Interactieve sessie over ethische vraagstukken",
         	    7890,
-        	    7890 % 97, // = 3
+        	    7890 % 97, 
         	    24.99,
         	    LocalDate.of(2025, 5, 25),
         	    LocalTime.of(14, 0),
@@ -184,7 +184,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "DevOps Fundamentals",
         	    "Toolchain & best practices voor continue integratie",
         	    8901,
-        	    8901 % 97, // = 94
+        	    8901 % 97,
         	    34.99,
         	    LocalDate.of(2025, 5, 27),
         	    LocalTime.of(9, 0),
@@ -197,7 +197,7 @@ public class InitDataConfig implements CommandLineRunner {
         	    "Cloud Security Deep-Dive",
         	    "Beveiligingsstrategieën voor multi-cloud omgevingen",
         	    9012,
-        	    9012 % 97, // = 92
+        	    9012 % 97,
         	    54.99,
         	    LocalDate.of(2025, 5, 29),
         	    LocalTime.of(13, 30),

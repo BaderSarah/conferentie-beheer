@@ -4,7 +4,7 @@ public class DuplicateLokaalException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public DuplicateLokaalException(Integer id) {
+	public DuplicateLokaalException(Long id) {
 	    super("Duplicate room %s".formatted(id));
 	}
 }

@@ -27,7 +27,7 @@ import validator.ValidEmail;
 @Table(name = "spreker")
 @Setter
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "voornaam", "naam", "email"})
+@JsonPropertyOrder({"id", "naam", "voornaam", "email"})
 public class Spreker implements Serializable {
 
 	private static final long serialVersionUID = 1L;

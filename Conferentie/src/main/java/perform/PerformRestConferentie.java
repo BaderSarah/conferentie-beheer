@@ -35,7 +35,8 @@ public class PerformRestConferentie {
         getCapacityByRoomId(1);
         
         System.out.println("\n----------- GET events BY date ------------------");
-        getEventsByDate("2025-05-20");      
+        getEventsByDate("2025-05-20");
+
     }
 
     // ============ methods ============

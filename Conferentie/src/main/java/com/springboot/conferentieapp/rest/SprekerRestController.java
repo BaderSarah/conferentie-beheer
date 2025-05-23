@@ -35,11 +35,6 @@ public class SprekerRestController {
 	    public Spreker createSpreker(@RequestBody Spreker spreker) { 
 	        return sprekerService.createSpreker(spreker); 
 	    }
-	    
-//	    @DeleteMapping(value = "/rooms/delete/{id}")
-//	    public void deleteSpreker(@PathVariable("id") Long id) {
-//	    	sprekerService.deleteSpreker(id);
-//	    }
 
 	}
 
