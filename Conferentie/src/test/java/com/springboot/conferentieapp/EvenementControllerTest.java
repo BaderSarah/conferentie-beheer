@@ -1,6 +1,4 @@
 package com.springboot.conferentieapp;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -10,26 +8,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import domein.Evenement;
 import domein.Gebruiker;
-import domein.Spreker;
 import repository.EvenementRepository;
 import repository.LokaalRepository;
 import repository.SprekerRepository;
@@ -278,6 +269,87 @@ class EvenementControllerTest {
 	        .andExpect(status().isOk())
 	        .andExpect(view().name("EvenementForm"))
 	        .andExpect(model().attributeHasFieldErrors("evenement", "sprekers"));
+	}
+	
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_NaamBegintNietMetLetter() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "123Evenement") 
+	            .param("prijs", "20.00")
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "50")
+	            .param("datum", "2025-05-02")
+	            .param("begintijdstip", "10:00")
+	            .param("eindtijdstip", "11:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"))
+	        .andExpect(model().attributeHasFieldErrors("evenement", "naam"));
+	}
+
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_DatumBuitenConferentiePeriode() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "Testevent")
+	            .param("prijs", "20.00")
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "70")
+	            .param("datum", "2024-06-01")
+	            .param("begintijdstip", "10:00")
+	            .param("eindtijdstip", "11:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"))
+	        .andExpect(model().attributeHasErrors("evenement"));
+	}
+
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_PrijsTeHoog() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "Testevent")
+	            .param("prijs", "120.00") 
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "70")
+	            .param("datum", "2025-05-02")
+	            .param("begintijdstip", "10:00")
+	            .param("eindtijdstip", "11:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"))
+	        .andExpect(model().attributeHasFieldErrors("evenement", "prijs"));
+	}
+
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void testCreateEvenement_FouteInvoer_DubbeleSprekers() throws Exception {
+	    mockMvc.perform(post("/events")
+	            .param("naam", "Testevent")
+	            .param("prijs", "20.00")
+	            .param("beamercode", "1234")
+	            .param("beamercheck", "50")
+	            .param("datum", "2025-05-02")
+	            .param("begintijdstip", "10:00")
+	            .param("eindtijdstip", "11:00")
+	            .param("lokaal.id", "1")
+	            .param("sprekers[0].id", "1")
+	            .param("sprekers[1].id", "1") 
+	            .with(csrf())
+	            .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("EvenementForm"))
+	        .andExpect(model().attributeHasErrors("evenement"));
 	}
 
 	@Test

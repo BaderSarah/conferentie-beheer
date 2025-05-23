@@ -37,5 +37,4 @@ public interface GebruikerRepository extends JpaRepository<Gebruiker, Long> {
     @Query(value = "DELETE FROM gebruiker_favoriete_evenementen WHERE evenement_id = :id", nativeQuery = true)
     void deleteFavorietenByEvenementId(@Param("id") Long id);
 
-
 }

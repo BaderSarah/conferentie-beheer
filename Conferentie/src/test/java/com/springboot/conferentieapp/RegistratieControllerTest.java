@@ -106,4 +106,22 @@ public class RegistratieControllerTest {
                 .andExpect(view().name("Registreer"))
                 .andExpect(model().attributeHasFieldErrors("gebruiker", "bevestigWachtwoord"));
     }
+    
+    @Test
+    void testCreateUser_EmailBestaatAl() throws Exception {
+        when(gebruikerRepo.existsByEmail("test@mail.com")).thenReturn(true);
+
+        mockMvc.perform(post("/registration")
+                        .param("email", "test@mail.com")
+                        .param("wachtwoord", "Password123")
+                        .param("bevestigWachtwoord", "Password123")
+                        .param("voornaam", "Test")
+                        .param("naam", "Gebruiker")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("Registreer"))
+                .andExpect(model().attributeHasFieldErrors("gebruiker", "email"));
+    }
+
 }
