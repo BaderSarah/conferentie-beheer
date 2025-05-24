@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import validator.ValidBeamerCheck;
 import validator.ValidConferenceDate;
 
@@ -102,6 +103,7 @@ public class Evenement implements Serializable {
     
     @ManyToMany(mappedBy = "favorieteEvenementen")
     @JsonIgnore
+    @ToString.Exclude
     @Getter private Set<Gebruiker> gebruikers = new HashSet<>();
 
     public Evenement(String naam, String beschrijving, int beamercode,
