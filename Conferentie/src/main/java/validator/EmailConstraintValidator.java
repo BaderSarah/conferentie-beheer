@@ -13,13 +13,6 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
     @Autowired
     private GebruikerRepository gebruikerRepository;
 
-    private String message;
-
-    @Override
-    public void initialize(ValidEmail constraintAnnotation) {
-        this.message = constraintAnnotation.message(); 
-    }
-
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null || value.isEmpty()) {
@@ -31,10 +24,6 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
         }
 
         if (gebruikerRepository != null && gebruikerRepository.existsByEmail(value)) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(message)
-                   .addPropertyNode("email")
-                   .addConstraintViolation();
             return false;
         }
 

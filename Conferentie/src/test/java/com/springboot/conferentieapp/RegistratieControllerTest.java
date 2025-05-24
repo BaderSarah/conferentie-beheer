@@ -120,8 +120,8 @@ public class RegistratieControllerTest {
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
-                .andExpect(view().name("Registreer")); 
-//                .andExpect(model().attributeHasFieldErrors("gebruiker", "email"));
+                .andExpect(view().name("Registreer"))
+                .andExpect(model().attributeHasFieldErrors("gebruiker", "email"));
     }
 
 }
