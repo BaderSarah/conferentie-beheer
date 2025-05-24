@@ -15,5 +15,7 @@ public interface LokaalService {
     List<Lokaal> getAllLokaals();
     
     int getCapaciteitVanLokaal(Long id);
+    
+    Lokaal updateLokaal(Long id, Lokaal lokaalDetails); 
 
 }

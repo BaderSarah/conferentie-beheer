@@ -13,4 +13,6 @@ public interface SprekerService {
     Spreker getSpreker(Long id); 
     
     List<Spreker> getAllSprekers(); 
+    
+    Spreker updateSpreker(Long id, Spreker sprekerDetails); 
 }

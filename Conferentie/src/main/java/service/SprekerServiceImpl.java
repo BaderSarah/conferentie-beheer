@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domein.Lokaal;
 import domein.Spreker;
 import lombok.RequiredArgsConstructor;
 import repository.EvenementRepository;
@@ -44,6 +45,18 @@ public class SprekerServiceImpl implements SprekerService {
 	@Override
 	public List<Spreker> getAllSprekers() {
 		return sprekerRepository.findAll();
+	}
+
+	@Override
+	public Spreker updateSpreker(Long id, Spreker sprekerDetails) {
+		Spreker spreker = sprekerRepository.findById(id)
+			        .orElseThrow(() -> new IllegalArgumentException("Spreker niet gevonden met id: " + id));
+
+		spreker.setVoornaam(sprekerDetails.getVoornaam());
+		spreker.setNaam(sprekerDetails.getNaam());
+		spreker.setEmail(sprekerDetails.getEmail());
+
+	   return sprekerRepository.save(spreker);
 	}
 
 }

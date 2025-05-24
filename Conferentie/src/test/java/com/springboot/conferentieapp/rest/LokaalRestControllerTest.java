@@ -146,5 +146,24 @@ class LokaalRestControllerTest {
 
         Mockito.verify(mock).getCapaciteitVanLokaal(ID);
     }
+    
+    @Test
+    void testUpdateLokaal_isOk() throws Exception {
+        Lokaal lokaalUpdated = aLokaal(ID, "B102", 45);
+        String json = new ObjectMapper().writeValueAsString(lokaalUpdated);
+
+        Mockito.when(mock.updateLokaal(Mockito.eq(ID), Mockito.any(Lokaal.class))).thenReturn(lokaalUpdated);
+
+        mockMvc.perform(put("/rest/rooms/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.naam").value("B102"))
+                .andExpect(jsonPath("$.capaciteit").value(45));
+
+        Mockito.verify(mock).updateLokaal(Mockito.eq(ID), Mockito.any(Lokaal.class));
+    }
+
 }
 

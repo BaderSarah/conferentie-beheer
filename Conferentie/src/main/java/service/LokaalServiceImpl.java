@@ -54,5 +54,17 @@ public class LokaalServiceImpl implements LokaalService {
 	        .getCapaciteit();
 	}
 
+	@Override
+	public Lokaal updateLokaal(Long id, Lokaal lokaalDetails) {
+	    Lokaal lokaal = lokaalRepository.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("Lokaal niet gevonden met id: " + id));
+
+	    lokaal.setNaam(lokaalDetails.getNaam());
+	    lokaal.setCapaciteit(lokaalDetails.getCapaciteit());
+
+	    return lokaalRepository.save(lokaal);
+	}
+
+
 
 }

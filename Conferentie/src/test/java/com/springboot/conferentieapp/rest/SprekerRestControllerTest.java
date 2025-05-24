@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import domein.Lokaal;
 import domein.Spreker;
 import exceptions.DuplicateSprekerException;
 import exceptions.SprekerNotFoundException;
@@ -143,4 +144,24 @@ class SprekerRestControllerTest {
 
         Mockito.verify(mock).createSpreker(Mockito.any(Spreker.class));
     }
+    
+    @Test
+    void testUpdateSpreker_isOk() throws Exception {
+        Spreker sprekerUpdated = aSpreker(ID, NAAM, VOORNAAM, EMAIL); 
+        String json = new ObjectMapper().writeValueAsString(sprekerUpdated);
+
+        Mockito.when(mock.updateSpreker(Mockito.eq(ID), Mockito.any(Spreker.class))).thenReturn(sprekerUpdated);
+
+        mockMvc.perform(put("/rest/speakers/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.naam").value(NAAM))
+                .andExpect(jsonPath("$.voornaam").value(VOORNAAM))
+                .andExpect(jsonPath("$.email").value(EMAIL));
+
+        Mockito.verify(mock).updateSpreker(Mockito.eq(ID), Mockito.any(Spreker.class));
+    }
+
 }

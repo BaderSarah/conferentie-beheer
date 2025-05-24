@@ -45,6 +45,9 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/rest/**")
+                )
             .authorizeHttpRequests(auth -> auth
                 // ----- PUBLIC  -----
                 .requestMatchers(
