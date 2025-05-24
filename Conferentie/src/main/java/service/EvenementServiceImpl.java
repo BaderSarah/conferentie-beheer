@@ -43,7 +43,7 @@ public class EvenementServiceImpl implements EvenementenService {
     }
 
     @Override
-    public void updateEvenement(Long id, Evenement nieuwEvenement) {
+    public Evenement updateEvenement(Long id, Evenement nieuwEvenement) {
         Evenement bestaand = evenementRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Evenement niet gevonden met id: " + id));
 
@@ -57,7 +57,10 @@ public class EvenementServiceImpl implements EvenementenService {
         bestaand.setEindtijdstip(nieuwEvenement.getEindtijdstip());
         bestaand.setLokaal(nieuwEvenement.getLokaal());
         bestaand.setSprekers(nieuwEvenement.getSprekers());
+
+        return evenementRepository.save(bestaand); 
     }
+
 
 	@Override
 	public Evenement getEvenement(Long id) {

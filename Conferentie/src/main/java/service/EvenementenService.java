@@ -9,7 +9,7 @@ public interface EvenementenService {
 
     Evenement createEvenement(Evenement evenement);
 
-    void updateEvenement(Long id, Evenement nieuwEvenement);
+    Evenement updateEvenement(Long id, Evenement nieuwEvenement);
     
     void deleteEvenement(Long id);
     

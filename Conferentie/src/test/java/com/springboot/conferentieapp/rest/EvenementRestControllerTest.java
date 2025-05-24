@@ -153,4 +153,28 @@ class EvenementRestControllerTest {
 
         Mockito.verify(mock).getEvenementenByDatum(DATUM);
     }
+    
+    @Test
+    void testUpdateEvenement_isOk() throws Exception {
+        Evenement updatedEvent = createEvenement(ID);
+        updatedEvent.setNaam("Updated TechConf");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        String json = mapper.writeValueAsString(updatedEvent);
+
+        Mockito.when(mock.updateEvenement(Mockito.eq(ID), Mockito.any(Evenement.class))).thenReturn(updatedEvent);
+
+        mockMvc.perform(put("/rest/events/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.naam").value("Updated TechConf"));
+
+        Mockito.verify(mock).updateEvenement(Mockito.eq(ID), Mockito.any(Evenement.class));
+    }
+
 }

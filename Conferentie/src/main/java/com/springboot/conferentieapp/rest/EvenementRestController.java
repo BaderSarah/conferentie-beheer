@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,8 @@ public class EvenementRestController {
 	        return eventService.getEvenementenByDatum(datum);
 	    }
 
-
-	}
-
+	    @PutMapping(value = "/events/{id}")
+	    public Evenement updateEvenement(@PathVariable("id") Long id, @RequestBody Evenement nieuwEvenement) {
+	        return eventService.updateEvenement(id, nieuwEvenement);
+	    }
+}
