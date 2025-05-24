@@ -28,7 +28,7 @@
 						<th></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody th:with="df=#{date.format}, tf=#{time.format}">
 				<tr th:each="ev : ${favorieten}">
 				    <td th:text="${ev.naam}">naam</td>
 				    <td>
@@ -38,9 +38,9 @@
 				        </ul>
 				    </td>
 				    <td th:text="${ev.lokaal.naam}">A101</td>
-				    <td th:text="${#temporals.format(ev.datum,'dd/MM/yyyy')}">20-04-2025</td>
-				    <td th:text="${#temporals.format(ev.begintijdstip,'HH:mm')}">14:00</td>
-				    <td th:text="${#temporals.format(ev.eindtijdstip,'HH:mm')}">16:00</td>
+				    <td th:text="${#temporals.format(ev.datum, df)}">20-04-2025</td>
+				    <td th:text="${#temporals.format(ev.begintijdstip, tf)}">14:00</td>
+				    <td th:text="${#temporals.format(ev.eindtijdstip, tf)}">16:00</td>
 				    <td>
 				        <form th:action="@{/events/{id}/unfavourite(id=${ev.id})}"
 				              method="post" style="display:inline">

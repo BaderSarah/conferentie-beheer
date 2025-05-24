@@ -106,7 +106,7 @@ public class EvenementServiceImpl implements EvenementenService {
 	    if (gebruiker.getFavorieteEvenementen().size() >= MAX_FAVS &&
 	        !gebruiker.getFavorieteEvenementen().contains(evenement)) {
 	
-	        throw new MaxFavouritesReachedException();   // ← eigen runtime-exception
+	        throw new MaxFavouritesReachedException();
 	    }
 	
 	    gebruiker.voegEvenementFavoriet(evenement);

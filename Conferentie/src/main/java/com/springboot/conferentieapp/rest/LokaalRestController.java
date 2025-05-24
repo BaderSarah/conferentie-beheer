@@ -22,17 +22,17 @@ public class LokaalRestController {
 	private LokaalService lokaalService;
 	    
 	    @GetMapping(value = "/rooms/{id}") 
-	    public Lokaal getlokaal(@PathVariable("id") Long id) {
+	    public Lokaal getLokaal(@PathVariable("id") Long id) {
 	    	return lokaalService.getLokaal(id);
 	    }
 
 	    @GetMapping(value = "/rooms")
-	    public List<Lokaal> getAlllokaals() {
+	    public List<Lokaal> getAllLokaals() {
 	        return lokaalService.getAllLokaals(); 
 	    }
 	    
 	    @PostMapping(value = "/rooms/create")
-	    public Lokaal createlokaal(@RequestBody Lokaal lokaal) { 
+	    public Lokaal createLokaal(@RequestBody Lokaal lokaal) { 
 	        return lokaalService.createLokaal(lokaal); 
 	    }
 

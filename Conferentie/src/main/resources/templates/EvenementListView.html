@@ -29,7 +29,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody th:with="df=#{date.format}, tf=#{time.format}">
                     <tr th:each="evenement : ${evenementen}">
                         <td th:text="${evenement.naam}">Event Name</td>
                         <td>
@@ -39,13 +39,13 @@
                             </ul>
                         </td>
                         <td th:text="${evenement.lokaal.naam}">Room</td>
-						<td th:text="${#temporals.format(evenement.datum,        'dd/MM/yyyy')}">
+						<td th:text="${#temporals.format(evenement.datum, df)}">
 						    20-04-2025
 						</td>
-						<td th:text="${#temporals.format(evenement.begintijdstip, 'HH:mm')}">
+						<td th:text="${#temporals.format(evenement.begintijdstip, tf)}">
 						    14:00
 						</td>
-						<td th:text="${#temporals.format(evenement.eindtijdstip,  'HH:mm')}">
+						<td th:text="${#temporals.format(evenement.begintijdstip, tf)}">
 						    16:00
 						</td>
 
