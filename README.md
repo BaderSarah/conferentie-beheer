@@ -51,11 +51,11 @@ This is a Spring Boot web application for managing conference events, including 
 ## Running the App
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/conference-app.git
-   cd conference-app
-   ```
-2. Build and run the application:
+ ```bash
+ git clone https://github.com/your-username/conference-app.git
+ cd conference-app
+ ```
+3. Build and run the application:
 ```
 ./mvnw spring-boot:run
 ```
